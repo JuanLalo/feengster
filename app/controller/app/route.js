@@ -214,7 +214,7 @@ function loadContent() {
     $('#tittle').html('');
     $('#tittle_desc').html('');
     $('#ico_content').html('');
-    $('#main_content').html('<center><img width="50" src="../../assets/dist/js/loader.gif" alt="Cargando..."></center>');
+    $('#main_content').html('<center><img width="50" src="../assets/dist/js/loader.gif" alt="Cargando..."></center>');
 
 }
 

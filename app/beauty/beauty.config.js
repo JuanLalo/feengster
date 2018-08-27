@@ -2,18 +2,18 @@ config = {
     app: 
             { 
               login_url: '../',   
-              main_url: '',
-              name: 'Feengster',
+              main_url: 'beauty/',
+              name: 'Beauty',
               logo:  'logo_feengster.png',
               version: '1.1.0',
               color: 'dark black',
-              core_path: 'http://192.168.1.77/feengster/api/public/',
-              files_path: 'app/public/page/',
-              app_id: 0
+              core_path: 'http://localhost:82/feengster/api/public/',
+              files_path: '../',
+              app_id: 5
             },
     licence : 
             {
-                'key_': '',
+                'key_': '13ee5xcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rrSXA7H',
                 'fecha_ini': '0000-00-00 00:00:00',
                 'fecha_fin': '0000-00-00 00:00:00'            
             },
@@ -22,7 +22,7 @@ config = {
                 name_module: 'Inicio',
                 tittle: 'Página de inicio',
                 desc: 'Descripción ...' ,
-                url: 'inicio.html',
+                url: 'main/perfil.html',
                 ico: 'home'           
             }
     }

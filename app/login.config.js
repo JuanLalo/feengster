@@ -1,15 +1,16 @@
 config = { 
     app: 
             {
-              login_url: '/', 
+              login_url: '', 
               main_url: 'main/', 
               name: "Login :: Feengster",
               logo:  "logo_feengster.png",
               tittle:"Feengster :: Login",
               version: "1.1.0",
               color: "dark black",
-              core_path: "http://localhost:90/feengster/api/public/",
-              files_path: ""
+              core_path: "http://localhost:82/feengster/api/public/",
+              files_path: "",
+              app_id: 0
             },
     licence : 
             {
