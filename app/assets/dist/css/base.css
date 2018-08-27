@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i');
+@import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i');
+@import url("../../plugins/jquery-ui-1.12.1/jquery-ui.min.css"); /* jquery-ui css */
+@import url("../../bootstrap/css/bootstrap.css"); /* Bootstrap css */
+/*@import url("../../bootstrap-rtl/bootstrap-rtl.min.css");  Bootstrap rtl */
+@import url("../../plugins/metisMenu/metisMenu.min.css"); /* Animsition css */
+@import url("../../plugins/animsition/css/animsition.min.css"); /* Animsition css */
+@import url("../../plugins/lobipanel/lobipanel.min.css"); /* Lobipanel css */
+@import url("../../material_icons/materia_icons.css"); /* Materia icons */
+@import url("../../themify-icons/themify-icons.min.css"); /* Themify icons */
+@import url("../../font-awesome/css/font-awesome.min.css"); /* Font Awesome */
+@import url("../../pe-icon-7-stroke/css/pe-icon-7-stroke.min.css"); /* Pe-icon */
+@import url("../../dist/css/app.css"); /* app */

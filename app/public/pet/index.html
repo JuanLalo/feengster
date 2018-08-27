@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Feengster cuenta los mejores productos de softeare ideales para tu negocio...">
+        <meta name="author" content="Ing Juan Eduardo Rosales">
+        <meta http-equiv='cache-control' content='no-cache'>
+        <meta http-equiv='expires' content='0'>
+        <meta http-equiv='pragma' content='no-cache'>
+        
+        <!-- FEVICON AND TOUCH ICON -->
+        <link rel="shortcut icon" href="../../assets/dist/img/ico/ico.png" type="image/x-icon">
+         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+        <script>
+            WebFont.load({
+                google: {
+                    families: ['Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i', 'Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', 'Open Sans']
+                }
+            });
+        </script>
+
+        <!-- STATRT GLOBAL MANDATORY STYLE -->
+        <link href="../../assets/dist/css/base.css" rel="stylesheet" type="text/css"/>
+        <!-- START PAGE LABEL PLUGINS --> 
+      <!-- START PAGE LABEL PLUGINS MODALS--> 
+      <link href="../../assets/plugins/modals/modal-component.css" rel="stylesheet" type="text/css"/>
+        <!-- START PAGE LABEL PLUGINS EDITOR --> 
+        <link href="../../assets/plugins/trumbowyg/css/trumbowyg.min.css" rel="stylesheet" type="text/css"/>
+         <!-- START PAGE LABEL PLUGINS DROP--> 
+         <link href="../../assets/plugins/dropzone/dropzone.min.css" rel="stylesheet" type="text/css"/>
+         
+        <!-- START PAGE LABEL PLUGINS Tables -->
+         <link href="../../assets/plugins/datatables/dataTables.min.css" rel="stylesheet" type="text/css"/>
+      
+      <!-- START THEME LAYOUT STYLE -->
+      
+        <!-- START PAGE LABEL PLUGINS Notifications --> 
+        <link href="../../assets/plugins/NotificationStyles/css/demo.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/NotificationStyles/css/ns-default.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/NotificationStyles/css/ns-style-growl.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/NotificationStyles/css/ns-style-attached.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/NotificationStyles/css/ns-style-bar.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/NotificationStyles/css/ns-style-other.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/sweetalert/sweetalert.css" rel="stylesheet" type="text/css"/>
+        <link href="../../assets/plugins/toastr/toastr.css" rel="stylesheet" type="text/css"/>
+        
+
+        <!-- START THEME LAYOUT STYLE -->
+        <link href="../../assets/dist/css/component_ui.min.css" rel="stylesheet" type="text/css"/>
+        <link id="defaultTheme" href="../../assets/dist/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="../../assets/dist/css/component_ui_black.css" rel="stylesheet" type="text/css"/>-->
+        <link href="../../assets/dist/css/custom.css" rel="stylesheet" type="text/css"/>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+   
+        <script src="../../assets/plugins/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
+        <script src="beauty.config.js" type="text/javascript"></script>
+        <script src="../controller/app/session.js" type="text/javascript"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
+        <script src="../controller/app/firebase_login.js" type="text/javascript"></script>
+        
+
+</head>
+<body onload="open_app()">
+ <div id="wrapper" class="wrapper animsition"> 
+            <!-- Navigation -->
+            <nav class="navbar navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <i class="material-icons">menu</i>
+        </button>
+        <a class="navbar-brand inicio" >
+           <!-- <img  class="main-logo" src="../../assets/dist/img/light-logo.png" alt=""> -->
+            <span id="app_name">Feengster Code</span>
+            
+        </a>
+    </div>
+    <div class="nav-container">
+        <!-- /.navbar-header -->
+        <ul class="nav navbar-nav navbar-top-links hidden-xs navbar-left">
+             <li class="log_out">
+                    <a onclick="goBack()">
+                        <i class="material-icons">keyboard_backspace</i>
+                    </a>
+                </li>
+                <li><a><span></span></a></li>
+                <li><a><span id="nombre_modulo"></span></a></li>
+                <li><a><span></span></a></li>
+                <li><a><span></span></a></li>
+                 <li class="log_out">
+                    <a onclick="nuevoTicket()">
+                        <i class="material-icons">note_add</i>
+                        <span></span>
+                        
+                    </a>
+                </li>
+                <li><a><span></span></a></li>
+                <li><a id="fullscreen" href="#"><i class="material-icons">fullscreen</i></a></li>
+                <!-- /.Fullscreen -->
+                <li class="hidden-xs"> 
+                    <a class="search-trigger" href="#">
+                        <i class="material-icons">search</i>
+                    </a>
+                    <div class="fullscreen-search-overlay" id="search-overlay">
+                        <a href="#" class="fullscreen-close" id="fullscreen-close-button"><i class="ti-close"></i></a>
+                        <div id="fullscreen-search-wrapper">
+                            <form method="get" id="fullscreen-searchform" action="">
+                                <input type="text" value="" placeholder="Ingresa tus palabras clave" id="fullscreen-search-input">
+                                <i class="ti-search fullscreen-search-icon"><input value="" type="submit"></i>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+                
+                
+                
+            </ul>
+        <ul class="nav navbar-nav navbar-top-links hidden-xs  navbar-right">
+               
+            <li><a id="menu-toggle" href="#"><i class="material-icons">settings</i></a></li>
+           
+           
+            <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                                <img width="35px" src="" class="img-circle user_img" alt="img_profile">
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a onclick="verPerfil()"><i class="ti-user"></i>&nbsp; Profile</a></li>
+                        <li><a href="mailbox.html"><i class="ti-email"></i>&nbsp; Mis Mensajes</a></li>
+                        <li><a href="lockscreen.html"><i class="ti-lock"></i>&nbsp; Bloquear Pantalla</a></li>
+                        <li><a href="#"><i class="ti-settings"></i>&nbsp; Ajustes</a></li>
+                        <li><a onclick="logout()"><i class="ti-layout-sidebar-left"></i>&nbsp; Cerrar Sesión</a></li>
+                    </ul><!-- /.dropdown-user -->
+                </li>
+
+            <!--End dropdown mega menu-->
+        </ul>
+        <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown" style="display: none;">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                                <i class="material-icons">chat</i>
+                                <span class="label label-danger">9</span>
+                            </a><div class="dropdown-backdrop"></div>
+                            <ul class="dropdown-menu dropdown-messages">
+                                <li class="rad-dropmenu-header"><a href="#">New Messages</a></li>
+                                <li>
+                                    <a href="#" class="rad-content">
+                                        <div class="inbox-item">
+                                            <div class="inbox-item-img"><img src="../../assets/dist/img/avatar.png" class="img-circle" alt=""></div>
+                                            <strong class="inbox-item-author">Naeem Khan</strong>
+                                            <span class="inbox-item-date">-13:40 PM</span>
+                                            <p class="inbox-item-text">Hey! there I'm available...</p>
+                                            <span class="profile-status available pull-right"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="rad-content">
+                                        <div class="inbox-item">
+                                            <div class="inbox-item-img"><img src="../../assets/dist/img/avatar2.png" class="img-circle" alt=""></div>
+                                            <strong class="inbox-item-author">Sala Uddin</strong>
+                                            <span class="inbox-item-date">-13:40 PM</span>
+                                            <p class="inbox-item-text">Hey! there I'm available...</p>
+                                            <span class="profile-status away pull-right"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="rad-content">
+                                        <div class="inbox-item">
+                                            <div class="inbox-item-img"><img src="../../assets/dist/img/avatar3.png" class="img-circle" alt=""></div>
+                                            <strong class="inbox-item-author">Mozammel</strong>
+                                            <span class="inbox-item-date">-13:40 PM</span>
+                                            <p class="inbox-item-text">Hey! there I'm available...</p>
+                                            <span class="profile-status busy pull-right"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="rad-content">
+                                        <div class="inbox-item">
+                                            <div class="inbox-item-img"><img src="../../assets/dist/img/avatar4.png" class="img-circle" alt=""></div>
+                                            <strong class="inbox-item-author">Tanzil Ahmed</strong>
+                                            <span class="inbox-item-date">-13:40 PM</span>
+                                            <p class="inbox-item-text">Hey! there I'm available...</p>
+                                            <span class="profile-status offline pull-right"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="rad-dropmenu-footer"><a href="#">View All messages</a></li>
+                            </ul> <!-- /.Dropdown-messages -->
+                        </li><!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <!--<i class="ti-flag-alt"></i>-->
+                                <i class="material-icons">flag</i>
+                                <span class="label label-success">4</span>
+                                <!--<i class="ti-angle-down"></i>-->
+                            </a>
+                            <ul class="dropdown-menu dropdown-tasks">
+                                <!--<li class="ui_popover_tooltip"></li>-->
+                                <li class="rad-dropmenu-header"><a href="#">Your Task</a></li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <p><strong>Task 1</strong>
+                                                <span class="pull-right sm-text">40% Complete</span></p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <p><strong>Task 2</strong>
+                                                <span class="pull-right sm-text">20% Complete</span></p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                                    <span class="sr-only">20% Complete</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <p><strong>Task 3</strong>
+                                                <span class="pull-right sm-text">60% Complete</span></p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                                    <span class="sr-only">60% Complete (warning)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div>
+                                            <p><strong>Task 4</strong>
+                                                <span class="pull-right sm-text">80% Complete</span></p>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                                    <span class="sr-only">80% Complete (danger)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="rad-dropmenu-footer"><a href="#">See All Tasks</a></li>
+                            </ul><!-- /.Dropdown-tasks -->
+                        </li><!-- /.Dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <i class="material-icons">add_alert</i>
+                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                                <!--<i class="ti-announcement"></i>-->
+                                <!--<i class="ti-angle-down"></i>-->
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                                <!--<li class="ui_popover_tooltip"></li>-->
+                                <li class="rad-dropmenu-header"><a href="#">Your Notifications</a></li>
+                                <li>
+                                    <a class="rad-content" href="#">
+                                        <div class="pull-left"><i class="fa fa-html5 fa-2x color-red"></i>
+                                        </div>
+                                        <div class="rad-notification-body">
+                                            <div class="lg-text">Introduction to fetch()</div>
+                                            <div class="sm-text">The fetch API</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="rad-content" href="#">
+                                        <div class="pull-left"><i class="fa fa-bitbucket fa-2x color-violet"></i>
+                                        </div>
+                                        <div class="rad-notification-body">
+                                            <div class="lg-text">Check your BitBucket</div>
+                                            <div class="sm-text">Last Chance</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="rad-content" href="#">
+                                        <div class="pull-left"><i class="fa fa-google fa-2x color-info"></i>
+                                        </div>
+                                        <div class="rad-notification-body">
+                                            <div class="lg-text">Google Account</div>
+                                            <div class="sm-text">example@gmail.com</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="rad-content" href="#">
+                                        <div class="pull-left"><i class="fa fa-amazon fa-2x color-green"></i>
+                                        </div>
+                                        <div class="rad-notification-body">
+                                            <div class="lg-text">Amazon Simple Notification ...</div>
+                                            <div class="sm-text">Lorem Ipsum is simply dummy text...</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="rad-dropmenu-footer"><a href="#">See all notifications</a></li>
+                            </ul>  <!-- /.dropdown-alerts -->
+                            <!-- /.dropdown-alerts -->
+                        </li>
+                      
+                      
+                    </ul>
+    </div>
+</nav>
+            <!-- /.Navigation -->
+            <div class="sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li style="display: none" class="nav-heading "><center>
+
+                                        <div class="review-block-img">
+                                            <img  src="" class="img-circle user_img" alt="img_profile">
+                                        </div>
+                                        <div><a href="" class="user_name" >Sin nombre de suario</a></div>
+                                        <div class="review-block-date user_role">Administrador</div>
+                                
+
+                        </center></li>
+                        <li><a href="#" class="material-ripple" aria-expanded="false"><i class="material-icons">account_circle</i>Cuenta<span class="fa arrow"></span></a><ul class="nav nav-second-level"><li><a onclick="verPerfil()">Perfil</a></li></ul></li>
+
+                        <li>
+                            <a href="#" class="material-ripple">
+                                <i class="material-icons">settings</i>Ajustes<span class="fa arrow">
+                            </span></a>
+                            
+                            <ul class="nav nav-second-level"><li><a onclick="redirigir('../lockscreen.html')">Bloquear Pantalla</a>
+                            </li>
+
+                        <li><a onclick="logout()">Cerrar sesión</a></li></ul>
+                        </li>
+                        
+                        <li class="nav-heading loadMenu"><center>
+                            <img width="40" src="../../assets/dist/js/loader.gif" alt="Cargando...">
+                        </center></li>
+                    </ul>
+
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.Left Sidebar-->
+            <div class="side-bar right-bar">
+                    <div class="">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs right-sidebar-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">brightness_medium</i></a></li>
+                                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="material-icons">lock</i></a></li>
+                                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="material-icons">audiotrack</i></a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div  class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade  in active" id="home">
+                                    <ul id="styleOptions" title="switch styling">
+                                        <li><b>Skin Default</b></li>
+                                        <li><a href="javascript: void(0)" data-theme="" onclick="window.location.reload()"><img src="../../assets/dist/img/theme-color/2.jpg" alt=""></a></li>
+                                        <li></li>
+                                        <li></li>
+                                        <li><b>Dark Skin</b></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-blue.min"><img src="../../assets/dist/img/theme-color/1.jpg" alt=""></a></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-dark.min"><img src="../../assets/dist/img/theme-color/2.jpg" alt=""></a></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-red-light.min" class="skin-logo"><img src="../../assets/dist/img/theme-color/5.jpg" alt=""></a></li>
+                                        <li><b>Barra lateral Dark Skin</b></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-default.min"><img src="../../assets/dist/img/theme-color/7.jpg" alt=""> </a></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-red-dark.min"><img src="../../assets/dist/img/theme-color/6.jpg" alt=""></a></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-dark-1.min"><img src="../../assets/dist/img/theme-color/8.jpg" alt=""></a></li>
+                                        <li><b>Barra lateral Light Skin</b></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-default-light.min" class="skin-logo"><img src="../../assets/dist/img/theme-color/3.jpg" alt=""></a></li>
+                                        <li><a href="javascript: void(0)" data-theme="skin-white.min"><img src="../../assets/dist/img/theme-color/4.jpg" alt=""></a> </li>
+                                    </ul>
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade " id="profile">
+                                    <h3 class="sidebar-heading">Bloque de pantalla automatico</h3>
+                                    <div class="rad-activity-body">
+                                       
+                                    
+                                    </div>
+                                    <!-- /.sidebar-menu -->
+                                </div>
+                                <div role="tabpanel" class="tab-pane fade " id="messages">
+                                        <h3 class="sidebar-heading">Sonidos</h3>
+                                   
+                                </div>
+                            </div>
+                        </div>   
+            </div>
+            <!-- /.Right Sidebar -->
+            <!-- /.Navbar  Static Side -->
+            <div class="control-sidebar-bg"></div>
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                
+                <!-- main content -->
+                <div class="content">
+                    <!-- Content Header (Page header) -->
+                    <div class="content-header">
+                        <div class="header-icon">
+                     <i class="material-icons" id="ico_content">home</i>
+                        </div>
+                        <div class="header-title">
+                            <h1 id="tittle">Cargando...</h1>
+                            <small id="tittle_desc">Cargando...</small>
+                            <ul style="display: none" class="breadcrumb hidden-xs ">
+                                <li><a href="#main">Inicio</a></li>
+                                <li class="active"></li>
+                            </ul>
+                        </div>
+                    </div> <!-- /. Content Header (Page header) -->
+                   
+                    <!-- modals-->
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12" id="main_content">
+                            <div class="panel panel-bd lobidrag">
+                                <div class="panel-heading">
+                                </div>
+                                <div class="panel-body">
+                                  <center>  <img width="50" src="../../assets/dist/js/loader.gif" alt="Cargando...">
+                                  </center>
+                            </div>
+                        
+                        </div>
+                    </div>
+                    <button class="btn btn-success md-trigger m-b-5 m-r-2 openModal_Nuevo" style="display: none"  data-modal="modal-12"></button>
+                    
+                    
+                    <!-- modals-->         
+                    <div class="row" >
+                        <div class="col-sm-12">
+                            
+                                    <div class="row"> 
+                                         
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="column">
+                                                <!-- Modal just Me effects -->
+                                                <div class="md-modal md-effect-12" id="modal-12">
+                                                    <div class="md-content">
+                                                        <h3>Nuevo</h3>
+                                                        <div class="n-modal-body">
+                                                           
+                                                            <p>MySuppport está diseñado para crear y administrar Tickets, tareas y proyectos</p>
+                                                            <ul>
+                                                                <li class="newTicket"><strong>Nuevo Ticket:</strong>Los Tickets están destinados para soporte técnico y operativo</li>
+                                                                <li class="newProject"><strong>Nuevo Proyectos:</strong>Puede crear un nuevo proyecto para ti, para tu equipo o para alguien en especifico </li>
+                                                                <li class="newTask"><strong>Nuevo Tarea:</strong> Puede cerar una nueva tarea de sus proyectos o de sus gestores asignados</li>
+                                                            </ul>
+                                                            <button class="btn btn-danger md-close" >Cancelar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                          
+                                                
+                                                
+                                             
+                                                <div class="md-overlay"></div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>   
+                        </div>
+                    </div> 
+                </div> <!-- /.main content -->
+            </div><!-- /#page-wrapper -->
+        
+        </div><!-- /#wrapper -->
+
+
+
+
+
+
+        <!-- START CORE PLUGINS -->
+        <script src="../../assets/plugins/jquery-ui-1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="../../assets/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/metisMenu/metisMenu.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/lobipanel/lobipanel.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/animsition/js/animsition.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/fastclick/fastclick.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <!-- STRAT PAGE LABEL PLUGINS -->
+
+        
+
+         <!-- STRAT PAGE LABEL PLUGINS MODALS -->
+         <script src="../../assets/plugins/modals/classie.js" type="text/javascript"></script>
+         <script src="../../assets/plugins/modals/modalEffects.js" type="text/javascript"></script>
+           <!-- STRAT PAGE LABEL PLUGINS EDITOR-->
+        <script src="../../assets/plugins/trumbowyg/js/trumbowyg.min.js" type="text/javascript"></script>
+            <!-- STRAT PAGE LABEL PLUGINS NOtifications -->
+        <script src="../../assets/plugins/NotificationStyles/js/modernizr.custom.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/NotificationStyles/js/classie.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/NotificationStyles/js/notificationFx.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/NotificationStyles/js/snap.svg-min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/sweetalert/sweetalert.min.js" type="text/javascript"></script>
+        <script src="../../assets/plugins/toastr/toastr.min.js" type="text/javascript"></script>
+
+        <!-- STRAT PAGE LABEL PLUGINS -->
+        
+  
+         <!-- START THEME LABEL SCRIPT -->
+
+        <!-- START THEME LABEL SCRIPT -->
+        <script src="../../assets/dist/js/app.min.js" type="text/javascript"></script>
+        <script src="../../assets/dist/js/jQuery.style.switcher.js" type="text/javascript"></script>
+        
+        <!-- APP -->
+        <script src="../controller/app/route.js" type="text/javascript"></script>
+        <script src="../controller/app/app.js" type="text/javascript"></script>
+
+        <!-- AAP -->
+       
+
+    </body>
+</html>
+

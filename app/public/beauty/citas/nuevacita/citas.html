@@ -1,0 +1,229 @@
+<!-- START PAGE LABEL PLUGINS -->
+<link href="../../assets/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" type="text/css" />
+<link href="../../assets/plugins/fullcalendar/fullcalendar.print.min.css" rel="stylesheet" media='print' type="text/css"
+/>
+<!-- START THEME LAYOUT STYLE -->
+
+<div id="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="panel panel-bd lobidrag">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>
+                        <p id="tipo">Creador de citas</p>
+                    </h4>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                
+
+                <div class="row">
+                        <div class="col-sm-12 col-md-5">
+                                <div class="panel panel-bd">
+                                        <div class="panel-body">
+                                            <div id="external-events">
+
+                                                    <div class="form-group">
+                                                            <label for="inputName" class="control-label">Buscador</label>
+                                                            <input type="text" class="form-control"  data-error="Necesitamos un título para identificar esta cita" id="name" placeholder="Título / Notas / Clientes" required>
+                                                          </div>
+
+                                                          <div class="form-group">
+                                                                <label for="categoria">Categoría</label>
+                                                                <select class="form-control" id="id_category" required>
+                                                                    <option></option>
+                                                                    
+                                                                </select>
+                                                            </div>
+
+                                                        <div class="form-group ">
+                                                                <label for="type_default" class=" col-form-label">Fecha</label>
+                                                                    <input class="form-control" type="datetime-local">
+                                                               
+                                                        </div>
+                                                        <br>
+                                                        <center>
+                                                          <button id="bnt_save" type="submit" class="btn btn-labeled btn-warning m-b-5 submit">
+                                                                <span class="btn-label">
+                                                                    <i class="glyphicon glyphicon-search load"></i>
+                                                                </span>Buscar
+                                                            </button>
+                                                        </center>
+
+            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <div class="col-sm-12 col-md-7">
+                        <div class="panel panel-bd">
+                                <div class="panel-body">
+                                    <div id="external-events"> 
+                                        <form id="form_categories"  data-toggle="validator" role="form" >
+                                                <input type="hidden" id="id">
+                                                 <div class="form-group">
+                                                   <label for="inputName" class="control-label">Título</label>
+                                                   <input type="text" class="form-control"  data-error="Necesitamos un título para identificar esta cita" id="name" placeholder="título de la cita" required>
+                                                 </div>
+                                                 <div class="form-group">
+                                                         <label for="inputName" class="control-label">Notas </label>
+                                                         <textarea  class="form-control" placeholder="Agregue notas a esta cita si la requiere"  id="desc_"></textarea>
+                                                       </div>
+                                                    
+                                                 <div class="form-group">
+                                                   <div class="checkbox checkbox-info">
+                                                       <input type="checkbox" id="activo" checked  data-error="Esta categoría no estará activa (Aún así la puede guardar )" >
+                                                       <label for="activo">Estatus Activo</label>
+                                                     <div class="help-block with-errors"></div>
+                                                   </div>
+                                                 </div>
+                                                 <div class="form-group">
+                                                         <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
+                                                                 <span class="btn-label">
+                                                                     <i class="glyphicon glyphicon-ok load"></i>
+                                                                 </span>Agregar cita
+                                                             </button>
+                                                   <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple m-b-5">
+                                                         <span class="btn-label">
+                                                             <i class="glyphicon glyphicon-thumbs-down"></i>
+                                                         </span>Limpiar
+                                                     </button>
+                                                     <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-purple m-b-5">
+                                                             <span class="btn-label">
+                                                                 <i class="glyphicon glyphicon-thumbs-down"></i>
+                                                             </span>No actualizar
+                                                         </button>
+                                                         <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5">
+                                                             <span class="btn-label">
+                                                                 <i class="glyphicon glyphicon-thumbs-down load"></i>
+                                                             </span>Eliminar
+                                                         </button>
+                                 
+                                                         <button id="btn_update"  type="submit" style="display: none"  type="submit" class="btn btn-labeled btn-success m-b-5 submit">
+                                                             <span class="btn-label">
+                                                                 <i class="glyphicon glyphicon-ok load"></i>
+                                                             </span>Actualizar
+                                                         </button>
+                                                 </div>
+                                               </form>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <script>
+   $('#calendar').fullCalendar({
+       locale: 'es',
+    // monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    // monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+    // dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+    // dayNamesShort: ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
+
+    header: { center: 'month,agendaWeek,agendaDay,list' }, // buttons for switching between views
+    views: {
+    month: { // name of view
+      titleFormat: ' DD,MM,YYYY'
+      // other view-specific options here
+    }
+  }
+
+    //     dayClick: function() {
+    // alert('a day has been clicked!');
+    // }
+    });
+
+// var calendar = $('#calendar').fullCalendar('getCalendar');
+// calendar.on('dayClick', function(date, jsEvent, view) {
+//   console.log('clicked on ' + date.format());
+// });
+
+
+</script> -->
+
+
+
+    <script>
+        $(document).ready(function () {
+
+            "use strict"; // Start of use strict
+
+            /* initialize the external events
+             -----------------------------------------------------------------*/
+
+            $('#external-events .fc-event').each(function () {
+
+                // store data so the calendar knows to render an event upon drop
+                $(this).data('event', {
+                    title: $.trim($(this).text()), // use the element's text as the event title
+                    stick: true // maintain when user navigates (see docs on the renderEvent method)
+                });
+
+                // make the event draggable using jQuery UI
+                $(this).draggable({
+                    zIndex: 999,
+                    revert: true, // will cause the event to go back to its
+                    revertDuration: 0  //  original position after the drag
+                });
+
+
+
+            });
+
+
+            /* initialize the calendar
+             -----------------------------------------------------------------*/
+
+            $('#calendar').fullCalendar({
+
+                eventClick: function (event, element) {
+                    event.title = 'eliminado'
+                    //$('#calendar').fullCalendar('updateEvent', event);
+                    $(this).remove();
+                },
+
+              
+
+
+                locale: 'es',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listMonth'
+                },
+                navLinks: true, // can click day/week names to navigate views
+                businessHours: true, // display business hours
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+                drop: function () {
+                    // is the "remove after drop" checkbox checked?
+                    if ($('#drop-remove').is(':checked')) {
+                        // if so, remove the element from the "Draggable Events" list
+                        $(this).remove();
+                    }
+                }
+            });
+
+        });
+
+
+        //-->
+        var calendar = $('#calendar').fullCalendar('getCalendar');
+        calendar.on('dayClick', function (date, jsEvent, view) {
+            alert('clicked on ' + date.format());
+        })
+
+       
+
+    </script>

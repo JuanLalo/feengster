@@ -1,0 +1,272 @@
+<!--_______________________________________________________________________________________________ -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-bd lobidrag">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Información para gestión de ticket</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+
+                        <div class="form-group">
+                            <label for="exampleSelect1">Solicita *</label>
+                            <select class="form-control" id="solicita" disabled/>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelect1">Producto</label>
+                            <select disabled class="form-control" id="producto">
+                                    <option value="0">Otro</option>
+                                    <option value="1">Cuestionario_001</option>
+                                    <option value="2">PAQUETE PLUS</option>
+                                    <option value="3">EXANI I</option>
+                                    <option value="4">VANGUARDIA WEB</option>
+                            </select>
+                        </div>
+                        <div style="display: none" class="checkbox checkbox-success checkbox-inline">
+                            <br>
+                            <input disabled type="checkbox" id="esequipo">
+                            <label for="esequipo">¿EL ticket será en equipo? </label>
+                            <br>
+                            <br>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exampleSelect1">Asignar a</label>
+                            <select class="form-control" id="recibe">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleSelect1">Copiar a</label>
+                            <select class="form-control" id="copia">
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-7">
+                            <label for="exampleSelect1">Tipo</label>
+                            <select disabled class="form-control" id="tipo">
+                                <option value="0">--</option>
+                                <option value="PREGUNTA">Pregunta</option>
+                                <option value="INCIDENTE">Incidente</option>
+                                <option value="PROBLEMA">Problema</option>
+                                <option value="CAMBIO">Cambio</option>
+                                <option value="ADECUACIÓN">Adecuación</option>
+                                <option value="NUEVA FUNCIONALIDAD">Nueva Funcionaldad</option>
+                                <option value="NUEVO MÓDULO">Nuevo Módulo</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-5">
+                            <label for="exampleSelect1">Prioridad</label>
+                            <select class="form-control" id="prioridad">
+                                <option>--</option>
+                                <option value="BAJA">Baja</option>
+                                <option value="NORMAL">Normal</option>
+                                <option value="ALTA">Alta</option>
+                                <option value="URGENTE">Urgente</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-8 col-lg-8">
+
+                        <div class="form-group">
+                            <label for="inputName" class="control-label">Nombre</label>
+                            <input disabled type="text" class="form-control" id="nombre_ticket" placeholder="Nombre Ticket" required="">
+                        </div>
+
+                        <textarea id="trumbowyg" disabled>
+                              <div tyle="background-color: white"  id="desc"></div>
+                               </textarea>
+                                   
+                        
+                    </div>
+                </div>
+
+                <center>
+                    <div class="row">
+                        <button type="button" id="eliminarTicket" class="btn btn-labeled btn-danger m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </span>
+                        </button>
+
+                        <button type="button" onclick="goBack()" class="btn btn-labeled btn-purple m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-thumbs-down"></i>
+                            </span>No hacer nada
+                        </button>
+
+
+                        <button type="button" id="ingresarGestion" class="btn btn-labeled btn-success m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-ok"></i>
+                            </span>Agregar Gestión
+                        </button>
+
+                    </div>
+
+                </center>
+                <br>
+                <div class="row" style="display: none" id="pnl_gestionar">
+                    <div class="panel panel-primary lobidisable lobipanel lobipanel-sortable" data-inner-id="jpvZR2AvVM" data-index="0">
+                        <div class="panel-heading ui-sortable-handle">
+                            <div class="panel-title" style="max-width: calc(100% - 90px);">
+                                <h4>Gestión en proceso</h4>
+                            </div>
+                            <div class="dropdown">
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li>
+                                        <a data-func="unpin" data-tooltip="Unpin" data-toggle="tooltip" data-title="Unpin" data-placement="bottom"
+                                            data-original-title="" title="">
+                                            <i class="panel-control-icon ti-move"></i>
+                                            <span class="control-title">Unpin</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-func="minimize" data-tooltip="Minimize" data-toggle="tooltip" data-title="Minimize"
+                                            data-placement="bottom" data-original-title="" title="">
+                                            <i class="panel-control-icon ti-minus"></i>
+                                            <span class="control-title">Minimize</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-func="expand" data-tooltip="Fullscreen" data-toggle="tooltip" data-title="Fullscreen"
+                                            data-placement="bottom" data-original-title="" title="">
+                                            <i class="panel-control-icon ti-fullscreen"></i>
+                                            <span class="control-title">Fullscreen</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="dropdown-toggle" data-toggle="dropdown">
+                                    <span class="panel-control-icon glyphicon glyphicon-cog"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="row">
+                                <div class="form-group col-lg-3">
+                                    <label for="tiempo">Tiempo invertido *</label>
+                                    <select class="form-control" id="tiempo">
+                                        <option value="0">--</option>
+                                        <option value="0.5">30 Minutos</option>
+                                        <option value="1">1 Hora</option>
+                                        <option value="1.5">1 Hora y media</option>
+                                        <option value="2">2 Horas</option>
+                                    </select>
+                                    <span> (Más de 2 horas, otra gestión)</span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                                        <textarea style="background-color: white" id="nueva_gestion">
+                                        
+                                        </textarea>
+                                            
+
+
+                                </div>
+
+
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <form action="#" class="dropzone dz-clickable" id="dropzoneForm">
+
+                                        <div class="dz-default dz-message">
+                                            <span>
+                                                <i class="pe-7s-cloud-upload upload-icon"></i>
+                                                <strong class="text-center">Arrastra los archivos o click para seleccionar </strong>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <center>
+                                <div class="row">
+
+
+                                    <button type="button" onclick="cancelarGestion()" class="btn btn-labeled btn-purple m-b-5">
+                                        <span class="btn-label">
+                                            <i class="glyphicon glyphicon-thumbs-down"></i>
+                                        </span>Cancelar gestión
+                                    </button>
+
+
+                                    <button type="button" onclick="guardarGestion()" class="btn btn-labeled btn-success m-b-5">
+                                        <span class="btn-label">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </span>Guardar Gestión
+                                    </button>
+
+                                </div>
+
+                            </center>
+
+
+                        </div>
+                        <div class="panel-footer">
+                            Fin de gestión en curso
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+
+
+                <div class="row">
+                    <span>Historico de Gestiones</span>
+                    <div class="table-responsive">
+                            <table id="gestiones" class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    
+                                </thead>
+                      <tbody>
+
+                      </tbody>
+                            </table>
+                        </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+<!--_______________________________________________________________________________________________ -->
+
+    <script src="controller/apps/mysupport/ticket/gestionar.js" type="text/javascript"></script>
+
+    <script>
+      $(document).ready(function () {
+        "use strict"; // Start of use strict
+
+        $('#trumbowyg').trumbowyg({
+            svgPath: 'assets/plugins/trumbowyg/css/icons.svg'
+        });
+        
+        //trumbowyg
+        $('#nueva_gestion').trumbowyg({
+            svgPath: 'assets/plugins/trumbowyg/css/icons.svg'
+        });
+
+        
+
+
+    });
+    </script>
+
+    <!-- STRAT PAGE LABEL PLUGINS DROP-->
+
+    <script src="assets/plugins/dropzone/dropzone.js" type="text/javascript"></script>
+
+    <script src="assets/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
+   

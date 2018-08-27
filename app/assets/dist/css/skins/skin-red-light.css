@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.navbar-brand {
+    color: #1c2260;
+}
+.navbar {
+    box-shadow: none;
+    background-color: #E5343D;
+}
+
+.navbar-header{
+    background-color: #fff;
+}
+
+.navbar-toggle {
+    color: #3e454c;
+}
+
+.navbar-top-links li a.dropdown-toggle, 
+.navbar-nav li a.menu-toggle,
+.navbar-nav li a.search-trigger,
+.navbar-nav li a#fullscreen, 
+.navbar-nav li a#menu-toggle, 
+.navbar-top-links > li.log_out a,
+.navbar-nav > li > a,
+.navbar-top-links li a.dropdown-toggle:hover{
+    color: #fff;
+}
+
+.navbar-top-links li a.dropdown-toggle i,
+.navbar-top-links > li.log_out a i,
+.navbar-nav li a#menu-toggle,
+.navbar-nav > li > a > i,
+.navbar-nav > li > a{
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+}
+.navbar-top-links > li.log_out a,
+.navbar-nav>.open>a,
+.navbar-nav>.open>a:focus, 
+.navbar-nav>.open>a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover,
+.navbar-nav .open > a,
+.navbar-nav .open > a:focus,
+.navbar-nav .open > a:hover,
+.mega-dropdown-menu li .col-menu ul.menu-col li a:hover,
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:focus,
+.dropdown-menu>.active>a:hover{
+    color: #fff;
+    background-color: #FF353E;
+}
+.navbar-top-links > li.log_out a:hover, 
+.navbar-top-links > li.log_out a:active,
+.navbar-top-links > li.log_out a:focus {
+    color: #fff;
+    background-color: #FF5C64;
+}
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+    text-decoration: none;
+}
+.navbar-nav .open > a,
+.navbar-nav .open > a:focus,
+.navbar-nav .open > a:hover {
+    border-color: #5c6ac4;
+}
+
+.sidebar{
+    background-color: #fff;
+}
+.sidebar ul li.active, 
+.sidebar ul li:hover {
+    background-color: rgba(92,106,196,0.05);
+}
+.sidebar .nav-heading {
+    color: inherit;
+}
+.sidebar ul li a{
+    color: #00044c;
+}
+
+
+.notify .heartbit {
+    border: 5px solid #fff;
+}
+.notify .point {
+    background-color: #fff;
+}
+.nav > li > a.btn-buy {
+    color: #FF353E;
+    background-color: #fff;
+    border: 2px solid #fff;
+}
+
+.back-top {
+    border: 1px solid #E5343D;
+    background-color: #E5343D;
+}
+.back-top:hover {
+    color: #fff;
+    background-color: #FF5C64;
+    border: 1px solid #FF5C64;
+}

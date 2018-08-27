@@ -1,0 +1,277 @@
+
+<!--_______________________________________________________________________________________________ -->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div style="overflow-y:scroll;" class="panel panel-bd lobidrag">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>Crear nuevo</h4>
+                </div>
+            </div>
+            <div class="panel-body">
+
+                <!-- ini panel -->
+                <div class="row">
+                    <div class="col-sm-12 col-md-4 col-lg-4">
+
+                        <div class="form-group">
+                            <label for="solicita">Solicita</label>
+                            <select class="form-control" id="solicita">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="producto">Producto</label>
+                            <select class="form-control" id="producto">
+                                <option value="0">Otro</option>
+                                <option value="1">Cuestionario_001</option>
+                                <option value="2">PAQUETE PLUS</option>
+                                <option value="3">EXANI I</option>
+                                <option value="4">VANGUARDIA WEB</option>
+                            </select>
+                        </div>
+                        <div style="display: none" class="checkbox checkbox-success checkbox-inline">
+                            <br>
+                            <input type="checkbox" id="esequipo">
+                            <label for="esequipo">¿EL ticket será en equipo? </label>
+                            <br>
+                            <br>
+                        </div>
+
+                        <div id="pnl_equipo" style="display: none" class="form-group">
+
+                            <label for="recibe_equipo">Asignar a (equipo)</label>
+                            <select class="form-control" id="recibe_equipo">
+                            </select>
+                        </div>
+
+                        <div id="pnl_individual" class="form-group">
+                            <label for="recibe">Asignar a (individual)</label>
+                            <select class="form-control" id="recibe">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="copia">Copiar a</label>
+                            <select class="form-control" id="copia">
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-7">
+                            <label for="tipo">Tipo</label>
+                            <select class="form-control" id="tipo">
+                                <option value="PREGUNTA">Pregunta</option>
+                                <option value="INCIDENTE">Incidente</option>
+                                <option value="PROBLEMA">Problema</option>
+                                <option value="CAMBIO">Cambio</option>
+                                <option value="ADECUACIÓN">Adecuación</option>
+                                <option value="NUEVA FUNCIONALIDAD">Nueva Funcionaldad</option>
+                                <option value="NUEVO MÓDULO">Nuevo Módulo</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-5">
+                            <label for="prioridad">Prioridad</label>
+                            <select class="form-control" id="prioridad">
+                                <option value="BAJA">Baja</option>
+                                <option value="NORMAL">Normal</option>
+                                <option value="ALTA">Alta</option>
+                                <option value="URGENTE">Urgente</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-12 col-md-8 col-lg-8">
+
+                        <div class="form-group">
+                            <label for="nombre_ticket" class="control-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre_ticket" placeholder="Nombre Ticket" required="">
+                        </div>
+
+                        <textarea id="trumbowyg">Ingresa los detalles...</textarea>
+
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12">
+
+                    <div id="actions" class="row">
+                        <span>Puedes arrastra tus archivos en cualquier lugar de esta ventana o cick en el botón para abrir el
+                            explorador de archivos</span>
+                        <br>
+                        <div class="col-lg-7">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button dz-clickable">
+                                <i class="glyphicon glyphicon-plus"></i>
+                                <span>Agregar Archivos...</span>
+                            </span>
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Subir todos los archivos</span>
+                            </button>
+                            <button style="display: none" id="limpiar_archivos" type="submit" class="btn btn-danger cancel">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Cancelar</span>
+                                </button>
+                          
+                        </div>
+
+                        <div class="col-lg-5">
+                            <!-- The global file processing state -->
+                            <span class="fileupload-process">
+                                <!-- <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                                    aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+                                </div> -->
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="table table-striped" class="files" id="previews">
+
+                        <div id="template" class="file-row">
+                            <!-- This is used as the file preview template -->
+                            <div>
+                                <span class="preview">
+                                    <img data-dz-thumbnail />
+                                </span>
+                            </div>
+                            <div>
+                                <p class="name" data-dz-name></p>
+                                <strong class="error text-danger" data-dz-errormessage></strong>
+                                <strong class="sucess text-info" data-dz-errormessage></strong>
+                            </div>
+                            <div>
+                                <p class="size" data-dz-size></p>
+                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success mybar"  style="width:.2%;" data-dz-uploadprogress></div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary start">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Subir</span>
+                                </button>
+                                <button data-dz-remove class="btn btn-warning cancel">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                    <span>No subir</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <center>
+                    <div class="row">
+                        <div class="btn-group  m-b-5">
+                            <button type="button" class="btn btn-primary" onclick="saveTicket('NUEVO')">Mandar como nuevo</button>
+                            <button type="button" data-toggle="dropdown" class="btn dropdown-toggle btn-primary">
+                                <span class="caret"></span>
+                                <span class="sr-only">primary</span>
+                            </button>
+                            <ul role="menu" class="dropdown-menu">
+                                <li onclick="saveTicket('ABIERTO')">
+                                    <a>Abierto</a>
+                                </li>
+                                <li>
+                                    <a onclick="saveTicket('PENDIENTE')">Pendiente</a>
+                                </li>
+                                <li>
+                                    <a onclick="saveTicket('RESUELTO')">Resualto</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </center>
+                <br><br><br><br><br><br>
+                <!-- end body -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal newspaper effects -->
+
+<!--_______________________________________________________________________________________________ -->
+
+
+<script src="tickets/nuevoticket/nuevoTicket.js" type="text/javascript"></script>
+<script src="../controller/app/firebase_storage.js" type="text/javascript"></script>
+<script src="../../assets/plugins/dropzone/dropzone.js" type="text/javascript"></script>
+
+
+<!-- STRAT PAGE LABEL PLUGINS DROP-->
+<script>
+    $(document).ready(function () {     
+        "use strict"; // Start of use strict
+
+        //trumbowyg
+        $('#trumbowyg').trumbowyg({
+            svgPath: '../../assets/plugins/trumbowyg/css/icons.svg'
+        }); 
+
+        // Get the template HTML and remove it from the doumenthe template HTML and remove it from the doument
+        var previewNode = document.querySelector("#template");
+        console.log(previewNode)
+        previewNode.id = "";
+        var previewTemplate = previewNode.parentNode.innerHTML;
+        previewNode.parentNode.removeChild(previewNode);
+
+        var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+            url: "api/feensgter/docs", // Set the url
+            thumbnailWidth: 80,
+            thumbnailHeight: 80,
+            parallelUploads: 20,
+            previewTemplate: previewTemplate,
+            autoQueue: false, // Make sure the files aren't queued until manually added
+            previewsContainer: "#previews", // Define the container to display the previews
+            clickable: ".fileinput-button" // Define the element that should be used as click trigger to select files.
+        });
+
+        myDropzone.on("addedfile", function (file) {
+            // Hookup the start button
+            file.previewElement.querySelector(".start").onclick = function () {
+                myDropzone.enqueueFile(file);
+            };
+        });
+
+        // Update the total progress bar
+        myDropzone.on("totaluploadprogress", function (progress) {
+            document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
+        });
+
+        myDropzone.on("sending", function (file) {
+            // Show the total progress bar when upload starts
+            document.querySelector("#total-progress").style.opacity = "1";
+            file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+            document.querySelector("#total-progress").style.opacity = "0";
+           
+        });
+
+        // // Hide the total progress bar when nothing's uploading anymore
+        // myDropzone.on("queuecomplete", function (progress) {
+        //     alert("queuecomplete")
+        //     document.querySelector("#total-progress").style.opacity = "0";
+        // });
+
+        // Setup the buttons for all transfers
+        // The "add files" button doesn't need to be setup because the config
+        // `clickable` has already been specified.
+        document.querySelector("#actions .start").onclick = function () {
+            myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+        };
+        
+        document.querySelector("#actions .cancel").onclick = function () {
+            myDropzone.removeAllFiles(true)
+        };
+
+    });
+
+
+
+</script>

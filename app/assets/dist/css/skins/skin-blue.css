@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.navbar {
+    background-color: #00044c;
+    border-color: #00044c;
+}
+.navbar-brand {
+    color: #fff;
+}
+.navbar-header {
+    background-color: #1c2260;
+
+}
+.sidebar{
+    background-color: #00044c;
+}
+.sidebar .nav-heading {
+    color: #fff;
+}
+.sidebar ul li a {
+    color: #999fb3;
+}
+.navbar-top-links li a.dropdown-toggle,
+.navbar-nav li a.menu-toggle, 
+.navbar-nav li a.search-trigger,
+.navbar-nav li a#fullscreen, 
+.navbar-nav li a#menu-toggle,
+.navbar-nav > li > a{
+    color: #e6e9f8;
+}
+.navbar-top-links > li.log_out a{
+    color: #fff;
+    background-color: #5c6ac4;
+}
+.navbar-top-links > li.log_out a:hover,
+.navbar-top-links > li.log_out a:active,
+.navbar-top-links > li.log_out a:focus{
+    color: #fff;
+    background-color: #7484ec;
+}
+.navbar-top-links .dropdown-menu > li > a:focus, 
+.navbar-top-links .dropdown-menu > li > a:hover,
+.navbar-top-links .dropdown-menu > .active > a,
+.navbar-top-links .dropdown-menu > .active > a:focus, 
+.navbar-top-links .dropdown-menu > .active > a:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #5c6ac4;
+}
+.nav > li > a.btn-buy {
+    color: #5c6ac4;
+    background-color: transparent;
+    border: 2px solid #5c6ac4;
+}
+.nav > li > a.btn-buy:hover{
+    color: #fff;
+    background-color: #5c6ac4;
+    border: 2px solid #5c6ac4;
+}
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #5c6ac4;
+}
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+    color: #5c6ac4;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.navbar-nav .open > a,
+.navbar-nav .open > a:focus,
+.navbar-nav .open > a:hover {
+    color: #fff;
+    background-color: #5c6ac4;
+    border-color: #5c6ac4;
+}
+.navbar-nav>.open>a,
+.navbar-nav>.open>a:focus,
+.navbar-nav>.open>a:hover {
+    color: #fff;
+    background-color: #5c6ac4;
+}
+.mega-dropdown-menu li .col-menu ul.menu-col li a:hover{
+    color: #fff;
+    background-color: #5c6ac4;
+}
+.back-top {
+    border: 1px solid #00044c;
+    background-color: #00044c;
+}
+
+.back-top:hover {
+    color: #fff;
+    background-color: #5c6ac4;
+    border: 1px solid #5c6ac4;
+}
+.nav > li > a.btn-buy {
+    color: #fff;
+    background-color: #5c6ac4;
+    border: 2px solid #5c6ac4;
+}
