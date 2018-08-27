@@ -8,7 +8,7 @@ config = {
               tittle:"Feengster :: Login",
               version: "1.1.0",
               color: "dark black",
-              core_path: "http://localhost/feengster/api/public/",
+              core_path: "http://localhost:90/feengster/api/public/",
               files_path: ""
             },
     licence : 
