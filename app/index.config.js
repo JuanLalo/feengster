@@ -2,22 +2,22 @@ config = {
     app: 
             { 
               login_url: '../',   
-              main_url: 'inicio.html',
+              main_url: '',
               name: 'Feengster',
               logo:  'logo_feengster.png',
               version: '1.1.0',
               color: 'dark black',
-              core_path: 'http://localhost/public/',
-              files_path: '',
-              app_id: 9
+              core_path: 'http://192.168.1.77/feengster/api/public/',
+              files_path: 'app/page/',
+              app_id: 1000008001010101
             },
     licence : 
             {
-                'key_': '12ee5xcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rrSXA7H',
+                'key_': '',
                 'fecha_ini': '0000-00-00 00:00:00',
                 'fecha_fin': '0000-00-00 00:00:00'            
             },
-            main_page : 
+    main_page : 
             {
                 name_module: 'Inicio',
                 tittle: 'Página de inicio',

@@ -5,25 +5,38 @@ Controlador principal de la sesión del usuario actual.
 
 user = {}
 
-function show()
- {
-    if (localStorage.getItem("token") !== null && sessionStorage.getItem("token") !== null)
+$(document).ready(function () 
+{
+    if(config.app.app_id == 0)
     {
-        window.location.href = config.app.main_url;
+        if (isSession())
+        {
+            window.location.href = config.app.main_url
+        }
+        else
+        {
+            document.title = config.app.name
+        }
+        isDemo()
     }
     else
     {
-        document.title = config.app.name;
-    }
+        if (isSession())
+        {
+            run_()
+        }
+        else
+        { 
+            logout()
+        }
+    }    
+})
 
-}
 
 function run_()
  {
-    if (Session()) 
-    {
+        bloqueado() //focus
         user = getStorage('userdata', true)
-        bloqueado()
         permission = false
         for (i = 0; i < user.apps.length; i++) {
             if (user.apps[i].app_id == config.app.app_id) {
@@ -37,29 +50,25 @@ function run_()
             document.title = config.app.name + ' - ' + user[0].username
             $('#app_name').html(config.app.name)
             $('#company_name').html(user.company[0].company)
-            getMenu()
+            if(config.app.app_id != 9){
+                getMenu()
+            }
          //   getNotifications()
         }
         else 
         {
-            toastr.warning('No tiene permiso para ingresar a esta aplicación')
+            toastr.warning('¡No tiene permiso para ingresar a esta aplicación!')
             logout()
         }
 
-
-    }
 }
 
-function open_app()
- {
-    run_()
- }
 
-function Session()
+function isSession()
  {
     if (localStorage.getItem("token") === null && sessionStorage.getItem("token") === null) 
     {
-        window.location.href = config.app.login_url
+        return false
     }
     else
     {
@@ -75,10 +84,7 @@ function isLocalStorage()
     } else if (localStorage.getItem("token") === null && sessionStorage.getItem("token") !== null) 
     {
         return false;
-    } else 
-    {
-        Session()
-    }
+    } 
 }
 
 function goToApp(app_id)
@@ -213,3 +219,68 @@ function logout()
 
 }
 
+function saveStorage(name, value, isJson)
+ {
+    try {
+
+        if (isJson) {
+            value = JSON.stringify(value)
+        }
+        if (isLocalStorage()) {
+            localStorage.setItem(name, value)
+        } else {
+            sessionStorage.setItem(name, value)
+        }
+        return true
+    } catch (e) {
+        return false
+    }
+}
+
+function getStorage(name, isJson) {
+    value = null
+    if (isLocalStorage()) {
+        if (isJson) {
+            value = JSON.parse(localStorage.getItem(name))
+        } else {
+            value = localStorage.getItem(name)
+        }
+
+    } else {
+        if (isJson) {
+            value = JSON.parse(sessionStorage.getItem(name))
+        } else {
+            value = sessionStorage.getItem(name)
+        }
+    }
+
+    return value
+
+}
+
+
+function isDemo()
+{
+    (function ($) {
+        $.get = function (key) {
+            key = key.replace(/[\[]/, '\\[');
+            key = key.replace(/[\]]/, '\\]');
+            var pattern = "[\\?&]" + key + "=([^&#]*)";
+            var regex = new RegExp(pattern);
+            var url = unescape(window.location.href);
+            var results = regex.exec(url);
+            if (results === null) {
+                return null;
+            } else {
+                return results[1];
+            }
+        }
+    })(jQuery);
+
+    if($.get("user") != null & $.get("pass") != null & $.get("app") != null)
+    {
+        $('#username').val($.get("user"))
+        $('#pass').val($.get("pass"))
+        login($.get("app"))
+    }
+}

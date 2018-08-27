@@ -30,7 +30,7 @@
             _defaultOptions = {
                 hasPreview: true,
                 defaultThemeId: 'defaultTheme',
-                fullPath:  '../../assets/dist/css/skins/',
+                fullPath:  '../assets/dist/css/skins/',
                 cookie: {
                     expires: 30,
                     isManagingLoad: true

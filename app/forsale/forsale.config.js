@@ -7,7 +7,7 @@ config = {
               logo:  'logo_feengster.png',
               version: '1.1.0',
               color: 'dark black',
-              core_path: 'http://localhost/feengster/api/public/',
+              core_path: 'http://localhost:82/feengster/api/public/',
               files_path: '../',
               app_id: 10
             },

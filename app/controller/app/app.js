@@ -1,6 +1,4 @@
 
-
-
 $(document).ready(function () 
 {
     user = getStorage('userdata', true)
@@ -13,7 +11,7 @@ $(document).ready(function ()
 function reloadImgProfile()
 {
     if (user[0].img == '0') {
-        $('.user_img').attr('src', '../../assets/dist/img/perfil.png')
+        $('.user_img').attr('src', '../assets/dist/img/perfil.png')
     }
     else {
         $('.user_img').attr('src', user[0].img)
@@ -81,46 +79,6 @@ function printMenu(menu)
 }
 
 
-
-
-
-function saveStorage(name, value, isJson) {
-    try {
-
-        if (isJson) {
-            value = JSON.stringify(value)
-        }
-        if (isLocalStorage()) {
-            localStorage.setItem(name, value)
-        } else {
-            sessionStorage.setItem(name, value)
-        }
-        return true
-    } catch (e) {
-        return false
-    }
-}
-
-function getStorage(name, isJson) {
-    value = null
-    if (isLocalStorage()) {
-        if (isJson) {
-            value = JSON.parse(localStorage.getItem(name))
-        } else {
-            value = localStorage.getItem(name)
-        }
-
-    } else {
-        if (isJson) {
-            value = JSON.parse(sessionStorage.getItem(name))
-        } else {
-            value = sessionStorage.getItem(name)
-        }
-    }
-
-    return value
-
-}
 
 function ajaxFail(data) {
     if (data.responseJSON) {
