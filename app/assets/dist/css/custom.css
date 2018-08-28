@@ -10,3 +10,17 @@ and open the template in the editor.
 
 
 /*YOUR CUSTOM STYLE STARTED IN HERE*/
+
+
+/* carousel */
+
+.title-carousel
+                                {
+                font-size: 60px;
+                text-shadow: 3px 3px 5px transparent,
+               6px 6px 5px transparent,
+               9px 9px 5px transparent;
+                                }
+
+                                
+/* carousel */

@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
         WebFont.load({
-            google: {   
+            google: {
                 families: ['Alegreya+Sans:100,100i,300,300i,400,400i,500,500i,700,700i,800,800i,900,900i', 'Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i', 'Open Sans']
             }
         });
@@ -70,187 +70,223 @@
 
 </head>
 
-<body onload="run_()">
-    <div id="wrapper"  class="wrapper animsition">
+<body onload="">
+
+    <div id="wrapper" class="wrapper animsition">
+
+
         <!-- Navigation -->
         <nav class="navbar navbar-fixed-top" role="navigation">
-            <div class="navbar-header hidden-xs" style="background-color: black">
-                    <a class="navbar-brand inicio">
-                            <img class="main-logo" src="../assets/dist/img/light-logo.png" id="bg" alt="">
-
-                    </a>
+            <div class="navbar-header " style="background-color: black">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="material-icons">menu</i>
+                </button>
+                <a class="navbar-brand inicio">
+                    <img class="main-logo" src="../assets/dist/img/dark logo pag principal.png" id="bg" alt="">
+                </a>
             </div>
-            <div class="navbar-header hidden-lg hidden-sm hidden-md">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <i class="material-icons">apps</i>
-                    </button>
-                    <a class="navbar-brand inicio">
-                            <!-- <img class="main-logo" src="app/assets/dist/img/logo.jpg" id="bg" alt=""> -->
-                            <span id="app_name">Feengster</span>
 
-                    </a>
-            </div>
-            <div class="nav-container">
+            <div class="nav-container  hidden-xs">
 
-                    <!-- /.navbar-header -->
-                    <ul class="nav navbar-nav navbar-top-links hidden-xs navbar-left">
+                <!-- /.navbar-header -->
+                <ul class="nav navbar-nav navbar-top-links  navbar-left">
+                    <li><a target="button" class="btn btn-default  btn-outline  hidden-xs ">Mis Apps</a></li>
+                    <li><a target="button" class="btn btn-default  btn-outline  hidden-xs   ">Mis Pagos</a></li>
+                    <li><a target="button" class="btn btn-default  btn-outline  hidden-xs ">Promociones</a></li>
+                    <li><a target="_blank" class="btn-buy hidden-xs hidden-xs hidden-sm ">Ayuda</a></li>
+                    <li></li>
+                    <li><br><button type="button" class="btn btn-warning btn-outline btn-rounded w-md m-b-5 hidden-xs hidden-sm hidden-md ">¡Tengo
+                            una idea!</button></li>
 
-                                    <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Más aplicaciones</a></li>  
-                                    <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Promociones</a></li>  
-                                    <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Mis pagos</a></li>    
-                                    <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Mis licencias</a></li>  
-                                    <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Ayuda</a></li>   
-                                            
 
-                    </ul>
-                    <ul class="nav navbar-nav navbar-top-links hidden-xs  navbar-right">
+                </ul>
+                <ul class="nav navbar-nav navbar-top-links   navbar-right">
+                    <li>
+                    </li>
+
+
+
+                    <li>
+
+                    </li>
+
+                    <!-- /.Log out -->
+
+                    <!--End dropdown mega menu-->
+                </ul>
+                <ul class="nav navbar-top-links navbar-right">
+
+
+
+                    <!-- /.Dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <i class="material-icons">add_alert</i>
+
+                            <div class="notify">
+                                <span class="heartbit"></span>
+                                <span class="point"></span>
+                            </div>
+                            <!--<i class="ti-announcement"></i>-->
+                            <!--<i class="ti-angle-down"></i>-->
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts" id="notifications">
+                            <!--<li class="ui_popover_tooltip"></li>-->
+                            <li class="rad-dropmenu-header">
+                                <a href="#">Notificaciones</a>
+                            </li>
                             <li>
+                                <a class="rad-content" href="#">
+                                    <div class="pull-left">
+                                        <i class="fa fa-bullhorn fa-2x color-red"></i>
+                                    </div>
+                                    <div class="rad-notification-body">
+                                        <div class="lg-text">¡Promoción!</div>
+                                        <div class="sm-text">Primer mes gratis al suscribirte en cualquiera de nuestros productos</div>
+                                    </div>
+                                </a>
                             </li>
 
 
-
-                            <li>
-
-                            </li>
-
-                            <!-- /.Log out -->
-
-                            <!--End dropdown mega menu-->
-                    </ul>
-                    <ul class="nav navbar-top-links navbar-right hidden-xs">
-
-
-
-                            <!-- /.Dropdown -->
-                            <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
-                                            <i class="material-icons">add_alert</i>
-
-                                            <div class="notify">
-                                                    <span class="heartbit"></span>
-                                                    <span class="point"></span>
-                                            </div>
-                                            <!--<i class="ti-announcement"></i>-->
-                                            <!--<i class="ti-angle-down"></i>-->
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-alerts">
-                                            <!--<li class="ui_popover_tooltip"></li>-->
-                                            <li class="rad-dropmenu-header">
-                                                    <a href="#">Notificaciones</a>
-                                            </li>
-                                            <li>
-                                                    <a class="rad-content" href="#">
-                                                            <div class="pull-left">
-                                                                    <i class="fa fa-bullhorn fa-2x color-red"></i>
-                                                            </div>
-                                                            <div class="rad-notification-body">
-                                                                    <div class="lg-text">¡Promoción!</div>
-                                                                    <div class="sm-text">Primer mes gratis al suscribirte en cualquiera
-                                                                            de nuestros productos</div>
-                                                            </div>
-                                                    </a>
-                                            </li>
-                                            <li>
-                                                    <a class="rad-content" href="#">
-                                                            <div class="pull-left">
-                                                                    <i class="fa fa-bomb fa-2x color-yellow"></i>
-                                                            </div>
-                                                            <div class="rad-notification-body">
-                                                                    <div class="lg-text">¡Descuentos!</div>
-                                                                    <div class="sm-text">De 10% a 20 de descuento al promocionar alguno
-                                                                            de nustros porductos</div>
-                                                            </div>
-                                                    </a>
-                                            </li>
-
-                            </li>
-                            <li class="rad-dropmenu-footer">
-                                    <a href="#"></a>
-                            </li>
-                            </ul>
-                            <!-- /.dropdown-alerts -->
-                            <!-- /.dropdown-alerts -->
-                            </li>
-                            <li class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown">
-                                            <div class="col-lg-1">
-                                                    <img width="27px" height="26px" src="app/assets/dist/img/perfil.png" class="img-circle user_img" alt="img_profile"> 
-                                                    
-                                            </div>
-
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-user">
-                                            <li>
-                                                    <a href="app/public/">
-                                                            <i class="ti-plus"></i>&nbsp; Ingresar</a>
-                                            </li>
-                                            <li>
-                                                    <a href="app/public/">
-                                                            <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
-                                            </li>
-                                    </ul>
-                                    <!-- /.dropdown-user -->
-                            </li>
-                    </ul>
-
-                    <!-- /.dropdown-user -->
+                    </li>
+                    <li class="rad-dropmenu-footer">
+                        <a href="#"></a>
                     </li>
                     </ul>
+                    <!-- /.dropdown-alerts -->
+                    <!-- /.dropdown-alerts -->
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">
+                            <div class="col-lg-1">
+                                <img width="27px" height="26px" src="app/assets/dist/img/perfil.png" class="img-circle user_img" alt="img_profile">
+
+                            </div>
+
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="app/">
+                                    <i class="ti-plus"></i>&nbsp; Ingresar</a>
+                            </li>
+                            <li>
+                                <a href="app/">
+                                    <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                </ul>
+
+                <!-- /.dropdown-user -->
+                </li>
+                </ul>
             </div>
-    </nav>
+        </nav>
         <!-- /.Navigation -->
 
-         <!-- /.Left Sidebar-->
-         <div class="side-bar right-bar">
-            <br><br><br><br>   
-            <div class="">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs right-sidebar-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="material-icons">brightness_medium</i></a></li>
-                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="material-icons">lock</i></a></li>
-                            <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="material-icons">audiotrack</i></a></li>
+
+        <!-- /.Navigation -->
+        <div class="sidebar hidden-lg hidden-sm hidden-md" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li style="display: none" class="nav-heading ">
+                        <center>
+
+                            <div class="review-block-img">
+                                <img src="" class="img-circle user_img" alt="img_profile">
+                            </div>
+                            <div><a href="" class="user_name">Sin nombre de suario</a></div>
+                            <div class="review-block-date user_role">Administrador</div>
+
+
+                        </center>
+                    </li>
+                    <li><a href="index.html" class="material-ripple"><i class="material-icons">web</i> Apps para tu negocio</a></li>
+                    <li><a href="index.html" class="material-ripple"><i class="material-icons">list</i> Servicios</a></li>
+                    <li><a href="index.html" class="material-ripple"><i class="material-icons">timeline</i>Tecnologías que
+                            usamos</a></li>
+                    <li><a href="index.html" class="material-ripple"><i class="material-icons">call</i>Contacto</a></li>
+                    <li style="">
+                        <a href="#" class="material-ripple">
+                            <i class="material-icons">settings</i>Ajustes<span class="fa arrow">
+                            </span></a>
+
+                        <ul class="nav nav-second-level">
+                            <li><a onclick="redirigir('../lockscreen.html')">Bloquear Pantalla</a>
+                            </li>
+
+                            <li><a onclick="logout()">Cerrar sesión</a></li>
                         </ul>
-                        <!-- Tab panes -->
-                        <div  class="tab-content">
-                            <div role="tabpanel" class="tab-pane fade  in active" id="home">
-                                <ul id="styleOptions" title="switch styling">
-                                    <!-- <li><b>Dark Skin </b></li>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+
+
+        <!-- /.Left Sidebar-->
+        <div class="side-bar right-bar">
+            <br><br><br><br>
+            <div class="">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs right-sidebar-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i
+                                class="material-icons">brightness_medium</i></a></li>
+                    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="material-icons">lock</i></a></li>
+                    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i
+                                class="material-icons">audiotrack</i></a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade  in active" id="home">
+                        <ul id="styleOptions" title="switch styling">
+                            <!-- <li><b>Dark Skin </b></li>
                                     <li><a href="javascript: void(0)" data-theme="" onclick="window.location.reload()"><img src="assets/dist/img/theme-color/2.jpg" alt=""></a></li>
                                     <li></li>
                                     <li></li> -->
-                                    <li><b>Dark Header</b></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-blue.min"><img src="../assets/dist/img/theme-color/1.jpg" alt=""></a></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-dark.min"><img src="../assets/dist/img/theme-color/2.jpg" alt=""></a></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-red-light.min" class="skin-logo"><img src="../assets/dist/img/theme-color/5.jpg" alt=""></a></li>
-                                    <li><b>Barra lateral Dark Skin</b></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-default.min"><img src="../assets/dist/img/theme-color/7.jpg" alt=""> </a></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-red-dark.min"><img src="../assets/dist/img/theme-color/6.jpg" alt=""></a></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-dark-1.min"><img src="../assets/dist/img/theme-color/8.jpg" alt=""></a></li>
-                                    <li><b>Barra lateral Light Skin</b></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-default-light.min" class="skin-logo"><img src="../assets/dist/img/theme-color/3.jpg" alt=""></a></li>
-                                    <li><a href="javascript: void(0)" data-theme="skin-white.min"><img src="../assets/dist/img/theme-color/4.jpg" alt=""></a> </li>
-                                </ul>
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade " id="profile">
-                                <h3 class="sidebar-heading">Bloque de pantalla automatico</h3>
-                                <div class="rad-activity-body">
-                                   
-                                
-                                </div>
-                                <!-- /.sidebar-menu -->
-                            </div>
-                            <div role="tabpanel" class="tab-pane fade " id="messages">
-                                    <h3 class="sidebar-heading">Sonidos</h3>
-                               
-                            </div>
+                            <li><b>Dark Header</b></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-blue.min"><img src="../assets/dist/img/theme-color/1.jpg"
+                                        alt=""></a></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-dark.min"><img src="../assets/dist/img/theme-color/2.jpg"
+                                        alt=""></a></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-red-light.min" class="skin-logo"><img src="../assets/dist/img/theme-color/5.jpg"
+                                        alt=""></a></li>
+                            <li><b>Barra lateral Dark Skin</b></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-default.min"><img src="../assets/dist/img/theme-color/7.jpg"
+                                        alt=""> </a></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-red-dark.min"><img src="../assets/dist/img/theme-color/6.jpg"
+                                        alt=""></a></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-dark-1.min"><img src="../assets/dist/img/theme-color/8.jpg"
+                                        alt=""></a></li>
+                            <li><b>Barra lateral Light Skin</b></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-default-light.min" class="skin-logo"><img
+                                        src="../assets/dist/img/theme-color/3.jpg" alt=""></a></li>
+                            <li><a href="javascript: void(0)" data-theme="skin-white.min"><img src="../assets/dist/img/theme-color/4.jpg"
+                                        alt=""></a> </li>
+                        </ul>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade " id="profile">
+                        <h3 class="sidebar-heading">Bloque de pantalla automatico</h3>
+                        <div class="rad-activity-body">
+
+
                         </div>
-                    </div>   
+                        <!-- /.sidebar-menu -->
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade " id="messages">
+                        <h3 class="sidebar-heading">Sonidos</h3>
+
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- /.Navbar  Static Side -->
         <!-- <div class="control-sidebar-bg"></div> -->
         <!-- Page Content -->
-        <div style="margin-top: 100px;" id="row" class="col-md-offset-1 col-md-10 col-sm-12 col-xs-12" >
+        <div style="margin-top: 100px;" id="row" class="col-md-offset-1 col-md-10 col-sm-12 col-xs-12">
             <!-- main content -->
             <div class="content col-sm-12 col-md-12 col-xs-12">
                 <div id="main_content">
@@ -265,14 +301,32 @@
             </div>
 
 
-         
+
         </div>
         <!-- /.main content -->
+
+
+
+        <!-- Footer -->
+        <footer>
+
+            <!-- Copyright -->
+            <div  class="container"> 
+
+            <div style=" color: black" class="text-center"><br>© 2018 Copyright<br>
+                <img width="140vh" src="../assets/dist/img/logo dark PNG.png"> <br><br>
+            </div>
+        </div>
+            <!-- Copyright -->
+
+
+        </footer>
+        <!-- Footer -->
+
     </div>
     <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
+
 
 
 
@@ -335,8 +389,7 @@
             }
         })(jQuery);
 
-        if($.get("app") !== "")
-        {
+        if ($.get("app") != null) {
             goToApp($.get("app"))
         }
     </script>

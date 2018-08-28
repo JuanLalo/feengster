@@ -98,10 +98,10 @@ $(document).ready(function () {
     //logo changed
     $(function () {
         $('#styleOptions li a').on('click',function () {
-            $(".main-logo").attr('src', "assets/dist/img/light-logo.png");
+            $(".main-logo").attr('src', "../assets/dist/img/light-logo.png");
         });
         $('#styleOptions li a.skin-logo').click(function () {
-            $(".main-logo").attr('src', "assets/dist/img/dark-logo.png");
+            $(".main-logo").attr('src', "../assets/dist/img/dark-logo.png");
         });
     });
 
