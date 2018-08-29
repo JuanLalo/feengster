@@ -172,7 +172,7 @@ function sendRequest(request, callBack)
 
                 }
                 else {
-                    toastr.error('Error al conectar al servidor ' + data.status)
+                    toastr.error('Surgio un error que no hemos evaluadoa antes' + data.status)
 
                 }
             }

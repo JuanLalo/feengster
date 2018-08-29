@@ -12,15 +12,56 @@ and open the template in the editor.
 /*YOUR CUSTOM STYLE STARTED IN HERE*/
 
 
+/* Colores que clasifican a los productos*/
+
+.color-categoria-1  { /* Ventas y prospección*/
+    background-color: #225560;
+}
+
+.color-categoria-2 { /*{ Salúd y belleza */
+    background-color: #495867; 
+}
+
+.color-categoria-3 { /*Control de negocios */
+    background-color: #C16E70;
+}
+
+
+ .color-categoria-4 { /*Atención a clientes */
+    background-color: #1f2221d5;
+}
+
 /* carousel */
 
 .title-carousel
                                 {
-                font-size: 60px;
-                text-shadow: 3px 3px 5px transparent,
-               6px 6px 5px transparent,
-               9px 9px 5px transparent;
+                font-size: 6vw;
+                text-shadow: #2c3136
                                 }
 
+
+.desc-carousel
+{
+    font-size: 3vw;
+  text-align: left;
+    text-shadow: #2c3136
+
+}
+
                                 
-/* carousel */
+/* carousel
+
+
+.carousel-caption {
+  position: absolute;
+  bottom: 7vw;
+  left: 4vw;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  text-align: left;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+}
+
+*/

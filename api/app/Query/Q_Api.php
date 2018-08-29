@@ -16,6 +16,7 @@ static function selectBD($key)
         return $res[0]->bd;
         }
 
+
 static function getData($bd, $data)
  {
 
@@ -99,6 +100,13 @@ static function getData($bd, $data)
         $query = "SELECT * from menu ";
         return DB::select($query);
         break;
+
+        // Query´s esclusivas de App Web
+        case "getAllApps":
+        $query = "SELECT * from cat_apps where platform = ? AND estatus = ? ";
+        return DB::select($query, ["web", "1"]);
+        break;
+
         
         default:
 
@@ -106,6 +114,7 @@ static function getData($bd, $data)
      }
    
 }
+
 
   static function setData($bd,$data)
 {
@@ -232,6 +241,69 @@ static function smarUpdate($bd, $table, $id, $data)
        array_push($array, $id);
        return DB::insert($query, $array);
 }
+
+
+static function smartSelect($bd, $data)
+ {
+        switch($data['type'])
+        {
+                case 'dropdown':
+                selectBytype($bd, $data);
+                break;
+
+                case 'infoApp':
+                selectInfoApp($bd, $data);
+                break;
+
+                case 'other':
+                selectOther($bd, $data);
+                break;
+        }  
+
+
+}
+static function  selectInfoApp($bd, $data)
+ {
+        switch($data['query'])
+        {
+                case '':
+                break;
+        }  
+
+
+}
+
+static function selectOther($bd, $data)
+ {
+        switch($data['query'])
+        {
+                case '':
+                break;
+        }  
+
+
+}
+
+static function selectDropdown($bd, $data)
+ {
+        switch($data['query'])
+        {
+                case '':
+                break;
+        }  
+
+
+}
+
+
+
+static function table($bd, $code)
+        {
+                $query = "SELECT name from tables WHRE code = ?";
+                $res = DB::select($query, [$code]);
+                return $res;
+}
+
 
 }
 
