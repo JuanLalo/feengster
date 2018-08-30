@@ -65,3 +65,50 @@ and open the template in the editor.
 }
 
 */
+
+
+
+/* Estilo para las caracteristicas de los productos en página principal*/
+
+/* #modificado  estilo */
+
+.fg-product-desc {
+    text-align: left;
+    min-height: 40px;
+    margin: 0px 0;
+    margin-left: 30px;
+    font-size: 42px;
+}
+
+.fg-product-desc i {
+    font-size: 20px;
+    display: block;
+    color: #fffffffd;
+}
+
+.fg-product-desc:hover i {
+    color: #dd5555;
+}
+
+
+.fg-product-desc-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.fg-product-desc:hover .hvr-buzz-out,
+.hvr-buzz-out:focus,
+.hvr-buzz-out:active {
+    -webkit-animation-name: hvr-buzz-out;
+    animation-name: hvr-buzz-out;
+    -webkit-animation-duration: 0.65s;
+    animation-duration: 0.65s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+}
+
+
+/* Preloader Página principal*/

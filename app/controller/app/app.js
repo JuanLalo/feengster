@@ -5,6 +5,10 @@ $(document).ready(function ()
     reloadImgProfile()
     $('.user_name').html(user[0].username)
     $('.user_role').html('Administrador')
+    setTimeout(function () {
+        $('#preloader').show()
+        $('#loading').hide()
+        }, 1500)
 
 })
 

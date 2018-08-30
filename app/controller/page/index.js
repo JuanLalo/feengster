@@ -1,7 +1,10 @@
 $(document).ready(function () {
     
     //    getNotifications()
-   
+    setTimeout(function () {
+    $('#preloader').show()
+    $('#loading').hide()
+    }, 1500)
 
 });
 
