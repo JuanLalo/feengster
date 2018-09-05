@@ -1,7 +1,7 @@
 
 request = 
 {
-  table: 'categories',
+  table: 'users',
   key: getStorage('key', false),
   token: getStorage('token', false)
 }
@@ -10,11 +10,34 @@ request =
 $(document).ready(function () {
     $('#id').val('')
     $.fn.dataTable.ext.errMode = 'throw';
-    fillTable()
+   fillTable()
+    filldropdownCatUsers()
 });
 
 
-$('#form_categories').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
+function filldropdownCatUsers() 
+{
+
+        $.ajax({
+            // la URL para la petición
+            url: config.app.core_path + "get/data?query=getCatUser&key=" + getStorage('key', false) + "&id_company=" + user[0].company_id + "&id_app=" + config.app.app_id,
+            data: null,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                var $dropdown = $("#type_default");
+
+               $.each(data.data, function () {
+                    $dropdown.append($("<option />").val(this.id).text(this.name.toUpperCase() + '     (' + this.desc_ +')'));
+                })
+            },
+            error: function (data) {
+                toastr.error('Error al cargar los tipos de usuarios, intentelo más tarde. Por favor')
+            }
+        })
+}
+
+$('#form_usuarios').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
  {
     if (e.isDefaultPrevented())
     {
@@ -37,11 +60,13 @@ $('#form_categories').validator().on('submit', function (e) // formulario generi
             request.url = '/new/smart/request'
             request.data =
                 {
-                    id_app: config.app.app_id,
-                    type: module.nombre,
-                    id_company: user[0].company_id,
-                    name: $('#name').val(),
-                    desc_: $('#desc_').val(),
+                    app_id: config.app.app_id,
+                    company_id: user[0].company_id,
+                    company_controlled_id: user[0].company_id,
+                    username: $('#username').val(),
+                    email: $('#email').val(),
+                    password: $('#password').val(),
+                    type_default: $('#type_default').val(),
                     status: activo,
                 }
              
@@ -54,8 +79,10 @@ $('#form_categories').validator().on('submit', function (e) // formulario generi
             request.id = $('#id').val(),
             request.data = 
                 {
-                    name: $('#name').val(),
-                    desc_: $('#desc_').val(),
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                    email: $('#email').val(),
+                    type_default: $('#type_default').val(),
                     status: activo,
                 }
 
@@ -115,10 +142,10 @@ function CallBack(code, data)
             iferror(data)
         }
         else if (data.status == 'success') {
-            swal("Bien hecho!", data.message , "success")
-            $('#btn_reset').click()
+            swal("Bien hecho!", data.message, "success")
             $('#btn_nothing').click()
-            var t = $('#categories').DataTable();
+            $('#btn_reset').click()
+            var t = $('#usuarios').DataTable();
             t.destroy();
             fillTable()
         }
@@ -136,7 +163,7 @@ function deleteCallBack(code, data)
         else if (data.status == 'success') {
             swal("Bien hecho!", 'Se ha elimando correctamente', "success")
             $('#btn_reset').click()
-            var t = $('#categories').DataTable();
+            var t = $('#usuarios').DataTable();
             t.destroy();
             fillTable()
         }
@@ -172,7 +199,7 @@ function sendRequest(request, callBack)
 
                 }
                 else {
-                    toastr.error('Surgio un error que no hemos evaluadoa antes' + data.status)
+                    toastr.error('Error al conectar al servidor ' + data.status)
 
                 }
             }
@@ -182,13 +209,17 @@ function sendRequest(request, callBack)
     })
 }
 
-$('#categories tbody').on('click', 'tr', function () 
+$('#usuarios tbody').on('click', 'tr', function () 
 {
-    var table = $('#categories').DataTable();
+    var table = $('#usuarios').DataTable();
     var data = table.row(this).data();
     toastr.info('Ahora puede editar esta categoría')
-    $('#name').val(data['name'])
-    $('#desc_').val(data['desc_'])
+
+
+    $('#username').val(data['username'])
+    $('#email').val(data['email'])
+    $('#password').val(data['password'])
+    $('#type_default').val(data['type_default'])
     $('#id').val(data['id'])
 
     if(data['status'] == 'ACTIVO')
@@ -209,8 +240,9 @@ $('#categories tbody').on('click', 'tr', function ()
     window.scroll(0, 0);
 });
 
-$('#btn_nothing').click(function () 
-{
+$('#btn_nothing').click(function ()
+ {
+    $('#id').val('')
     $('#btn_reset').click()
     $('#bnt_save').show()
     $('#btn_reset').show()
@@ -234,21 +266,28 @@ $('#btn_delete').click(function ()
         closeOnCancel: false
     },
         function (isConfirm) {
-            if (isConfirm) {
 
+            if (isConfirm) {
+                if(parseInt(user[0].id) ==  parseInt($('#id').val()))
+                {
+                    alert('¡Lo sentimos! No podemos elminar tu propia cuenta.')
+                    $('#btn_nothing').click()
+           
+                }
+                else
+                {
                 toastr.info('Eliminando...')
 
                 request.url = '/update/smart/request'
                 request.id = $('#id').val(),
                 request.data = 
                     {
-                        name: $('#name').val(),
-                        desc_: $('#desc_').val(),
                         status: 'ELIMINADO',
                     }
     
                 sendUpdateRequest(request, deleteCallBack)
                 $('#btn_nothing').click()
+                }
 
             } else {
                 swal("Cancelado", "Datos rescatados de forma segura :)", "error");
@@ -261,15 +300,17 @@ $('#btn_delete').click(function ()
 function fillTable() 
 {
     "use strict"; // Start of use strict
-    $('#categories').DataTable({
+    $('#usuarios').DataTable({
 
         "ajax": {
-            "url": config.app.core_path + "get/data?key=" + getStorage('key', false) + "&query=getCategories&id_company=" +user[0].company_id+"&type="+module.nombre+"&id_app=" + config.app.app_id,
+            "url": config.app.core_path + "get/data?key=" + getStorage('key', false) + "&query=getUsersAllAdmin&company_id=" +user[0].company_id+"&app_id=" + config.app.app_id,
             "type": "GET"
         },
         "columns": [
-            { "data": "name", "title": "NOMBRE" },
-            { "data": "desc_", "title": "DESCRIPCIÓN" },
+
+            { "data": "tipo", "title": "TIPO DE USUARIO" },
+            { "data": "username", "title": "NOMBRE DE USUARIO" },
+            { "data": "email", "title": "EMAIL" },
             { "data": "status", "title": "ESTATUS" },
         ],
 

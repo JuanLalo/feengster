@@ -1,0 +1,263 @@
+<!--_______________________________________________________________________________________________ -->
+
+
+<div id="row">
+    <div class="col-sm-12 col-lg-12">
+        <div class="panel panel-bd lobidrag">
+            <div class="panel-heading">
+                <div class="panel-title ">
+                    <h4>
+                        <p id="tipo">Gestión de productos</p>
+                    </h4>
+                </div>
+            </div>
+
+            <div id="dropzone" class="panel-body">
+            
+                <form id="form_categories" data-toggle="validator" role="form">
+                <div class="row">
+                    <input type="hidden" id="id">
+                    <div class="form-group">
+                            <label for="categoria">Categoría</label>
+                            <select class="form-control" id="id_category" required>
+                                <option></option>
+                                
+                            </select>
+                        </div>
+
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Nombre</label>
+                        <input type="text" class="form-control" data-error="Necesitamos el nombre del servicio" id="name" placeholder="Nombre del producto"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="control-label">Descripción</label>
+                        <textarea class="form-control" placeholder="Describe brevemente este producto que ofreces..." id="desc_"></textarea>
+                    </div>
+
+                    <div class="form-group col-lg-4">
+                        <label>Precio de compra (opcional)</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" class="form-control" placeholder="00.00" data-error="Necesitamos saber el precio general de este servicio" min="0"  step="0.01" max="1000000" 
+                                id="price_bay" aria-label="Amount (to the nearest dollar)" data-error="Ingrese un precio valido" >
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4">
+                        <label>Precio venta a público en general</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" class="form-control" min="0" placeholder="00.00"  step="0.01" max="1000000"   id="price_pg" aria-label="Amount (to the nearest dollar)" data-error="Ingrese un precio de venta valido"  required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4">
+                        <label>Precio venta con descuento (opcional)</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                            <input type="number" class="form-control" placeholder="00.00" min="0"  step="0.01" max="1000000"  id="price_desc" data-error="Ingrese un precio valido"  aria-label="Amount (to the nearest dollar)">
+                            
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-4">
+                        <label>Existencia</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"></span>
+                            <input type="number" placeholder="0" class="form-control" min="0" max="1000000" id="existence" aria-label="Amount (to the nearest dollar)" required>
+                            <span class="input-group-addon"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <br>
+                    <div class="form-group">
+                        <div class="checkbox checkbox-info">
+                            <input type="checkbox"  id="activo" checked data-error="Esta categoría no estará activa (Aún así la puede guardar )">
+                            <label for="activo">Estatus Activo</label>
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <input style="display: none;" id="file_" type="file">
+                        <br>
+                        <div class="col-lg-12">
+                            <button id="btn_add_img" type="button" class="btn btn-labeled btn-warning m-b-5 submit">
+                                <span class="btn-label">
+                                    <i class="glyphicon glyphicon-plus load"></i>
+                                </span>Agregar imagenes
+                            </button>
+
+                            <!-- <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Subir todos los archivos</span>
+                            </button> -->
+
+                        </div>
+                        <br>
+                        <br>
+
+
+                        <div class="table table-striped" class="files" id="previews">
+                            <div id="uploading" class="file-row">
+
+                            </div>
+                            <div id="templates" class="file-row">
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <br>
+                   
+                    <div class="form-group">
+                        <button id="bnt_save" type="submit" class="btn btn-labeled btn-primary m-b-5 submit">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-ok load"></i>
+                            </span>Guardar
+                        </button>
+                        <button style="display: block;" id="btn_reset" type="reset" class="btn btn-labeled btn-purple m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-thumbs-down"></i>
+                            </span>Limpiar
+                        </button>
+                        <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-purple m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-thumbs-down"></i>
+                            </span>No actualizar
+                        </button>
+                        <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-thumbs-down load"></i>
+                            </span>Eliminar
+                        </button>
+
+                        <button id="btn_update" type="submit" style="display: none" type="submit" class="btn btn-labeled btn-success m-b-5 submit">
+                            <span class="btn-label">
+                                <i class="glyphicon glyphicon-ok load"></i>
+                            </span>Actualizar
+                        </button>
+                    </div>
+                </form>
+
+
+                <div id="pnl_ver_uisuarios" class="col-lg-12">
+                    <div class="table-responsive">
+                        <table id="categories" class="table table-bordered table-striped table-hover">
+                            <thead>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--_______________________________________________________________________________________________ -->
+
+<!-- STRAT PAGE LABEL PLUGINS -->
+<script src="../../assets/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
+<script src="../../assets/plugins/validator/validator.min.js" type="text/javascript"></script>
+<script src="../main/productos/administrar.js" type="text/javascript"></script>
+<script src="../controller/app/firebase_storage.js" type="text/javascript"></script>
+
+
+<script>
+   var  files = []
+
+    $(document).ready(function () {
+
+        $('#form_categories').validator()
+
+        // add drop zone
+        // dropzone.ondragover = dropzone.ondragenter = function (evt) {
+        //     evt.preventDefault();
+        // };
+
+        // dropzone.ondrop = function (evt) {
+        //     // pretty simple -- but not for IE :(
+        //         file_.files = evt.dataTransfer.files;
+        //          evt.preventDefault();
+        //          console.log(file_)
+        // };
+
+        
+        
+        $('#btn_add_img').click(function () {
+            $('#file_').click()
+        })
+
+
+        $('#file_').on('change', function () {
+            img_cont = files.length
+            if($('#file_').val() !== "")
+            {
+            printPreviewFile(img_cont)
+            uploadFile($('#file_').prop('files'), img_cont, callbackUpload) 
+            }
+        })
+
+        function callbackUpload(number, url, error)
+        {
+            $("#img_new_file_" + number).attr("src", url)
+            files[number] = url
+            $('#msg_file_success_' + number).html('Cargado con éxito!')
+            $('#bar_file_' + number).width('100%')
+
+            console.log(number, url, error)
+        }
+
+
+        function printPreviewFile(i) {
+            html = `<div id="template_${i}">
+                     <div>
+                     <br>
+                     <img id="img_new_file_${i}" width="100px" src="../../assets/dist/js/loader.gif" class="">
+                     </div>
+                     <div>
+                     <p class="name" data-dz-name></p>
+                     <strong id="msg_file_error_${i}" class="error text-danger" data-dz-errormessage></strong>
+                     <strong id="msg_file_success_${i}" class="success text-info" data-dz-errormessage>Subiando imagen...</strong>
+                     </div>
+                     <div>
+                     <p class="size" data-dz-size></p>
+                     <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                     <div id="bar_file_${i}" class="progress-bar progress-bar-success mybar" style="width:50%;" data-dz-uploadprogress></div>
+                     </div>
+                     </div>
+                     <div>
+                     </div>
+                     </div>`
+                    //    <button  onclick="removeFile(${i})" data-dz-remove class="btn btn-warning cancel">
+                    //  <i class="glyphicon glyphicon-ban-circle"></i>
+                    //  <span>Eliminar</span>
+                    //  </button>
+        $('#uploading').append(html)
+        }
+
+
+
+
+
+    });
+
+
+
+</script>

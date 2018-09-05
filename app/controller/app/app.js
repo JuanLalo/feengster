@@ -1,6 +1,11 @@
 
 $(document).ready(function () 
 {
+    setTimeout(function () {
+        $('#preloader').show()
+        $('#loading').hide()
+        }, 1500)
+
     user = getStorage('userdata', true)
     reloadImgProfile()
     $('.user_name').html(user[0].username)

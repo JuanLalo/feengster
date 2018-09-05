@@ -205,6 +205,69 @@ class ApiController extends Controller
 
     }
 
+
+    public function smartGetData(Request $request)
+    {
+     
+    //   try
+    //       {
+          
+            if (!empty($request->all()))
+            {
+                $data = $request->all();
+                $isKey =Q_Api::isKey($data['key']);
+                if($isKey == 'true')
+                {
+                    $isToken = User_Q::isToken(null, $data['token']);
+                    if($isToken == 'true')
+                    {
+                        $res = Q_Api::smartSelect(Q_Api::selectBD($data['key']), $data);
+                          if (empty($res)){
+                           $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
+                           $code = 403;
+                          }
+                          else
+                          {
+                           $response = ["data" => $res];
+                           $code = 200;
+                          }
+                   
+                     }
+                      else
+                     {
+                        $code = 401;
+                        Log::alert($isToken);
+                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                     }     
+                   
+                }
+                else
+                 {
+                 $code = 401; // ok pero acceseo denagado
+                Log::alert($isKey);
+                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+            
+                }
+            }
+            else
+            {
+                $code = 403; // ok pero acceseo denagado
+                Log::alert("acceso denagado request no es un json");
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+            }
+  
+            
+    // } catch (\Exception $e) {
+    //     Log::error($e);
+    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+    //     $code = 400;
+    // }
+
+  
+        return response()->json($response, $code);
+
+    }
+
     
     public function test(Request $request)
     {

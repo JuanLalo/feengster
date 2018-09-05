@@ -99,9 +99,6 @@ function mostrarContenido(id_menu, nombre, titulo, desc, url, ico) {
                 icon: 'ti-minus',
                 icon2: 'ti-plus'
             },
-            close: {
-                icon: 'ti-close'
-            },
             expand: {
                 icon: 'ti-fullscreen',
                 icon2: 'ti-fullscreen'
@@ -214,7 +211,7 @@ function loadContent() {
     $('#tittle').html('');
     $('#tittle_desc').html('');
     $('#ico_content').html('');
-    $('#main_content').html('<center><img width="50" src="../assets/dist/js/loader.gif" alt="Cargando..."></center>');
+    $('#main_content').html('<div class="text-center"><br><br><br><img width="50" src="../assets/dist/js/loader.gif" alt="Cargando..."></div>');
 
 }
 

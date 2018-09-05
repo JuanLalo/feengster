@@ -99,12 +99,14 @@ function goToApp(app_id)
         }
     }
 
-    if (url != null) {
+    if (url != null)
+    {
         window.location.href = url
         console.log()
     }
-    else {
-        toastr.warning('No tiene permisos para ingresar a esta Aplicación')
+    else
+    {
+        toastr.warning('No tiene permisos para ingresar a ' + config.app.name)
     }
 
 
