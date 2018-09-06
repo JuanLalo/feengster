@@ -40,7 +40,7 @@
             _cookieKey = 'jss_selected',
             _docCookies = {};
 
-    /*\
+     /*\
      |*|
      |*|  :: cookies.js ::
      |*|

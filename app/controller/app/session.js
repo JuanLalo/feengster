@@ -3,7 +3,9 @@ Juan Eduardo Rosales Rosales
 Controlador principal de la sesión del usuario actual.
 */
 
-user = {}
+(function(){
+    user = {}
+}())
 
 $(document).ready(function () 
 {
@@ -37,7 +39,7 @@ function run_()
  {
         bloqueado() //focus
         user = getStorage('userdata', true)
-        permission = false
+        var  permission = false
         for (i = 0; i < user.apps.length; i++) {
             if (user.apps[i].app_id == config.app.app_id) {
                 permission = true
@@ -240,7 +242,7 @@ function saveStorage(name, value, isJson)
 }
 
 function getStorage(name, isJson) {
-    value = null
+   var value = null
     if (isLocalStorage()) {
         if (isJson) {
             value = JSON.parse(localStorage.getItem(name))
