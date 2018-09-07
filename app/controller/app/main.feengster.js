@@ -12,73 +12,189 @@
 
  **/
 
+//#region 
+
+// ver lo de Jade
 
 (function () {
   "use strict"
-  var signature = 'Copyright (c) 2018 Feengster Framework \n'
+  var signature = '\n [Copyright (c) 2018 Feengster Framework] \n'
 
   var run = function () {
-    var conf = {
-        id: 0,
-        name: 'Feengster App',
-        logo: '',
-        key: '',
-        files_path: 'http://localhost:82/feengster/api/public/',
-        main_url: 'inicio.html',
-        login_url: '../',
-        theme: ''
+    var config = {
+      id: '98hjk2348yhkjjhd8y32hjklh7isdfhhjh',
+      name: 'Cargando...',
+      logo: '',
+      key: 'sd0mwer78fyhjfsd78jsdf3278ghsdfjt',
+      files_path: 'http://localhost:82/feengster/api/public/',
+      main_url: 'inicio.html',
+      login_url: '../',
+      theme: ''
+    }
+
+
+    //#region [SESSION CONFIGURATION]
+    var session = {
+      // TODO
+
+        authenticated: function ()
+        {
+          if (localStorage.getItem("token") === null && sessionStorage.getItem("token") === null) 
+           {
+            return false
+           }
+           else
+           {
+             return true
+           }
+        },
+
+        logout: function()
+        {
+         toastr.warning('Cerrando sesión...')  
+         setTimeout(function () 
+           {
+             sessionStorage.clear();
+             localStorage.clear();
+             window.location.href = config.login_url
+             },
+           1000)
+        },
+
+        getToken: function ()
+        {
+          if (this.isLocal()) 
+          {
+             return localStorage.getItem("token") 
+          }
+          else
+          {
+            return sessionStorage.getItem("token")
+          }
+
+        },
+
+        saveStorage: function (name, value, isJson) {
+           try {
+
+             if (isJson) {
+                   value = JSON.stringify(value)
+             }
+             if (this.isLocal()) {
+               localStorage.setItem(name, value)
+             } else {
+               sessionStorage.setItem(name, value)
+             }
+
+           } catch (e) {
+             return false
+           }
+         },
+
+        isLocal: function()
+         {
+          if (localStorage.getItem("token") !== null && sessionStorage.getItem("token") === null) 
+          {
+              return true;
+          } else if (localStorage.getItem("token") === null && sessionStorage.getItem("token") !== null) 
+          {
+              return false;
+          } 
+         }
+
+      
+
+    }
+
+    //#endregion
+
+
+    //#region [API CONTROLLER]
+    var api = {
+      // TODO
+    }
+    //#endregion
+
+
+    //#region [ROUTER CONTROLLER]
+    var router = {
+      // TODO
+    }
+    //#endregion
+
+
+    //#region [FORMS CONTROLLER]
+    var forms = {
+      // TODO
+    }
+    //#endregion
+
+
+    //#region [NOTIFICATIONS TROLLERTION]
+    var notify = {
+      // TODO
+
+    }
+    //#endregion
+
+
+    //#region  [MAIN CONTROLLER]
+    var app = {
+      getConfig: function () {
+        return config;
       },
 
-      api = {},
-      session = {},
-      user = {},
-      router = {},
-      forms = {},
-      notify = {},
+      initialize: function (data) {
+        try {
 
-      framework = {
-          getConfig: function () {
-            return conf;          
-          },
- 
-          Config: function(data)
-          {
-            if(typeof data === 'undefined' || data == null){
-              console.error(signature + 'Datos de configuración no validos')
-            }
-            else
-            {
-              this.newConfig = {
-                id: data.id,
-                name: data.name,
-                logo: data.logo,
-                key: data.key,
-                files_path: data.files_path,
-                main_url: data.main_url,
-                login_url: data.login_url,
-                theme: data.theme
+              var newConfig = 
+              {
+              id: data.id,
+              name: data.name,
+              logo: data.logo,
+              key: data.key,
+              files_path: data.files_path,
+              main_url: data.main_url,
+              login_url: data.login_url,
+              theme: data.theme
               }
-  
-              conf = this.newConfig
-              console.warn(signature + 'Configurado para [' + conf.name + ']')
-            }
-            
-          },
+              config = newConfig
+            console.warn(signature + 'Configurado para [' + conf.name + ']')
           
+
+        } catch (error) {
+          console.error(signature + 'Configuración no valia. \n objeto no valido ::', this.data)
+        }
       }
 
+    }
+    //#endregion
 
 
-    return framework
+    var $feengster = {
+      //object router
+      app: app,
+      api: api,
+      router: router,
+      session: session,
+      forms: forms,
+      notify: notify
+
+    }
+
+    return $feengster
+
   }
 
   if (typeof window.$f === 'undefined') {
     console.log(signature + '[Loaded]')
-    window.feengster = window.$f = run()
+    window.$feengster = window.$f = run()
   } else {
     console.warn(signature + 'Loaded again')
   }
 
+})(window)
+
+//#endregion
 
 
-})(window, document)

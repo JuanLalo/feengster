@@ -65,7 +65,7 @@ function run_()
 
 }
 
-
+//$f
 function isSession()
  {
     if (localStorage.getItem("token") === null && sessionStorage.getItem("token") === null) 
@@ -78,6 +78,7 @@ function isSession()
     }
 }
 
+//$f
 function isLocalStorage()
  {
     if (localStorage.getItem("token") !== null && sessionStorage.getItem("token") === null) 
@@ -211,6 +212,7 @@ function bloqueado()
 
  }
 
+ //$f
 function logout() 
 {
 
@@ -222,7 +224,7 @@ function logout()
     }, 1000)
 
 }
-
+ //$f
 function saveStorage(name, value, isJson)
  {
     try {

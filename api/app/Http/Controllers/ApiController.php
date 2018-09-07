@@ -9,7 +9,11 @@ use Illuminate\Http\Request;
 
 class ApiController extends Controller
 {
-  
+  //TODO
+  // crear un metodo que te devuelva el nombre de la tabla (codigo de tabla)
+  // crear un metodo que devuelva el id de la aplicación por medio de la key de licencia
+  //verificar las _key de la tabla licencias ponerlas únicas
+
   
     public function getData(Request $request)
     {
@@ -85,8 +89,8 @@ class ApiController extends Controller
     public function createRow(Request $request)
     {
      
-    //   try
-    //       {
+      try
+          {
           
             if (!empty($request->all()))
             {
@@ -132,11 +136,11 @@ class ApiController extends Controller
             }
   
             
-    // } catch (\Exception $e) {
-    //     Log::error($e);
-    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-    //     $code = 400;
-    // }
+    } catch (\Exception $e) {
+        Log::error($e);
+        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+        $code = 400;
+    }
 
   
         return response()->json($response, $code);
