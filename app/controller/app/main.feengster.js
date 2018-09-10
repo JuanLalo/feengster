@@ -18,91 +18,124 @@
 
 (function () {
   "use strict"
-  var signature = '\n [Copyright (c) 2018 Feengster Framework] \n'
+  var signature = '\n Copyright (c) 2018 Feengster Framework \n'
 
   var run = function () {
-    var config = {
-      id: '98hjk2348yhkjjhd8y32hjklh7isdfhhjh',
-      name: 'Cargando...',
-      logo: '',
-      key: 'sd0mwer78fyhjfsd78jsdf3278ghsdfjt',
-      files_path: 'http://localhost:82/feengster/api/public/',
-      main_url: 'inicio.html',
-      login_url: '../',
-      theme: ''
+    
+    //#region [PRIVATE]
+    var _app = {
+      inf: {
+        id: undefined,
+        name: undefined,
+        logo: undefined,
+        key: undefined
+      },
+
+      static: {
+        files_path: 'http://localhost:82/feengster/api/public/',
+        main_url: 'inicio.html',
+        login_url: '../',
+      }
     }
+
+    var _user = {
+      username: undefined,
+      password: undefined,
+      name: undefined,
+      surnames: undefined,
+      email: undefined,
+      photo: undefined,
+      permission: undefined, // root, developer, tester, admin, agent, customer
+
+    }
+
+    var _session = {
+      token: undefined,
+      status: 'non-existent', //non-existent, active, lock
+      type: 'development', // development, demo, working!
+      dateLastStatus: null,
+      url_lock: ''
+
+    }
+
+    var _router = {
+
+    }
+    var _forms = {
+
+    }
+
+    var _notify = {
+
+    }
+    //#endregion
+                                      
 
 
     //#region [SESSION CONFIGURATION]
     var session = {
-      // TODO
 
-        authenticated: function ()
-        {
-          if (localStorage.getItem("token") === null && sessionStorage.getItem("token") === null) 
-           {
-            return false
-           }
-           else
-           {
-             return true
-           }
-        },
+      login: function () {
+        // TODO tomar datos de usuario para solicitar login
+        var data = 
+                  {
+                    user: _user.username,
+                    pass: _user.password
+                  }
+        //make login whith data ----> send to _api.sendRequest(data)         
+        _session.status = 'working!'
+        return true
+      },
 
-        logout: function()
-        {
-         toastr.warning('Cerrando sesión...')  
-         setTimeout(function () 
-           {
-             sessionStorage.clear();
-             localStorage.clear();
-             window.location.href = config.login_url
-             },
-           1000)
-        },
+      saveSession: function () {
+         localStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
+      },
 
-        getToken: function ()
-        {
-          if (this.isLocal()) 
-          {
-             return localStorage.getItem("token") 
-          }
-          else
-          {
-            return sessionStorage.getItem("token")
-          }
-
-        },
-
-        saveStorage: function (name, value, isJson) {
-           try {
-
-             if (isJson) {
-                   value = JSON.stringify(value)
-             }
-             if (this.isLocal()) {
-               localStorage.setItem(name, value)
-             } else {
-               sessionStorage.setItem(name, value)
-             }
-
-           } catch (e) {
-             return false
-           }
-         },
-
-        isLocal: function()
-         {
-          if (localStorage.getItem("token") !== null && sessionStorage.getItem("token") === null) 
-          {
-              return true;
-          } else if (localStorage.getItem("token") === null && sessionStorage.getItem("token") !== null) 
-          {
-              return false;
-          } 
-         }
-
+      realoadSession: function()
+      {
+        _session = JSON.parse(localStorage.setItem('_FG_SESSION_'))
+      },
+     
       
+      authenticated: function () {
+        if (this.session.info.status == 'active') {
+          return true
+        } else {
+          return this.session.info.status
+        }
+      },
+
+      logout: function () {
+        toastr.warning('Cerrando sesión...')
+        setTimeout(function () {
+            localStorage.clear();
+            window.location.href = _app.static.login_urls
+          },
+          1000)
+      },
+
+      getToken: function () {
+        return _session.token
+      },
+
+      lock: function () {
+        // TODO tomar datos de sessión para realizar el bloqueo
+        _session.status = 'lock'
+        _session.dateLastStatus = '' // colocar fecha actual.
+        window.location.href = _session.url_lock
+        return true
+      },
+
+      unlock: function () {
+        // TODO tomar estatus de sessión para desbloquear la sessión
+        _session.status = 'active'
+        _session.dateLastStatus = '' // colocar fecha actual.
+        window.location.href = _app.static.main_url
+        return true
+      }
+
+
+
 
     }
 
@@ -141,26 +174,21 @@
     //#region  [MAIN CONTROLLER]
     var app = {
       getConfig: function () {
-        return config;
+        return _app
       },
 
-      initialize: function (data) {
+      initialize: function (id) {
         try {
+          var data = {} // TODO obtener por medio del ID de la aplicación la información de DATA
+          var newConfig = {
+            id: data.id,
+            name: data.name,
+            logo: data.logo,
+            key: data.key
+          }
+          _app.inf = newConfig
+          console.warn(signature + 'Configurado para [' + _app.inf.name + ']')
 
-              var newConfig = 
-              {
-              id: data.id,
-              name: data.name,
-              logo: data.logo,
-              key: data.key,
-              files_path: data.files_path,
-              main_url: data.main_url,
-              login_url: data.login_url,
-              theme: data.theme
-              }
-              config = newConfig
-            console.warn(signature + 'Configurado para [' + conf.name + ']')
-          
 
         } catch (error) {
           console.error(signature + 'Configuración no valia. \n objeto no valido ::', this.data)
@@ -196,5 +224,3 @@
 })(window)
 
 //#endregion
-
-
