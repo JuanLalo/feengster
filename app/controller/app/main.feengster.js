@@ -18,7 +18,7 @@
 
 (function () {
   "use strict"
-  var signature = '\n Copyright (c) 2018 Feengster Framework \n'
+  var signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
 
   var run = function () {
     
@@ -35,6 +35,7 @@
         files_path: 'http://localhost:82/feengster/api/public/',
         main_url: 'inicio.html',
         login_url: '../',
+        url_lock: ''
       }
     }
 
@@ -52,10 +53,8 @@
     var _session = {
       token: undefined,
       status: 'non-existent', //non-existent, active, lock
-      type: 'development', // development, demo, working!
-      dateLastStatus: null,
-      url_lock: ''
-
+      type: 'development', // development, demo, work
+      dateLastStatus: null
     }
 
     var _router = {
@@ -70,8 +69,6 @@
     }
     //#endregion
                                       
-
-
     //#region [SESSION CONFIGURATION]
     var session = {
 
@@ -82,26 +79,61 @@
                     user: _user.username,
                     pass: _user.password
                   }
-        //make login whith data ----> send to _api.sendRequest(data)         
-        _session.status = 'working!'
-        return true
-      },
+        //make login whith data ----> send to _api.sendRequest(data)  
+        _session.dateLastStatus = ''
+        _session.token = 'XXXXXXXXXXXXX'  
+        _session.type =  'development'   
+        _session.status = 'active'
 
-      saveSession: function () {
-         localStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
+        this.saveSession(false)          
+
+        return true
       },
 
       realoadSession: function()
       {
-        _session = JSON.parse(localStorage.setItem('_FG_SESSION_'))
+        if(this.isLocal())
+        {
+          _session = JSON.parse(localStorage.getItem('_FG_SESSION_'))
+        }
+        else
+        {
+          _session = JSON.parse(sessionStorage.getItem('_FG_SESSION_'))
+        }
+      },
+
+      saveSession: function (local) { // Se ejecuta solo cuando el usuario inicia session 
+        if(local)
+        {
+         localStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
+        }
+        else
+        {
+         sessionStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
+        }
+      },
+
+      updateSession: function()
+      {
+        if(this.isLocal())
+        {
+          this.saveSession(true)
+        }
+        else
+        {
+          this.saveSession(false)
+        }
       },
      
+      status: function () {
+        return _session.status
+      },
       
       authenticated: function () {
-        if (this.session.info.status == 'active') {
+        if (_session.status == 'active') {
           return true
         } else {
-          return this.session.info.status
+          return false
         }
       },
 
@@ -114,33 +146,66 @@
           1000)
       },
 
+      close: function()
+      {
+        this.$f = undefined
+        localStorage.clear();
+        window.location.href = _app.static.login_url
+      },
+
       getToken: function () {
         return _session.token
       },
 
       lock: function () {
         // TODO tomar datos de sessión para realizar el bloqueo
+        if(this.authenticated())
+        {
         _session.status = 'lock'
         _session.dateLastStatus = '' // colocar fecha actual.
-        window.location.href = _session.url_lock
+        //window.location.href = _session.url_lock
+        console.log('aqui debe redirigir a pantalla de bloqueo')
+        this.updateSession()
         return true
+        }
+        else
+        {
+          this.close()
+        }
       },
 
-      unlock: function () {
+      unlock: function (pass) {
         // TODO tomar estatus de sessión para desbloquear la sessión
-        _session.status = 'active'
-        _session.dateLastStatus = '' // colocar fecha actual.
-        window.location.href = _app.static.main_url
-        return true
+        if(this.status() == 'lock')
+        {
+        _user.password = pass
+        this.login()
+        }
+        else
+        {
+          this.close()
+        }
+      },
+
+      isLocal: function()
+      {
+        if(localStorage.getItem('_FG_SESSION_') !== null && sessionStorage.getItem('_FG_SESSION_') == null)
+        {
+          return true
+        }
+        else if (localStorage.getItem('_FG_SESSION_') == null && sessionStorage.getItem('_FG_SESSION_') !== null)
+        {
+          return false
+        }
+        else
+        {
+          this.close()
+        }
       }
-
-
-
 
     }
 
     //#endregion
-
 
     //#region [API CONTROLLER]
     var api = {
@@ -148,13 +213,11 @@
     }
     //#endregion
 
-
     //#region [ROUTER CONTROLLER]
     var router = {
       // TODO
     }
     //#endregion
-
 
     //#region [FORMS CONTROLLER]
     var forms = {
@@ -162,14 +225,12 @@
     }
     //#endregion
 
-
     //#region [NOTIFICATIONS TROLLERTION]
     var notify = {
       // TODO
 
     }
     //#endregion
-
 
     //#region  [MAIN CONTROLLER]
     var app = {
@@ -197,7 +258,6 @@
 
     }
     //#endregion
-
 
     var $feengster = {
       //object router
