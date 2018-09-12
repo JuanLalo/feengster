@@ -32,7 +32,8 @@
       },
 
       static: {
-        files_path: 'http://localhost:82/feengster/api/public/',
+        files_path: '../',
+        core_path: 'http://localhost:82/feengster/api/public',
         main_url: 'inicio.html',
         login_url: '../',
         url_lock: ''
@@ -209,7 +210,72 @@
 
     //#region [API CONTROLLER]
     var api = {
-      // TODO
+        getData: function(request, callBack, msgs = true) 
+        {
+          $.ajax({
+            url: _app.static.core_path + '/get/smart/request',
+            data: request,
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+              callBack(200, data)
+            },
+            error: function (data) {
+              callBack(data.status, data)
+
+              if(msgs)
+              {
+                this.ajaxStatusCode(data)
+              }
+
+            }
+          })
+        },
+
+        getDataCallBack: function(code, data)
+        {
+
+        },
+
+        setData: function(data)
+        {
+          // recibe la key de la tabla, campos y valores.
+
+        },
+
+        changeData: function(data)
+        {
+           // recibe la key de la tabla, campos y valores. (id del registro)
+        },
+
+        deleteData: function(data)
+        {
+          // recibe la key de la tabla, campos y valores. (id del registro)
+        },
+
+        ajaxStatusCode: function(data)
+        {
+          if (data.responseJSON) {
+            toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ');
+          } else {
+            if (data.status == 205) {
+              toastr.error('No hemos encontrado resultados para tu solicitud')
+            }
+            else if (data.status == 405) {
+    
+              toastr.warning('Ruta de WS no encontrada. Estatus: ' + data.status)
+    
+            }
+            else if (data.status == 205) {
+              toastr.error('Error al conectar al servidor ' + data.status)
+    
+            }
+            else {
+              toastr.error('Error al conectar al servidor ' + data.status)
+    
+            }
+          }
+        },
     }
     //#endregion
 
