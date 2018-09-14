@@ -89,12 +89,10 @@
         <!-- /.navbar-header -->
         <ul class="nav navbar-nav navbar-top-links hidden-xs navbar-left">
              <li class="log_out">
-                    <a onclick="goBack()">
-                        <i class="material-icons">keyboard_backspace</i>
-                    </a>
+                <a><span id="nombre_modulo"></span></a>
             </li>
                 <li><a><span></span></a></li>
-                <li><a><span id="nombre_modulo"></span></a></li>
+                <li></li>
                 <li><a><span></span></a></li>
                 <li><a><span></span></a></li>
                  <li style="display: none" class="log_out">
@@ -127,13 +125,13 @@
             </ul>
         <ul class="nav navbar-nav navbar-top-links hidden-xs  navbar-right">
                
-            <li><a id="menu-toggle" href="#"><i class="material-icons">settings</i></a></li>
+            <li class=" "><a id="menu-toggle" href="#"><i class="material-icons">settings</i></a></li>
            
            
-            <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown">
+            <li class="dropdown" style="background-image: url('../assets/dist/img/perfil.png')">
+                    <!-- <a class="dropdown-toggle" data-toggle="dropdown">
                                 <img width="26px" src="" class="img-circle user_img" alt="img_profile">
-                    </a>
+                    </a> -->
                     <ul class="dropdown-menu dropdown-user">
                         <li><a onclick="verPerfil()"><i class="ti-user"></i>&nbsp; Profile</a></li>
                         <li><a href="mailbox.html"><i class="ti-email"></i>&nbsp; Mis Mensajes</a></li>
