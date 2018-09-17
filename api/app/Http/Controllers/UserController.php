@@ -47,8 +47,8 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        // try
-        //     {
+        try
+            {
             if (!empty($request->all()))
             {
                 $data = $request->all();
@@ -66,6 +66,9 @@ class UserController extends Controller
                    {
                        if($res[0]->status == 'ACTIVO')
                        {
+
+                        // quitar todos y dejar solo el token
+                        // hacer otro metodo donde se regre en smart get
                            $res[0]->password = "oculto";
                            $res[0]->oldpassword = "oculto";
                            $query = "select company from ".$bd.".cat_company c where c.id = ?";
@@ -74,8 +77,12 @@ class UserController extends Controller
                            $query = "SELECT  a.id 'app_id', a.url, a.name, l.key_ FROM ".$bd.".licenses l, ".$bd.".cat_apps a  where a.id = l.app_id and
                            l.company_id = ? ";
                            $res['apps'] =  DB::select($query, [$res[0]->company_id]);
+                           $res['token'] =  '1';
+                           $res['fecha'] =  DB::select('select now()');
+
                            $response = ["status" => "suuccess", "message" => "Logeado con éxito", "data" => $res];
                            $code = 200;
+                           
                            Log::info('login...', $data);
                            
                        }
@@ -110,11 +117,11 @@ class UserController extends Controller
                 }
       
                 
-        // } catch (\Exception $e) {
-        //     Log::error($e);
-        //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-        //     $code = 400;
-        // }
+        } catch (\Exception $e) {
+            Log::error($e);
+            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+            $code = 400;
+        }
 
         return response()->json($response, $code);
 

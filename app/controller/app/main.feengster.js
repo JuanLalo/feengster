@@ -1,8 +1,7 @@
 /**
  @author Feengster
    Main Feengster Lib
- 
- 
+
                          Copyright (c) 2018 Feengster
       Code written and tested by Feengster, its distribution or modification is prohibited.
       Each and every one of the functions are the property of this software. 
@@ -25,10 +24,10 @@
     //#region [PRIVATE]
     var _app = {
       inf: {
-        id: undefined,
-        name: undefined,
+        id: 11,
+        name: 'Lab',
         logo: undefined,
-        key: undefined
+        key: '12ee5xcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rrSXA7H'
       },
 
       static: {
@@ -72,23 +71,8 @@
                                       
     //#region [SESSION CONFIGURATION]
     var session = {
-
-      login: function () {
-        // TODO tomar datos de usuario para solicitar login
-        var data = 
-                  {
-                    user: _user.username,
-                    pass: _user.password
-                  }
-        //make login whith data ----> send to _api.sendRequest(data)  
-        _session.dateLastStatus = ''
-        _session.token = 'XXXXXXXXXXXXX'  
-        _session.type =  'development'   
-        _session.status = 'active'
-
-        this.saveSession(false)          
-
-        return true
+      login: function (callBack, msgs = true ) {
+      api.login(callBack, msgs)
       },
 
       realoadSession: function()
@@ -198,10 +182,6 @@
         {
           return false
         }
-        else
-        {
-          this.close()
-        }
       }
 
     }
@@ -218,11 +198,12 @@
             type: "GET",
             dataType: "json",
             success: function (data) {
-              callBack(200, data)
+              callBack(data)
             },
             error: function (data) {
-              callBack(data.status, data)
-
+              
+              callBack(data)
+              
               if(msgs)
               {
                 this.ajaxStatusCode(data)
@@ -276,6 +257,54 @@
             }
           }
         },
+
+      login: function (callBack, msgs) {
+        $.ajax({
+          url: config.app.core_path + "login",
+          data: {
+            key: _app.inf.key,
+            username: _user.username,
+            password: _user.password
+              },
+          type: 'POST',
+          dataType: 'json',
+
+          success: function (data) {
+            _session.dateLastStatus = data.data.fecha[0]['now()']
+            _session.token = data.data.token 
+            _session.type =  'development'   
+            _session.status = 'active'
+            console.log(_session)
+            session.saveSession(session.isLocal())
+           // callBack(data)
+          },
+          error: function (data) {
+            console.log(data)
+            //callBack(data)
+            if(msgs)
+            {
+              api.ajaxStatusCode(data)
+            }
+          }
+        })
+      }
+
+    }
+    //#endregion
+
+     //#region [USER CONTROLLER]
+     var user = {
+      setUser:  function(username, password)
+      {
+        _user.username = username,
+        _user.password = password
+      },
+
+      getUser: function()
+      {
+        _user.password = 'XXXXXXXXXXXXXX'
+        return _user
+      }
     }
     //#endregion
 
@@ -327,6 +356,7 @@
 
     var $feengster = {
       //object router
+      user: user,
       app: app,
       api: api,
       router: router,
