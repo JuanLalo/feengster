@@ -225,7 +225,7 @@ class ApiController extends Controller
                     $isToken = User_Q::isToken(null, $data['token']);
                     if($isToken == 'true')
                     {
-                        $res = Q_Api::smartSelect(Q_Api::selectBD($data['key']), $data);
+                        $res = Q_Api::getData(Q_Api::selectBD($data['key']), $data['data']);
                           if (empty($res)){
                            $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
                            $code = 403;

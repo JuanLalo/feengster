@@ -63,9 +63,11 @@
     <script src="../assets/plugins/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
     <script src="main.config.js" type="text/javascript"></script>
     <script src="../controller/app/session.js" type="text/javascript"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
-    <script src="../controller/app/firebase_login.js" type="text/javascript"></script>
-    <script src="../controller/app/firebase_storage.js" type="text/javascript"></script>
+
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script> -->
+
+    <!-- <script src="../controller/app/firebase_login.js" type="text/javascript"></script>
+    <script src="../controller/app/firebase_storage.js" type="text/javascript"></script> -->
 
 
 </head>
@@ -82,8 +84,10 @@
         margin-left: -97px; ">
             <div class="text-center">
 
-                <img width="250vw" src="../assets/dist/img/dark logo pag principal.png" alt="Feengster">
-
+                <img width="250vw" src="../assets/dist/img/logos/logo-light-PNG.png" alt="Feengster">
+                <div class="text-center">
+                        <img width="30vw" src="../assets/dist/js/loader.gif" alt="Cargando...">
+                    </div>
             </div>
         </div>
     </div>
@@ -93,13 +97,13 @@
 
         <!-- Navigation -->
         <nav class="navbar navbar-fixed-top" role="navigation">
-            <div class="navbar-header " style="background-color: black">
+            <div class="navbar-header " >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <i class="material-icons">menu</i>
                 </button>
                 <a class="navbar-brand inicio">
-                    <img class="main-logo" src="../assets/dist/img/dark logo pag principal.png" id="bg" alt="">
+                    <img class="main-logo" src="../assets/dist/img/logos/logo-light-PNG.png" id="bg" alt="Feengster">
                 </a>
             </div>
 
@@ -200,9 +204,6 @@
                     <!--End dropdown mega menu-->
                 </ul>
                 <ul class="nav navbar-top-links navbar-right">
-
-
-
                     <!-- /.Dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -244,7 +245,7 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">
                             <div class="col-lg-1">
-                                <img width="27px" height="26px" src="app/assets/dist/img/perfil.png" class="img-circle user_img" alt="img_profile">
+                                <img width="27px" height="26px"  class="img-circle user_img" alt="img_profile">
 
                             </div>
 
@@ -460,25 +461,30 @@
     <!-- AAP -->
 
     <script>
-        (function ($) {
-            $.get = function (key) {
-                key = key.replace(/[\[]/, '\\[');
-                key = key.replace(/[\]]/, '\\]');
-                var pattern = "[\\?&]" + key + "=([^&#]*)";
-                var regex = new RegExp(pattern);
-                var url = unescape(window.location.href);
-                var results = regex.exec(url);
-                if (results === null) {
-                    return null;
-                } else {
-                    return results[1];
-                }
-            }
-        })(jQuery);
+        // try {
+        //     (function ($) {
+        //     $.get = function (key) {
+        //         key = key.replace(/[\[]/, '\\[');
+        //         key = key.replace(/[\]]/, '\\]');
+        //         var pattern = "[\\?&]" + key + "=([^&#]*)";
+        //         var regex = new RegExp(pattern);
+        //         var url = unescape(window.location.href);
+        //         var results = regex.exec(url);
+        //         if (results === null) {
+        //             return null;
+        //         } else {
+        //             return results[1];
+        //         }
+        //     }
+        // })(jQuery);
 
-        if ($.get("app") != null) {
-            goToApp($.get("app"))
-        }
+        // if ($.get("app") != null) {
+        //      goToApp($.get("app"))
+        //  }
+        // } catch (error) {
+        //     console.log('revisar aquí')
+        // }
+       
     </script>
 
 

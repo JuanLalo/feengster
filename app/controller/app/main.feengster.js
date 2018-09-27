@@ -51,7 +51,7 @@
     }
 
     var _session = {
-      token: undefined,
+      token: '1',
       status: 'non-existent', //non-existent, active, lock
       type: 'development', // development, demo, work
       dateLastStatus: null
@@ -192,21 +192,33 @@
     var api = {
         getData: function(request, callBack, msgs = true) 
         {
+         request = {
+            query: 'test', 
+            type: 'Productos'
+            }// quitar
+
           $.ajax({
             url: _app.static.core_path + '/get/smart/request',
-            data: request,
-            type: "GET",
+            data: { 
+                    token: _session.token,
+                    key: _app.inf.key ,
+                    id_company: 1,
+                    id_app: 11,
+                    data: request
+                  },
+            type: "POST",
             dataType: "json",
             success: function (data) {
-              callBack(data)
+              console.log(data)
+              //callBack(data)
             },
             error: function (data) {
-              
-              callBack(data)
+              console.log(data)
+              //callBack(data)
               
               if(msgs)
               {
-                this.ajaxStatusCode(data)
+                api.ajaxStatusCode(data)
               }
 
             }

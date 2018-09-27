@@ -97,7 +97,7 @@ static function getData($bd, $data)
         break;
 
         case "test":
-        $query = "SELECT * from menu ";
+        $query = "SELECT * from cat_menus ";
         return DB::select($query);
         break;
 

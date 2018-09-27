@@ -58,9 +58,11 @@ $router->get('/router/get/data', ['uses' => 'ApiController@getData']);
 //generico
 $router->get('/get/data', ['uses' => 'ApiController@getData']); 
 $router->post('/router/set/data', ['uses' => 'ApiController@setData']);
-//smart
 
+
+//smart
 $router->get('/get/smart/request', ['uses' => 'ApiController@smartGetData']); 
+$router->post('/get/smart/request', ['uses' => 'ApiController@smartGetData']); 
 $router->post('/new/smart/request', ['uses' => 'ApiController@createRow']);
 $router->post('/update/smart/request', ['uses' => 'ApiController@updateRow']);
 
