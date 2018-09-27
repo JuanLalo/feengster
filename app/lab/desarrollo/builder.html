@@ -13,59 +13,46 @@
 
             <div class="panel-body ">
 
-<form class="" id="fomr1">
-    <div class="form-group"   data-toggle="validator" role="form" >
-      <label for="inputName" class="control-label">Nombre</label>
-      <div class="col-xs-8">
-        <input id="nombre" name="nombre" placeholder="Ingresa tu nombre" type="text" class="form-control">
-      </div>
-    </div>
+              <form id="retardos">
+                <div class="form-group">
+                  <label class="control-label" for="text"></label> 
+                  <div class="input-group">
+                    <div class="input-group-addon">Nombre</div> 
+                    <input id="text" name="text" type="text" required="required" class="form-control"> 
+                    <div class="input-group-addon">
+                      <i class="fa fa-address-card"></i>
+                    </div>
+                  </div>
 
-    <div class="form-group">
-      <label for="text" class="control-label col-xs-4">Apelliedo Paterno</label> 
-      <div class="col-xs-8">
-        <input id="text" name="text" type="text" class="form-control">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="text1" class="control-label col-xs-4">Apellido Materno</label> 
-      <div class="col-xs-8">
-        <input id="text1" name="text1" type="text" class="form-control">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="select" class="control-label col-xs-4">Select</label> 
-      <div class="col-xs-8">
-        <select id="select" name="select" class="select form-control">
-          <option value="rabbit">Hombre</option>
-          <option value="duck">Mujer</option>
-          <option value="fish">Gay</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="checkbox" class="control-label col-xs-4">Checkboxes</label> 
-      <div class="col-xs-8">
-        <label class="checkbox-inline">
-          <input type="checkbox" name="checkbox" checked="checked" value="rabbit">
-                Rabbit
-        </label>
-        <label class="checkbox-inline">
-          <input type="checkbox" name="checkbox" value="duck">
-                Duck
-        </label>
-        <label class="checkbox-inline">
-          <input type="checkbox" name="checkbox" value="fish">
-                Fish
-        </label>
-      </div>
-    </div> 
-    <div class="form-group row">
-      <div class="col-xs-offset-4 col-xs-8">
-        <button name="submit" type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </div>
-  </form>
+
+                  
+                </div>
+                <div class="form-group">
+                  <label></label> 
+                  <textarea id="textarea" name="textarea" cols="40" rows="3" aria-describedby="textareaHelpBlock" class="form-control"></textarea> 
+                  <span id="textareaHelpBlock" class="help-block">Descripción...</span>
+                </div>
+                <div class="form-group">
+                  <label for="radio" class="control-label">Sexo</label> 
+                  <div>
+                    <label class="radio-inline">
+                      <input type="radio" name="radio" value="rabbit">
+                            H
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="radio" value="duck">
+                            M
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="radio" value="fish">
+                            G
+                    </label>
+                  </div>
+                </div> 
+                <div class="form-group">
+                  <button name="submit" type="submit" class="btn btn-primary">Aceptar</button>
+                </div>
+              </form>
 
 
 
@@ -80,5 +67,10 @@
 
 
 <script>
-    //$f.forms.inic('fomr1')
+    $f.forms.start('retardos')
+
+    // guardar
+    // editar
+    // elimar
+    //
 </script>
