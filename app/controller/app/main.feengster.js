@@ -24,15 +24,15 @@
     //#region [PRIVATE]
     var _app = {
       inf: {
-        id: 11,
-        name: 'Lab',
+        id: undefined,
+        name: undefined,
         logo: undefined,
-        key: '12ee5xcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rrSXA7H'
+        key: undefined
       },
 
       static: {
         files_path: '../',
-        core_path: 'http://localhost:82/feengster/api/public',
+        core_path: 'http://localhost:82/feengster/api/public/',
         main_url: 'inicio.html',
         login_url: '../',
         url_lock: ''
@@ -191,36 +191,25 @@
 
     //#region [API CONTROLLER]
     var api = {
-        getData: function(request, callBack, msgs = true) 
+        getData: function(url, data, success, error) 
         {
-         request = {
-            query: 'test', 
-            type: 'Productos'
-            }// quitar
-
+          console.log(data)
           $.ajax({
-            url: _app.static.core_path + '/get/smart/request',
+            url: _app.static.core_path + url,
             data: { 
+                    data: data,
                     token: _session.token,
                     key: _app.inf.key ,
-                    id_company: 1,
-                    id_app: 11,
-                    data: request
                   },
             type: "POST",
             dataType: "json",
             success: function (data) {
-              console.log(data)
-              //callBack(data)
+               success(data)
             },
             error: function (data) {
-              console.log(data)
-              //callBack(data)
+              error(data)
+              api.ajaxStatusCode(data)
               
-              if(msgs)
-              {
-                api.ajaxStatusCode(data)
-              }
 
             }
           })
@@ -345,10 +334,13 @@
       getConfig: function () {
         return _app
       },
+      getAppId: function () {
+        return _app.inf.id
+      },
 
-      initialize: function (id) {
+      initialize: function (data) {
         try {
-          var data = {} // TODO obtener por medio del ID de la aplicación la información de DATA
+          
           var newConfig = {
             id: data.id,
             name: data.name,
@@ -356,8 +348,12 @@
             key: data.key
           }
           _app.inf = newConfig
-          console.warn(signature + 'Configurado para [' + _app.inf.name + ']')
+          console.warn(signature + ' configurado para [' + _app.inf.name + ']')
 
+          setTimeout(function () {
+            $('#preloader').show()
+            $('#loading').hide()
+            }, 1500)
 
         } catch (error) {
           console.error(signature + 'Configuración no valia. \n objeto no valido ::', this.data)

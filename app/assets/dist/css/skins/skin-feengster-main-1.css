@@ -1,0 +1,87 @@
+@charset "UTF-8";
+.navbar {
+    background-color: #003A5D;
+    border-color: #003A5D;
+}
+.navbar-brand {
+    color: #fff;
+}
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover,
+.navbar-nav>.open>a,
+.navbar-nav>.open>a:focus,
+.navbar-nav>.open>a:hover,
+.navbar-top-links > li.log_out a,
+.navbar-nav .open > a,
+.navbar-nav .open > a:focus,
+.navbar-nav .open > a:hover,
+.nav > li > a.btn-buy:hover,
+.mega-dropdown-menu li .col-menu ul.menu-col li a:hover,
+.dropdown-menu>.active>a,
+.dropdown-menu>.active>a:focus,
+.dropdown-menu>.active>a:hover{
+    color: #fff;
+    background-color: #006DAA;
+}
+.navbar-nav .open > a,
+.navbar-nav .open > a:focus,
+.navbar-nav .open > a:hover {
+    border-color: #006DAA;
+}
+
+.navbar-header{
+    background-color: #006DAA;
+}
+
+.nav > li > a.btn-buy {
+    color: #006DAA;
+    border: 2px solid #006DAA;
+}
+.nav > li > a.btn-buy:hover{
+    border: 2px solid #006DAA;
+}
+.navbar-top-links li a.dropdown-toggle,
+.navbar-nav li a.menu-toggle, 
+.navbar-nav li a.search-trigger,
+.navbar-nav li a#fullscreen, 
+.navbar-nav li a#back, 
+.navbar-nav li a#menu-toggle,
+.navbar-nav > li > a{
+    color: #fff;
+}
+.navbar-top-links li a.dropdown-toggle i,
+.navbar-top-links > li.log_out a i,
+.navbar-nav li a#menu-toggle,
+.navbar-nav > li > a > i,
+.navbar-nav > li > a{
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.4);
+}
+.navbar-top-links > li.log_out a:hover,
+.navbar-top-links > li.log_out a:active,
+.navbar-top-links > li.log_out a:focus{
+    color: #fff;
+    background-color: #746a6a;
+}
+.sidebar{
+    background-color: #003A5D;
+}
+.sidebar .nav-heading {
+    color: #fff;
+}
+.sidebar ul li a {
+    color: #a5a9ad;
+}
+.nav > li > a.btn-buy {
+    color: #d5d5d5;
+    border: 2px solid #5b6168;
+}
+
+.back-top {
+    border: 1px solid #003A5D;
+    background-color: #003A5D;
+}
+.back-top:hover {
+    color: #fff;
+    background-color: #6a6f74;
+    border: 1px solid #6a6f74;
+}

@@ -29,7 +29,7 @@
   -webkit-transform: scale(1.1);
   -moz-transform: scale(1.1);
   transform: scale(1.1);
-  opacity: 0.8;
+  opacity: unset;
 }
 .post-module .thumbnail {
   /* background: #000000; */
@@ -47,7 +47,7 @@
   -ms-transition: all 0.3s linear 0s;
   -o-transition: all 0.3s linear 0s;
   transition: all 0.3s linear 0s;
-  opacity: 0.4;
+  opacity: 0.6;
 }
 .post-module .post-content {
   position: absolute;
@@ -261,8 +261,30 @@
         }
 </script>
 
- 
-    <div class="row">
+
+<div class="row">
+  <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12"> 
+  <div class="post-module precarga">
+    <!-- Thumbnail-->
+    <div class="thumbnail">
+     
+      <img width="60%" src="../assets/dist/img/apps/Lab/lab-1.jpg"/>
+    </div>
+    <!-- Post Content-->
+    <div class="post-content" >
+      <div class="category">Feengster Tools</div>
+      <h1 class="title">Feengster Lab</h1>
+      <h2 class="sub_title">Licencia activa.</h2>
+      <div class="description text-center">
+
+          <button onclick="window.location.href='../lab/'"  class="button-go" >Ingresar<span class="icon-right"></span><span class="icon-right after"></span></button>
+        
+      </div>
+      <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-o"></i> hace 1 día</span><span class="comments"><i class="fa fa-users"></i><a href="#"> 16 usuarios interactuando</a></span></div>
+    </div>
+  </div>
+</div>
+
       <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12"> 
       <div class="post-module precarga">
         <!-- Thumbnail-->

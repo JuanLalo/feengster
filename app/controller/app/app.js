@@ -1,16 +1,23 @@
 
 $(document).ready(function () 
 {
-    setTimeout(function () {
-        $('#preloader').show()
-        $('#loading').hide()
-        }, 1500)
+    //$fg
+    $f.app.initialize(
+        {
+            id: config.app.app_id,
+            name: config.app.name,
+            logo: "",
+            key: config.licence.key_,
+        }
+    )
+
 
     user = getStorage('userdata', true)
     reloadImgProfile()
     $('.user_name').html(user[0].username)
     $('.user_role').html('Administrador')
 
+    
 })
 
 function reloadImgProfile()
@@ -25,35 +32,57 @@ function reloadImgProfile()
 
 function getMenu()
  {
+//Se ha incluido el pase de metodos como parametro y se queda
+// como estandar el success y error. Si error no está definido poner por default el de api.ajaxStatusCode
 
-    $.ajax({
-        url: config.app.core_path + "router/getMenu",
-        data: {
-            key: getStorage('key', false),
-            token: getStorage('token', false),
-            app: config.app.app_id
-        },
-        type: 'POST',
-        dataType: 'json',
+    $f.api.getData('router/getMenu', {app: $f.app.getAppId()},
+        function (response){
+               console.log('success ->',data)
+               if (response.status == 'empty') {
+                            toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
+                            ifempty(response)
+                            $('.loadMenu').hide()
+                        }
+                        else {
+                            if (response.status == 'success') {
+                                printMenu(response.data)
+                            }
+                        }
+             },
+        function (data)
+             {
+             console.log('error ->', data)
+             }
+    )
+    
+    // $.ajax({
+    //     url: config.app.core_path + "router/getMenu",
+    //     data: {
+    //         key: getStorage('key', false),
+    //         token: getStorage('token', false),
+    //         app: config.app.app_id
+    //     },
+    //     type: 'POST',
+    //     dataType: 'json',
 
-        success: function (response) {
-            if (response.status == 'empty') {
-                toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
-                ifempty(response)
-                $('.loadMenu').hide()
-            }
-            else {
-                if (response.status == 'success') {
-                    printMenu(response.data)
-                }
-            }
-        },
-        error: function (response) {
-            ajaxFail(response)
-        },
-        complate: function (response) {
-        }
-    })
+    //     success: function (response) {
+    //         if (response.status == 'empty') {
+    //             toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
+    //             ifempty(response)
+    //             $('.loadMenu').hide()
+    //         }
+    //         else {
+    //             if (response.status == 'success') {
+    //                 printMenu(response.data)
+    //             }
+    //         }
+    //     },
+    //     error: function (response) {
+    //         ajaxFail(response)
+    //     },
+    //     complate: function (response) {
+    //     }
+    // })
 }
 
 
