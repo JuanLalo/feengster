@@ -20,7 +20,7 @@
   var signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
 
   var run = function () {
-    
+
     //#region [PRIVATE]
     var _app = {
       inf: {
@@ -58,6 +58,24 @@
     }
 
     var _router = {
+      current: 
+      {
+        module: {
+          id: undefined,
+          nombre: undefined
+        },
+        menu: {
+          id: undefined,
+          name: undefined,
+          title: undefined,
+          desc: undefined,
+          url: undefined,
+          ico: undefined,
+          permission: {}
+        },
+      },
+
+      menus: {}
 
     }
     var _forms = {
@@ -68,52 +86,41 @@
 
     }
     //#endregion
-                                      
+
     //#region [SESSION CONFIGURATION]
     var session = {
-      login: function (callBack, msgs = true ) {
-      api.login(callBack, msgs)
+      login: function (callBack, msgs = true) {
+        api.login(callBack, msgs)
       },
 
-      realoadSession: function()
-      {
-        if(this.isLocal())
-        {
+      realoadSession: function () {
+        if (this.isLocal()) {
           _session = JSON.parse(localStorage.getItem('_FG_SESSION_'))
-        }
-        else
-        {
+        } else {
           _session = JSON.parse(sessionStorage.getItem('_FG_SESSION_'))
         }
       },
 
       saveSession: function (local) { // Se ejecuta solo cuando el usuario inicia session 
-        if(local)
-        {
-         localStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
-        }
-        else
-        {
-         sessionStorage.setItem( '_FG_SESSION_' ,JSON.stringify(_session))
+        if (local) {
+          localStorage.setItem('_FG_SESSION_', JSON.stringify(_session))
+        } else {
+          sessionStorage.setItem('_FG_SESSION_', JSON.stringify(_session))
         }
       },
 
-      updateSession: function()
-      {
-        if(this.isLocal())
-        {
+      updateSession: function () {
+        if (this.isLocal()) {
           this.saveSession(true)
-        }
-        else
-        {
+        } else {
           this.saveSession(false)
         }
       },
-     
+
       status: function () {
         return _session.status
       },
-      
+
       authenticated: function () {
         if (_session.status == 'active') {
           return true
@@ -131,8 +138,7 @@
           1000)
       },
 
-      close: function()
-      {
+      close: function () {
         this.$f = undefined
         localStorage.clear();
         window.location.href = _app.static.login_url
@@ -144,42 +150,32 @@
 
       lock: function () {
         // TODO tomar datos de sessión para realizar el bloqueo
-        if(this.authenticated())
-        {
-        _session.status = 'lock'
-        _session.dateLastStatus = '' // colocar fecha actual.
-        //window.location.href = _session.url_lock
-        console.log('aqui debe redirigir a pantalla de bloqueo')
-        this.updateSession()
-        return true
-        }
-        else
-        {
+        if (this.authenticated()) {
+          _session.status = 'lock'
+          _session.dateLastStatus = '' // colocar fecha actual.
+          //window.location.href = _session.url_lock
+          console.log('aqui debe redirigir a pantalla de bloqueo')
+          this.updateSession()
+          return true
+        } else {
           this.close()
         }
       },
 
       unlock: function (pass) {
         // TODO tomar estatus de sessión para desbloquear la sessión
-        if(this.status() == 'lock')
-        {
-        _user.password = pass
-        this.login()
-        }
-        else
-        {
+        if (this.status() == 'lock') {
+          _user.password = pass
+          this.login()
+        } else {
           this.close()
         }
       },
 
-      isLocal: function()
-      {
-        if(localStorage.getItem('_FG_SESSION_') !== null && sessionStorage.getItem('_FG_SESSION_') == null)
-        {
+      isLocal: function () {
+        if (localStorage.getItem('_FG_SESSION_') !== null && sessionStorage.getItem('_FG_SESSION_') == null) {
           return true
-        }
-        else if (localStorage.getItem('_FG_SESSION_') == null && sessionStorage.getItem('_FG_SESSION_') !== null)
-        {
+        } else if (localStorage.getItem('_FG_SESSION_') == null && sessionStorage.getItem('_FG_SESSION_') !== null) {
           return false
         }
       }
@@ -191,74 +187,64 @@
 
     //#region [API CONTROLLER]
     var api = {
-        getData: function(url, data, success, error) 
-        {
-          console.log(data)
-          $.ajax({
-            url: _app.static.core_path + url,
-            data: { 
-                    data: data,
-                    token: _session.token,
-                    key: _app.inf.key ,
-                  },
-            type: "POST",
-            dataType: "json",
-            success: function (data) {
-               success(data)
-            },
-            error: function (data) {
-              error(data)
-              api.ajaxStatusCode(data)
-              
+      getData: function (url, data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + url,
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            error(data)
+            api.ajaxStatusCode(data)
 
-            }
-          })
-        },
 
-        getDataCallBack: function(code, data)
-        {
-
-        },
-
-        setData: function(data)
-        {
-          // recibe la key de la tabla, campos y valores.
-
-        },
-
-        changeData: function(data)
-        {
-           // recibe la key de la tabla, campos y valores. (id del registro)
-        },
-
-        deleteData: function(data)
-        {
-          // recibe la key de la tabla, campos y valores. (id del registro)
-        },
-
-        ajaxStatusCode: function(data)
-        {
-          if (data.responseJSON) {
-            toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ');
-          } else {
-            if (data.status == 205) {
-              toastr.error('No hemos encontrado resultados para tu solicitud')
-            }
-            else if (data.status == 405) {
-    
-              toastr.warning('Ruta de WS no encontrada. Estatus: ' + data.status)
-    
-            }
-            else if (data.status == 205) {
-              toastr.error('Error al conectar al servidor ' + data.status)
-    
-            }
-            else {
-              toastr.error('Error al conectar al servidor ' + data.status)
-    
-            }
           }
-        },
+        })
+      },
+
+      getDataCallBack: function (code, data) {
+
+      },
+
+      setData: function (data) {
+        // recibe la key de la tabla, campos y valores.
+
+      },
+
+      changeData: function (data) {
+        // recibe la key de la tabla, campos y valores. (id del registro)
+      },
+
+      deleteData: function (data) {
+        // recibe la key de la tabla, campos y valores. (id del registro)
+      },
+
+      ajaxStatusCode: function (data) {
+        if (data.responseJSON) {
+          toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ');
+        } else {
+          if (data.status == 205) {
+            toastr.error('No hemos encontrado resultados para tu solicitud')
+          } else if (data.status == 405) {
+
+            toastr.warning('Ruta de WS no encontrada. Estatus: ' + data.status)
+
+          } else if (data.status == 205) {
+            toastr.error('Error al conectar al servidor ' + data.status)
+
+          } else {
+            toastr.error('Error al conectar al servidor ' + data.status)
+
+          }
+        }
+      },
 
       login: function (callBack, msgs) {
         $.ajax({
@@ -267,24 +253,23 @@
             key: _app.inf.key,
             username: _user.username,
             password: _user.password
-              },
+          },
           type: 'POST',
           dataType: 'json',
 
           success: function (data) {
             _session.dateLastStatus = data.data.fecha[0]['now()']
-            _session.token = data.data.token 
-            _session.type =  'development'   
+            _session.token = data.data.token
+            _session.type = 'development'
             _session.status = 'active'
-            console.log(_session)
+            console.log(data)
             session.saveSession(session.isLocal())
-           // callBack(data)
+            // callBack(data)
           },
           error: function (data) {
             console.log(data)
             //callBack(data)
-            if(msgs)
-            {
+            if (msgs) {
               api.ajaxStatusCode(data)
             }
           }
@@ -294,16 +279,14 @@
     }
     //#endregion
 
-     //#region [USER CONTROLLER]
-     var user = {
-      setUser:  function(username, password)
-      {
+    //#region [USER CONTROLLER]
+    var user = {
+      setUser: function (username, password) {
         _user.username = username,
-        _user.password = password
+          _user.password = password
       },
 
-      getUser: function()
-      {
+      getUser: function () {
         _user.password = 'XXXXXXXXXXXXXX'
         return _user
       }
@@ -312,7 +295,69 @@
 
     //#region [ROUTER CONTROLLER]
     var router = {
-      // TODO
+
+      findMenu: function (callBack) {
+        api.getData('router/getMenu', undefined,
+          function (data) {
+            console.log(data)
+            if (data.status == 'empty') {
+              toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
+            } else if (data.status == 'success') {
+              _router.menus = data.data
+              callBack(_router.menus)
+            }
+          },
+          function (data) {
+            console.log('error ->', data)
+          }
+        )
+      },
+
+      getMenu: function () {
+        return _router.menus
+      },
+
+      getCurrentMenu: function () {
+        return _router.current
+      },
+
+      findMenuContent: function (id, success, error) {
+        api.getData('router/getContent',
+        {
+           id_menu: id
+        },
+        function (data) {
+            console.log(data)
+            if (data.status == 'empty') {
+              toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
+            } else if (data.status == 'success') {
+              var menu = data.data[0]
+              _router.current.menu.id = id,
+              _router.current.menu.name = menu.name,
+              _router.current.menu.title = menu.title,
+              _router.current.menu.desc = menu.title_desc
+              _router.current.menu.url = menu.url
+              _router.current.menu.ico = menu.icon
+              _router.current.module.name = menu.m_name
+              _router.current.module.id = menu.m_id
+                          
+              success(_router.current)
+            }
+        },
+
+        function (data) {
+          error(data)
+            console.log('error ->', data)
+          }
+        )
+      },
+
+      setIdMenu: function(id){
+        if(Number(id)){
+          _router.current.menu.id = id
+          return true
+        }  
+      }
     }
     //#endregion
 
@@ -338,25 +383,22 @@
         return _app.inf.id
       },
 
-      initialize: function (data) {
+      initialize: function (data, callBack) {
         try {
-          
-          var newConfig = {
-            id: data.id,
-            name: data.name,
-            logo: data.logo,
-            key: data.key
-          }
-          _app.inf = newConfig
-          console.warn(signature + ' configurado para [' + _app.inf.name + ']')
 
+          _app.inf = data
+          // hacer un getData para verificar si este usuario tiene un key para esta app
+          //en este punto el usuario ya se ha logeado.
+          _app.inf.key = 'uyt15sxcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rr87859'
+          console.warn(signature + ' configurado para [' + _app.inf.name + ']')
           setTimeout(function () {
             $('#preloader').show()
             $('#loading').hide()
-            }, 1500)
+            callBack()
+          }, 1500)
 
         } catch (error) {
-          console.error(signature + 'Configuración no valia. \n objeto no valido ::', this.data)
+          console.error(signature, error, 'Configuración no valia. \n objeto no valido ::', this.data)
         }
       }
 

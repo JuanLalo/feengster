@@ -9,12 +9,20 @@ use Illuminate\Support\Facades\Hash;
 class Q_Api {
 
 static function selectBD($key)
-        {
+{
         $query = "SELECT bd FROM licenses where 
                       key_ = ? Limit 1";
         $res =  DB::select($query, [$key]);
         return $res[0]->bd;
-        }
+}
+
+static function appId($key)
+{
+        $query = "SELECT app_id FROM licenses where 
+                      key_ = ? Limit 1";
+        $res =  DB::select($query, [$key]);
+        return $res[0]->app_id;
+}
 
 
 static function getData($bd, $data)
@@ -168,8 +176,6 @@ static function getData($bd, $data)
                
                   }     
                 }
-                
-
 }
 
 

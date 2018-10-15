@@ -29,7 +29,7 @@ class RouterController extends Controller
                  $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
-                       $res = Router_Q::selectMenu($bd, $data['app'] );
+                       $res = Router_Q::selectMenu($bd, Q_Api::appId($data['key']));
                        if (empty($res))
                        {
                             $response = ["status" => "empty", "message" => "No se econtraró menú asignado", "data"=> $res];
@@ -84,7 +84,7 @@ class RouterController extends Controller
                     if($isToken == 'true')
                     {
                         
-                       $res = Router_Q::selectContent($bd, $data['token'], $data['id_menu']);
+                       $res = Router_Q::selectContent($bd, $data['token'], $data['data']['id_menu']);
                        if (empty($res))
                        {
                             $response = ["status" => "empty", "message" => "No tiene permiso para ingresar a este contenido", "data"=> $res];

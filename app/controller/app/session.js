@@ -53,7 +53,7 @@ function run_()
             $('#app_name').html(config.app.name)
             $('#company_name').html(user.company[0].company)
             if(config.app.app_id != 9){
-                getMenu()
+                //getMenu()
             }
          //   getNotifications()
         }

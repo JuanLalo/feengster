@@ -44,3 +44,28 @@ config = {
                 ico: "home"           
             }
     }
+
+      $f.app.initialize(
+        {
+            id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
+            name: 'Lab',
+            logo: 'LOGO-LAB-LIGHT.PNG',
+            key: undefined,
+        },
+        ready
+     )
+
+
+     function ready(){
+        user = getStorage('userdata', true)
+        reloadImgProfile()
+        $('.user_name').html(user[0].username)
+        $('.user_role').html('Administrador')
+
+        $f.router.findMenu(
+          //CallBack
+            printMenu
+        )
+        
+
+     }

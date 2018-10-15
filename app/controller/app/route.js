@@ -2,12 +2,9 @@
 var module = {}
 
 
-$(document).ready(function () {
-    main()
-});
 
 function main() {
-    mostrarContenido(
+    printContent(
         null,
         config.main_page.name_module,
         config.main_page.tittle,
@@ -22,7 +19,7 @@ $('.inicio').click(function () {
 });
 
 function verPerfil() {
-    mostrarContenido(
+    printContent(
         null,
         'Perfil',
         'Perfil de Usuario',
@@ -38,54 +35,34 @@ function verPerfil() {
 function obtenerContenido(id) 
 {
     loadContent()
-
-    $.ajax({
-        url: config.app.core_path + "router/getContent",
-        data: {
-            key: getStorage('key', false),
-            token: getStorage('token', false),
-            id_menu: id
-        },
-        type: 'POST',
-        dataType: 'json',
-
-        success: function (response) {
-            mostrarContenido(
-                id,
-                response.data[0].module.toUpperCase(),
-                response.data[0].title,
-                response.data[0].title_desc,
-                response.data[0].url,
-                response.data[0].icon
-            )
-        },
-        error: function (response) {
-            goBack()
-            ajaxFail(response)
-        }
-    })
-
+    $f.router.findMenuContent(
+             id,
+             function(data){
+                printContent(data)
+            },
+            function(data){
+                   goBack()
+                   ajaxFail(data)
+            }
+    )
 }
 
 
 
 
 
-function mostrarContenido(id_menu, nombre, titulo, desc, url, ico) {
-    module.id_menu = id_menu
-    module.nombre = nombre
-    module.titulo = titulo
+function printContent(data) {
+ 
+
     $('.content-header').show()
-    $('#nombre_modulo').html(nombre);
-    $('#tittle').html(titulo);
-    $('#tittle_desc').html(desc);
-    $('#ico_content').html(ico);
-    $('#main_content').html('');
+    $('#nombre_modulo').html(data.module.name.toUpperCase())
+    $('#tittle').html(data.menu.title);
+    $('#tittle_desc').html(data.menu.desc);
+    $('#ico_content').html(data.menu.ico);
 
-    $.get(config.app.files_path + url, function (data) {
-        $('#main_content').html(data);
-
-        //lobipanel
+    $.get(config.app.files_path + data.menu.url,
+         function (data) {
+        $('#main_content').html(data)
         $('.lobidrag').lobiPanel({
             sortable: true,
 
@@ -103,15 +80,11 @@ function mostrarContenido(id_menu, nombre, titulo, desc, url, ico) {
                 icon: 'ti-fullscreen',
                 icon2: 'ti-fullscreen'
             }
-        });
+        })
 
     });
 
 
-}
-
-function completar(filtro) {
-    alert(filtro)
 }
 
 

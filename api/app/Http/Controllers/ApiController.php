@@ -17,8 +17,8 @@ class ApiController extends Controller
   
     public function getData(Request $request)
     {
-        //  try
-        //      {
+         try
+             {
                 $data = $request->all();
                 $isKey = Q_Api::isKey($data['key']);
                 if($isKey == 'true'){
@@ -40,11 +40,11 @@ class ApiController extends Controller
             
                 }
               
-        // } catch (\Exception $e) {
-        //     Log::error($e);
-        //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
-        //     $code = 500;
-        // }
+        } catch (\Exception $e) {
+            Log::error($e);
+            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
+            $code = 500;
+        }
 
         return response()->json($response, $code);
 
@@ -213,8 +213,8 @@ class ApiController extends Controller
     public function smartGetData(Request $request)
     {
      
-    //   try
-    //       {
+      try
+          {
           
             if (!empty($request->all()))
             {
@@ -261,11 +261,11 @@ class ApiController extends Controller
             }
   
             
-    // } catch (\Exception $e) {
-    //     Log::error($e);
-    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-    //     $code = 400;
-    // }
+    } catch (\Exception $e) {
+        Log::error($e);
+        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+        $code = 400;
+    }
 
   
         return response()->json($response, $code);

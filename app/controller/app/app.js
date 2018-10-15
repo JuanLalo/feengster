@@ -1,93 +1,14 @@
 
-$(document).ready(function () 
-{
-    //$fg
-    $f.app.initialize(
-        {
-            id: config.app.app_id,
-            name: config.app.name,
-            logo: "",
-            key: config.licence.key_,
-        }
-    )
 
-
-    user = getStorage('userdata', true)
-    reloadImgProfile()
-    $('.user_name').html(user[0].username)
-    $('.user_role').html('Administrador')
-
-    
-})
-
-function reloadImgProfile()
-{
+function reloadImgProfile() {
     if (user[0].img == '0') {
         $('.user_img').attr('src', '../assets/dist/img/perfil.png')
-    }
-    else {
+    } else {
         $('.user_img').attr('src', user[0].img)
     }
 }
 
-function getMenu()
- {
-//Se ha incluido el pase de metodos como parametro y se queda
-// como estandar el success y error. Si error no está definido poner por default el de api.ajaxStatusCode
-
-    $f.api.getData('router/getMenu', {app: $f.app.getAppId()},
-        function (response){
-               console.log('success ->',data)
-               if (response.status == 'empty') {
-                            toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
-                            ifempty(response)
-                            $('.loadMenu').hide()
-                        }
-                        else {
-                            if (response.status == 'success') {
-                                printMenu(response.data)
-                            }
-                        }
-             },
-        function (data)
-             {
-             console.log('error ->', data)
-             }
-    )
-    
-    // $.ajax({
-    //     url: config.app.core_path + "router/getMenu",
-    //     data: {
-    //         key: getStorage('key', false),
-    //         token: getStorage('token', false),
-    //         app: config.app.app_id
-    //     },
-    //     type: 'POST',
-    //     dataType: 'json',
-
-    //     success: function (response) {
-    //         if (response.status == 'empty') {
-    //             toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
-    //             ifempty(response)
-    //             $('.loadMenu').hide()
-    //         }
-    //         else {
-    //             if (response.status == 'success') {
-    //                 printMenu(response.data)
-    //             }
-    //         }
-    //     },
-    //     error: function (response) {
-    //         ajaxFail(response)
-    //     },
-    //     complate: function (response) {
-    //     }
-    // })
-}
-
-
-function printMenu(menu)
- {
+function printMenu(menu) {
     htmlmenu = ''
     current = menu[0].module
     htmlmenu += `<li><a href="#" class="material-ripple"><i class="material-icons"> ${menu[0].icon}</i> ${current}<span class="fa arrow"></span></a><ul class="nav nav-second-level">`
@@ -95,8 +16,7 @@ function printMenu(menu)
         if (menu[i].print == 1) {
             if (menu[i].module == current) {
                 htmlmenu += `<li ><a  onclick="${menu[i].function_}" >${menu[i].name}</a></li>`
-            }
-            else {
+            } else {
                 htmlmenu += `</ul></li>`
                 current = menu[i].module
                 htmlmenu += `<li><a href="#" class="material-ripple"><i class="material-icons">  ${menu[i].icon}</i> ${current}<span class="fa arrow"></span></a><ul class="nav nav-second-level">`
@@ -110,46 +30,38 @@ function printMenu(menu)
     $('.loadMenu').hide()
     $('#side-menu').metisMenu();
 
+
 }
 
+// migrando a $FG
+// function ajaxFail(data) {
+//     if (data.responseJSON) {
+//         toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ')
+
+//         if (data.status == 403) {
+//             code403()
+//         }
+//         if (data.status == 401) {
+//             code401()
+//         }
 
 
-function ajaxFail(data) {
-    if (data.responseJSON) {
-        toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ')
+//     } else {
+//         toastr.error('Error al conectar al servidor')
+//     }
+// }
 
-        if (data.status == 403) {
-            code403()
-        }
-        if (data.status == 401) {
-            code401()
-        }
+// function code403() { //  403 
+//     toastr.info('No tiene para realizar esta petición')
+// }
 
+// function code401() { // 401 no autorizado
+//     console.log('código 401 No autorizado, se cerrrará la sesión!')
+//     logout()
+// }
 
-    } else {
-        toastr.error('Error al conectar al servidor')
-    }
-}
-
-function code403() { //  403 
-    toastr.info('No tiene para realizar esta petición')
-}
-
-function code401() { // 401 no autorizado
-    console.log('código 401 No autorizado, se cerrrará la sesión!')
-    logout()
-}
-
-function loadScript(url) {
-    $.getScript(config.app.files_path + url, function () {
-        console.log('cargado ', config.app.files_path + url)
-    })
-}
-
-
-
-
-
-
-
-
+// function loadScript(url) {
+//     $.getScript(config.app.files_path + url, function () {
+//         console.log('cargado ', config.app.files_path + url)
+//     })
+// }
