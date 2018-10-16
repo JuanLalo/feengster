@@ -33,7 +33,7 @@
       static: {
         files_path: '../',
         core_path: 'http://localhost:82/feengster/api/public/',
-        main_url: 'inicio.html',
+        main_url: 'localhost:82/feengster/app/lab/?#mainPage',
         login_url: '../',
         url_lock: ''
       }
@@ -332,9 +332,9 @@
               toastr.info('Consulte con su provedor, por qué no tiene menú asignado')
             } else if (data.status == 'success') {
               var menu = data.data[0]
-              _router.current.menu.id = id,
-              _router.current.menu.name = menu.name,
-              _router.current.menu.title = menu.title,
+              _router.current.menu.id = id
+              _router.current.menu.name = menu.name
+              _router.current.menu.title = menu.title
               _router.current.menu.desc = menu.title_desc
               _router.current.menu.url = menu.url
               _router.current.menu.ico = menu.icon
@@ -382,20 +382,30 @@
       getAppId: function () {
         return _app.inf.id
       },
+      getFilesPath: function () {
+        return _app.static.files_path
+      },
 
-      initialize: function (data, callBack) {
+      initialize: function (appData, mainPage, callBack) {
         try {
 
-          _app.inf = data
+          _app.inf = appData
+          _router.current.menu.id = mainPage.id
+          _router.current.menu.name = mainPage.name
+          _router.current.menu.title = mainPage.title
+          _router.current.menu.desc = mainPage.desc
+          _router.current.menu.url = mainPage.url
+          _router.current.menu.ico = mainPage.icon
+          _router.current.module.name = mainPage.m_name
+          _router.current.module.id = mainPage.m_id
+
+          document.title = 'Feengster ' + _app.inf.name
+
           // hacer un getData para verificar si este usuario tiene un key para esta app
           //en este punto el usuario ya se ha logeado.
           _app.inf.key = 'uyt15sxcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rr87859'
           console.warn(signature + ' configurado para [' + _app.inf.name + ']')
-          setTimeout(function () {
-            $('#preloader').show()
-            $('#loading').hide()
-            callBack()
-          }, 1500)
+          callBack()
 
         } catch (error) {
           console.error(signature, error, 'Configuración no valia. \n objeto no valido ::', this.data)

@@ -3,20 +3,6 @@ var module = {}
 
 
 
-function main() {
-    printContent(
-        null,
-        config.main_page.name_module,
-        config.main_page.tittle,
-        config.main_page.desc,
-        config.main_page.url,
-        config.main_page.ico
-    )
-}
-
-$('.inicio').click(function () {
-    main()
-});
 
 function verPerfil() {
     printContent(
@@ -60,7 +46,7 @@ function printContent(data) {
     $('#tittle_desc').html(data.menu.desc);
     $('#ico_content').html(data.menu.ico);
 
-    $.get(config.app.files_path + data.menu.url,
+    $.get($f.app.getFilesPath() + data.menu.url,
          function (data) {
         $('#main_content').html(data)
         $('.lobidrag').lobiPanel({

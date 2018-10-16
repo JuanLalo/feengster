@@ -1,4 +1,7 @@
 
+ $('.inicio').click(function () {
+    main()
+});
 
 function reloadImgProfile() {
     if (user[0].img == '0') {

@@ -9,29 +9,29 @@ Controlador principal de la sesión del usuario actual.
 
 $(document).ready(function () 
 {
-    if(config.app.app_id == 0)
-    {
-        if (isSession())
-        {
-            window.location.href = config.app.main_url
-        }
-        else
-        {
-            document.title = config.app.name
-        }
-        isDemo()
-    }
-    else
-    {
-        if (isSession())
-        {
-            run_()
-        }
-        else
-        { 
-            logout()
-        }
-    }    
+    // if(config.app.app_id == 0)
+    // {
+    //     if (isSession())
+    //     {
+    //         window.location.href = config.app.main_url
+    //     }
+    //     else
+    //     {
+    //         document.title = config.app.name
+    //     }
+    //     isDemo()
+    // }
+    // else
+    // {
+    //     if (isSession())
+    //     {
+    //        // run_()
+    //     }
+    //     else
+    //     { 
+    //         logout()
+    //     }
+    // }    
 })
 
 
