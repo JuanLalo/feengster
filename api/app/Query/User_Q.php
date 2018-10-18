@@ -39,7 +39,7 @@ static function isToken($bd, $token)
 
 }
 
-static function selectProfile($bd, $id_user)
+static function selectCuenta($bd, $id_user)
         {
                 $query = "SELECT * from user_profile WHERE
                         id_user = ? ";
@@ -59,10 +59,12 @@ static function selectByApiEmail($bd, $email)
                 return $res;
         }
 
-static function login($bd, $data)
+static function login($bd, $data, $type)
         {
+     
         $query = "SELECT * from users 
-             WHERE username = ? ";
+             WHERE name = ? ";
+
         return DB::select($query, [$data]);
 }
 

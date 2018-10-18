@@ -44,7 +44,8 @@ $f.app.initialize({
     ready() función que se ejecuta una vez el framework ($f) valida licencia, token
     y configuración de la app.
 */
-function ready() {
+ 
+ function ready() {
 
     setTimeout(function () {
         $('#preloader').show()
@@ -53,10 +54,10 @@ function ready() {
         /*
             Se immprime el header
         */
-        user = getStorage('userdata', true)
-        reloadImgProfile()
-        $('.user_name').html(user[0].username)
-        $('.user_role').html('Administrador')
+        // user = getStorage('userdata', true)
+        // reloadImgProfile()
+        // $('.user_name').html(user[0].username)
+        // $('.user_role').html('Administrador')
 
         /*
             Se immprime el menú lateral, aspiganado al usuario

@@ -17,12 +17,12 @@
 
 (function () {
   "use strict"
-  var signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
+  const signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
 
-  var run = function () {
+  const run = function () {
 
     //#region [PRIVATE]
-    var _app = {
+    const _app = {
       inf: {
         id: undefined,
         name: undefined,
@@ -39,7 +39,8 @@
       }
     }
 
-    var _user = {
+    const _user = {
+      id_user: undefined,
       username: undefined,
       password: undefined,
       name: undefined,
@@ -50,14 +51,14 @@
 
     }
 
-    var _session = {
+    const _session = {
       token: '1',
       status: 'non-existent', //non-existent, active, lock
       type: 'development', // development, demo, work
       dateLastStatus: null
     }
 
-    var _router = {
+    const _router = {
       current: 
       {
         module: {
@@ -78,21 +79,18 @@
       menus: {}
 
     }
-    var _forms = {
+    const _forms = {
 
     }
 
-    var _notify = {
+    const _notify = {
 
     }
     //#endregion
 
     //#region [SESSION CONFIGURATION]
-    var session = {
-      login: function (callBack, msgs = true) {
-        api.login(callBack, msgs)
-      },
-
+    const session = {
+    
       realoadSession: function () {
         if (this.isLocal()) {
           _session = JSON.parse(localStorage.getItem('_FG_SESSION_'))
@@ -132,8 +130,9 @@
       logout: function () {
         toastr.warning('Cerrando sesión...')
         setTimeout(function () {
-            localStorage.clear();
-            window.location.href = _app.static.login_urls
+            localStorage.clear()
+            sessionStorage.clear()
+            window.location.href = _app.static.login_url
           },
           1000)
       },
@@ -186,7 +185,7 @@
 
 
     //#region [API CONTROLLER]
-    var api = {
+    const api = {
       getData: function (url, data, success, error) {
         $.ajax({
           url: _app.static.core_path + url,
@@ -201,9 +200,11 @@
             success(data)
           },
           error: function (data) {
-            error(data)
-            api.ajaxStatusCode(data)
-
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
 
           }
         })
@@ -227,74 +228,48 @@
       },
 
       ajaxStatusCode: function (data) {
+        
         if (data.responseJSON) {
-          toastr.error(data.responseJSON.message + '<br>' + data.statusText + ' (' + data.status + ') ');
+          toastr.error(data.statusText + ' (' + data.status + ') ', data.responseJSON.message);
+
         } else {
           if (data.status == 205) {
-            toastr.error('No hemos encontrado resultados para tu solicitud')
+            toastr.error('No hemos encontrado resultados para tu solicitud', '');
+
+            toastr.error()
           } else if (data.status == 405) {
 
-            toastr.warning('Ruta de WS no encontrada. Estatus: ' + data.status)
+            toastr.warning('Ruta de WS no encontrada', ' Estatus: ' + data.status)
 
           } else if (data.status == 205) {
-            toastr.error('Error al conectar al servidor ' + data.status)
+            toastr.error('Error al conectar al servidor ' , data.status)
 
           } else {
-            toastr.error('Error al conectar al servidor ' + data.status)
+            toastr.error('Error al conectar al servidor ' ,  data.status)
 
           }
         }
-      },
-
-      login: function (callBack, msgs) {
-        $.ajax({
-          url: config.app.core_path + "login",
-          data: {
-            key: _app.inf.key,
-            username: _user.username,
-            password: _user.password
-          },
-          type: 'POST',
-          dataType: 'json',
-
-          success: function (data) {
-            _session.dateLastStatus = data.data.fecha[0]['now()']
-            _session.token = data.data.token
-            _session.type = 'development'
-            _session.status = 'active'
-            console.log(data)
-            session.saveSession(session.isLocal())
-            // callBack(data)
-          },
-          error: function (data) {
-            console.log(data)
-            //callBack(data)
-            if (msgs) {
-              api.ajaxStatusCode(data)
-            }
-          }
-        })
       }
 
     }
     //#endregion
 
     //#region [USER CONTROLLER]
-    var user = {
-      setUser: function (username, password) {
-        _user.username = username,
-          _user.password = password
-      },
-
+    const user = {
       getUser: function () {
         _user.password = 'XXXXXXXXXXXXXX'
         return _user
+      },
+
+      getUserId: function()
+      {
+        return _user.id_user
       }
     }
     //#endregion
 
     //#region [ROUTER CONTROLLER]
-    var router = {
+    const router = {
 
       findMenu: function (callBack) {
         api.getData('router/getMenu', undefined,
@@ -362,20 +337,20 @@
     //#endregion
 
     //#region [FORMS CONTROLLER]
-    var forms = {
+    const forms = {
       // TODO
     }
     //#endregion
 
     //#region [NOTIFICATIONS TROLLERTION]
-    var notify = {
+    const notify = {
       // TODO
 
     }
     //#endregion
 
     //#region  [MAIN CONTROLLER]
-    var app = {
+    const app = {
       getConfig: function () {
         return _app
       },
@@ -415,7 +390,7 @@
     }
     //#endregion
 
-    var $feengster = {
+    const $feengster = {
       //object router
       user: user,
       app: app,

@@ -55,7 +55,7 @@ class UserController extends Controller
                 $isKey = Q_Api::isKey($data['key']);
                 $bd = Q_Api::selectBD($data['key']);
                 if($isKey == 'true'){
-                $res = User_Q::login($bd, $data['username']);
+                $res = User_Q::login($bd, $data['username'], $data['user'], "name");
                 if (empty($res)){
                     $response = ["status" => "empty", "message" => "Nombre de usuario no encontrado", "data"=> []];
                     $code = 200;
@@ -80,7 +80,7 @@ class UserController extends Controller
                            $res['token'] =  '1';
                            $res['fecha'] =  DB::select('select now()');
 
-                           $response = ["status" => "suuccess", "message" => "Logeado con éxito", "data" => $res];
+                           $response = ["status" => "success", "message" => "Logeado con éxito", "data" => $res];
                            $code = 200;
                            
                            Log::info('login...', $data);
@@ -118,9 +118,18 @@ class UserController extends Controller
       
                 
         } catch (\Exception $e) {
-            Log::error($e);
-            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-            $code = 400;
+            if(env('APP_ENV') == 'production' )
+            {
+                Log::error($e);
+
+                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
+                $code = 400;
+            }
+            else
+            {
+                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
+                $code = 400;
+            }
         }
 
         return response()->json($response, $code);
@@ -178,7 +187,7 @@ class UserController extends Controller
     }
 
 
-    public function getProfile(Request $request)
+    public function getCuenta(Request $request)
     {
         
         try
@@ -193,16 +202,17 @@ class UserController extends Controller
                     $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
-                      $res = User_Q::selectProfile($bd, $data['id_user']);    
+                      $res = User_Q::selectCuenta($bd, $data['data']['id_user']);    
                       if (empty($res))
                        {
-                        $response = ["status" => "empty", "message" => "No se llenado su perfil", "data"=> []];
+                        $response = ["status" => "empty", "message" => "No pudimos encontrar información de su cuenta", "data"=> []];
                         $code = 204;
-                        Log::warning('Menu no encntrado', $data);
-                      }else
+                        Log::warning('No se encontró información de la cunta', $data);
+                      }
+                      else
                       {
                    
-                        $response = ["status" => "success", "message" => "Obteniendo perfil...", "data" => $res];
+                        $response = ["status" => "success", "message" => "Obteniendo datos de la cuenta...", "data" => $res];
                         $code = 200;
                      }
                    }else
@@ -231,9 +241,19 @@ class UserController extends Controller
       
                 
         } catch (\Exception $e) {
-            Log::error($e);
-            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
-            $code = 400;
+            if(env('APP_ENV') == 'production' )
+            {
+                Log::error($e);
+
+                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
+                $code = 400;
+            }
+            else
+            {
+                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
+                $code = 400;
+            }
+
         }
 
         return response()->json($response, $code);
