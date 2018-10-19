@@ -112,12 +112,12 @@
 
                         <div class="row">
                             <div class="form-group">
-                                <label class="control-label">Nombre de usuario</label>
+                                <label class="control-label">Nombre de usuario, telefono o tu email</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="glyphicon glyphicon-user"></i>
                                     </span>
-                                    <input id="username" type="text" class="form-control" name="email" placeholder="Username">
+                                    <input id="username" type="text" class="form-control" name="email" placeholder="Cualquier data de acceso">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -126,7 +126,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-key"></i>
                                     </span>
-                                    <input id="pass" type="password" class="form-control" name="password" placeholder="******">
+                                    <input id="pass" type="password" class="form-control" name="password" placeholder="**********">
                                 </div>
                             </div>
                             <div>
@@ -175,7 +175,7 @@
         input.addEventListener("keyup", function (event) {
             event.preventDefault();
             if (event.keyCode === 13) {
-                login()
+                $('.btn_login').click()
             }
         });
 

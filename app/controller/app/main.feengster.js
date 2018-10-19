@@ -51,7 +51,7 @@
 
     }
 
-    const _session = {
+    let _session = {
       token: '1',
       status: 'non-existent', //non-existent, active, lock
       type: 'development', // development, demo, work
@@ -184,7 +184,7 @@
     //#endregion
 
 
-    //#region [API CONTROLLER]
+    //#region [API CONTROLLER]r
     const api = {
       getData: function (url, data, success, error) {
         $.ajax({
@@ -211,7 +211,7 @@
       },
 
       getDataCallBack: function (code, data) {
-
+        //TODO
       },
 
       setData: function (data) {
@@ -364,6 +364,22 @@
       initialize: function (appData, mainPage, callBack) {
         try {
 
+          if (localStorage.getItem('_FG_SESSION_') !== null && sessionStorage.getItem('_FG_SESSION_') == null)
+          {
+              _session = JSON.parse(localStorage.getItem('_FG_SESSION_'))
+
+          }
+           else if (localStorage.getItem('_FG_SESSION_') == null && sessionStorage.getItem('_FG_SESSION_') !== null) 
+          {
+             _session = JSON.parse(sessionStorage.getItem('_FG_SESSION_'))
+          }
+          else
+          {
+            window.location.href = '../'
+          }
+       
+         if (_session.status == 'active') {
+            
           _app.inf = appData
           _router.current.menu.id = mainPage.id
           _router.current.menu.name = mainPage.name
@@ -378,10 +394,11 @@
 
           // hacer un getData para verificar si este usuario tiene un key para esta app
           //en este punto el usuario ya se ha logeado.
-          _app.inf.key = 'uyt15sxcU9ibPmAYuscl4Nrs19kFELFrGQuXMXYjy9GH6M3bhRn2rr87859'
+          _app.inf.key = ''
           console.warn(signature + ' configurado para [' + _app.inf.name + ']')
           callBack()
-
+            
+          }
         } catch (error) {
           console.error(signature, error, 'Configuración no valia. \n objeto no valido ::', this.data)
         }

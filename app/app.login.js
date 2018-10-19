@@ -18,29 +18,43 @@
 
 (function () {
     "use strict"
-    var signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
+    const signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
 
-    var run = function(){
-        var _user =
+    const run = function(){
+        const _user =
             {
                 user: undefined,
-                pass: undefined
+                pass: undefined,
+                type: undefined
             },
+
+            _app = 
+                {
+                    key : 'WER5serJHADFSJKrwer48ybteertetrw892348UKUJBewweSDFSbvnka454'
+                }
            
-            _session = {
+          let _session = {
                 token: '1',
                 status: 'non-existent', //non-existent, active, lock
                 type: 'development', // development, demo, work
                 dateLastStatus: undefined
             }
 
-        var user = 
+        const user = 
             {
               setUser: function (user, pass) {
                 _user.user = user
                 _user.pass = pass
-                }
             },
+
+            setLoginMethod: function(type){
+                _user.type = type
+            },
+           
+            getUser: function (){
+                    return _user.user
+            }
+        },
         session = 
             {
                 authenticated: function () {
@@ -55,16 +69,20 @@
                 $.ajax({
                 url: 'http://localhost:82/feengster/api/public/login',
                 data: {
-                key: 'WER5serJHADFSJKrwer48ybteertetrw892348UKUJBewweSDFSbvnka454',
-                user: _user.user,
-                password: _user.pass
-                },
+                     key: _app.key,
+                     user: _user.user,
+                     password: _user.pass,
+                     type: _user.type
+                   },
                 type: 'POST',
                 dataType: 'json',
              success: function (data) {
                  console.log(data)
                 if (data.status == 'empty') {
-                    ifempty(data)
+                    toastr.warning(data.message, 'Inaccesible' )  
+                    $('.btn_login').html('<i class="fa fa-circle-o-notch "></i> Iniciar Sesión')
+                    $('.btn_login').prop('disabled', false); 
+
                 } else if (data.status == 'success') {
                         
                         _session.dateLastStatus = data.data.fecha[0]['now()']
@@ -82,18 +100,18 @@
                         
                         }
                       
-                         window.location.href = 'main/'   
+                         window.location.href =  data.data.app_url;  
 
                     }
         
                 },
                 error: function (data) {
-                    // $('.btn_login').html('<i class="fa fa-circle-o-notch "></i> Iniciar Sesión')
-                    // $('.btn_login').prop('disabled', false);  
-                        console.log(data)
-            
-                        }
-                        })
+                    $('.btn_login').html('<i class="fa fa-circle-o-notch "></i> Iniciar Sesión')
+                    $('.btn_login').prop('disabled', false);  
+                    console.log(data)
+                    app.ajaxStatusCode(data)
+                     }                    
+                    })
                  }
             },
             app = {
@@ -116,7 +134,31 @@
                             }, 1500)
                        }
                       
-                }
+                },
+                
+                ajaxStatusCode: function (data) {
+        
+                    if (data.responseJSON) {
+                      toastr.error(data.statusText + ' (' + data.status + ') ', data.responseJSON.message);
+            
+                    } else {
+                      if (data.status == 205) {
+                        toastr.error('No hemos encontrado resultados para tu solicitud', '');
+            
+                        toastr.error()
+                      } else if (data.status == 405) {
+            
+                        toastr.warning('Ruta de WS no encontrada', ' Estatus: ' + data.status)
+            
+                      } else if (data.status == 205) {
+                        toastr.error('Error al conectar al servidor ' , data.status)
+            
+                      } else {
+                        toastr.error('Error al conectar al servidor ' ,  data.status)
+            
+                      }
+                    }
+                  }
             }
         
         var $feengster = {
@@ -141,6 +183,7 @@
  *  
  * Se inicia la aplicación  
  * */
+
 $f.app.initialize()
 
 
@@ -149,8 +192,28 @@ $('.btn_login').click(function(){
 
     $('.btn_login').html('<i class="fa fa-circle-o-notch fa-spin"></i>  Cargando...')
     $('.btn_login').prop('disabled', true)
-    
-    $f.user.setUser($('#username').val(), $('#pass').val())
+    let user = $('#username').val().trim()
+    let pass = $('#pass').val().trim()
+    let type = undefined
+
+    $f.user.setUser(user, pass)
+
+    if($.isNumeric($f.user.getUser()))
+    {
+        // #TODO validar que sea un número valido 
+        type = 'phone'
+    }else if(isEmail())
+    {
+             // #TODO validar que sea un emial valido 
+        type = 'email'
+    }
+        else
+    {
+        // #TODO validar el nombre de usuario
+        type = 'username'
+    }
+
+    $f.user.setLoginMethod(type)
     $f.session.login('j85pdf788mbt6yhp8ñpn89385jybfds89pp234jmknsfdpouuybg7iy895pi')
 })
 
@@ -163,3 +226,13 @@ $('.btn_login').click(function(){
 
 }
 
+
+function isEmail() 
+{
+ if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($f.user.getUser()))
+  {
+    return (true)
+  }
+
+   return (false)
+}

@@ -178,7 +178,7 @@ static function getData($bd, $data)
                 }
 }
 
-
+   // Actualiza dinamicamnete. Recibe cualquier objeto para realizar el update en cualquir tabla
 static function smartUpdate($bd, $table, $data)
 {
 
@@ -195,9 +195,7 @@ static function smartUpdate($bd, $table, $data)
            
         }
 
-        return $query;
-        
-       // return DB::insert($query, $data);
+       return DB::insert($query, $data);
 }
 
 static function smartInsert($bd, $table, $data)
@@ -207,23 +205,22 @@ static function smartInsert($bd, $table, $data)
         $p2 = "";
         $count = COUNT($data);
         foreach ($data as $key => $value) {
-           $p1.= " `{$key}`";
-           $p2 .= " ? ";
-           
-           $count--;
-           if($count > 0)
-           {
+          $p1.= " `{$key}`";
+          $p2 .= " ? ";
+          $count--;
+          if($count > 0)
+            {
                $p1 .=","; 
                $p2 .=","; 
-           }
+            }
+
         array_push($array, $value);
-         
         
         }
 
-       $query =  $p1.") VALUES (".$p2.")";
+        $query =  $p1.") VALUES (".$p2.")";
         
-       return DB::insert($query, $array);
+   return DB::insert($query, $array);
 }
 
 static function smarUpdate($bd, $table, $id, $data)

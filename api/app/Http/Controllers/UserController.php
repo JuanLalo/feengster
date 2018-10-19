@@ -47,15 +47,15 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        try
-            {
+        // try
+        //     {
             if (!empty($request->all()))
             {
                 $data = $request->all();
                 $isKey = Q_Api::isKey($data['key']);
-                $bd = Q_Api::selectBD($data['key']);
                 if($isKey == 'true'){
-                $res = User_Q::login($bd, $data['username'], $data['user'], "name");
+                    $bd = Q_Api::selectBD($data['key']);
+                    $res = User_Q::login($bd, $data['user'], $data['type']);
                 if (empty($res)){
                     $response = ["status" => "empty", "message" => "Nombre de usuario no encontrado", "data"=> []];
                     $code = 200;
@@ -71,14 +71,17 @@ class UserController extends Controller
                         // hacer otro metodo donde se regre en smart get
                            $res[0]->password = "oculto";
                            $res[0]->oldpassword = "oculto";
-                           $query = "select company from ".$bd.".cat_company c where c.id = ?";
-                           $res['company'] =  DB::select($query, [$res[0]->company_id]);
+                        //    $query = "select company from ".$bd.".cat_company c where c.id = ?";
+                        //    $res['company'] =  DB::select($query, [$res[0]->company_id]);
 
-                           $query = "SELECT  a.id 'app_id', a.url, a.name, l.key_ FROM ".$bd.".licenses l, ".$bd.".cat_apps a  where a.id = l.app_id and
-                           l.company_id = ? ";
-                           $res['apps'] =  DB::select($query, [$res[0]->company_id]);
+                        //    $query = "SELECT  a.id 'app_id', a.url, a.name, l.key_ FROM ".$bd.".licenses l, ".$bd.".cat_apps a  where a.id = l.app_id and
+                        //    l.company_id = ? ";
+                        //    $res['apps'] =  DB::select($query, [$res[0]->company_id]);
                            $res['token'] =  '1';
                            $res['fecha'] =  DB::select('select now()');
+
+                           // #TODO redirigir a la aplicación por default según el usuario.
+                           $res['app_url'] = "main/";
 
                            $response = ["status" => "success", "message" => "Logeado con éxito", "data" => $res];
                            $code = 200;
@@ -96,13 +99,16 @@ class UserController extends Controller
                     }
                     else
                     {
-                    $response = ["status" => "empty", "message" => "Contraseña incorrecta!", "data" => []];
+                    $response = ["status" => "empty", "message" => "¡Contraseña incorrecta!", "data" => []];
                     $code = 403;
                     Log::warning('login, password de usuario incorrecto', $data);
                     }
                 }
-                } else {
-                 $code = 403; // ok pero acceseo denagado
+                }
+                  else 
+                {
+                
+                $code = 403; // ok pero acceseo denagado
                 Log::alert($isKey);
                 $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
             
@@ -117,20 +123,20 @@ class UserController extends Controller
                 }
       
                 
-        } catch (\Exception $e) {
-            if(env('APP_ENV') == 'production' )
-            {
-                Log::error($e);
+        // } catch (\Exception $e) {
+        //     if(env('APP_ENV') == 'production' )
+        //     {
+        //         Log::error($e);
 
-                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
-                $code = 400;
-            }
-            else
-            {
-                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
-                $code = 400;
-            }
-        }
+        //         $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
+        //         $code = 400;
+        //     }
+        //     else
+        //     {
+        //         $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
+        //         $code = 400;
+        //     }
+        // }
 
         return response()->json($response, $code);
 

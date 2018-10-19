@@ -63,7 +63,7 @@ static function login($bd, $data, $type)
         {
      
         $query = "SELECT * from users 
-             WHERE name = ? ";
+             WHERE $type = ? ";
 
         return DB::select($query, [$data]);
 }

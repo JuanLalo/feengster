@@ -58,10 +58,10 @@
         /*
             Se immprime el header
         */
-        user = getStorage('userdata', true)
-        reloadImgProfile()
-        $('.user_name').html(user[0].username)
-        $('.user_role').html('Administrador')
+        // user = getStorage('userdata', true)
+        // reloadImgProfile()
+        // $('.user_name').html(user[0].username)
+        // $('.user_role').html('Administrador')
 
         /*
             Se immprime el menú lateral, aspiganado al usuario
@@ -88,3 +88,6 @@
      */
 
 }
+
+
+

@@ -80,6 +80,7 @@
 
 
  let  getAcount = function (){
+     
      $f.api.getData('user/getCuenta',
             {
                id_user: $f.user.getUserId()
