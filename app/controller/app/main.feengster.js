@@ -40,14 +40,20 @@
     }
 
     const _user = {
-      id_user: undefined,
-      username: undefined,
-      password: undefined,
-      name: undefined,
-      surnames: undefined,
-      email: undefined,
-      photo: undefined,
-      permission: undefined, // root, developer, tester, admin, agent, customer
+      birthdate:    undefined,
+      created_at:   undefined,
+      email:        undefined,
+      id:           undefined,
+      img:          _app.static.files_path + 'assets/dist/img/perfil.png',
+      name:         '',
+      oldpassword:  undefined,
+      password:     undefined,
+      phone:        undefined,
+      platform:     undefined,
+      status:       undefined,
+      surnames:     undefined,
+      updated_at:   undefined,
+      username:     undefined,
 
     }
 
@@ -90,6 +96,9 @@
 
     //#region [SESSION CONFIGURATION]
     const session = {
+      getSessionInformation: function () {
+        return _session
+      },
     
       realoadSession: function () {
         if (this.isLocal()) {
@@ -230,8 +239,14 @@
       ajaxStatusCode: function (data) {
         
         if (data.responseJSON) {
+          
+          if (data.status == 401) {
+            session.logout()
+          }
+            else
+          {
           toastr.error(data.statusText + ' (' + data.status + ') ', data.responseJSON.message);
-
+          }
         } else {
           if (data.status == 205) {
             toastr.error('No hemos encontrado resultados para tu solicitud', '');
@@ -241,7 +256,8 @@
 
             toastr.warning('Ruta de WS no encontrada', ' Estatus: ' + data.status)
 
-          } else if (data.status == 205) {
+          }  
+          else if (data.status == 205) {
             toastr.error('Error al conectar al servidor ' , data.status)
 
           } else {
@@ -256,8 +272,39 @@
 
     //#region [USER CONTROLLER]
     const user = {
+
+      getUserInformationFromApi: function(callBack)
+      {
+        api.getData('/user/getUserInformation',
+            null,  
+            function(data){
+              data = data.data
+              _user.birthdate =   data.birthdate
+              _user.created_at =  data.created_at
+              _user.email =       data.email
+              _user.id =          data.id
+              if(data.img != '' && data.img.length > 90)
+              {
+                _user.img =       data.img
+              }
+              _user.name =        data.name
+              _user.oldpassword = data.oldpassword
+              _user.password =    data.password
+              _user.phone =       data.phone
+              _user. platform =   data.platform
+              _user.status =      data.status
+              _user.surnames =    data.surnames
+              _user.updated_at =  data.updated_at
+              _user.username =    data.username
+              callBack()
+            }
+            , 
+            undefined
+          )
+      },
+
       getUser: function () {
-        _user.password = 'XXXXXXXXXXXXXX'
+
         return _user
       },
 
@@ -394,7 +441,12 @@
 
           // hacer un getData para verificar si este usuario tiene un key para esta app
           //en este punto el usuario ya se ha logeado.
-          _app.inf.key = ''
+          if(appData.key == undefined)
+          {
+            _app.inf.key = 'Buscar key...'
+        
+          }
+          // Obtenemos información de usario, verfificar si aquí es la major opción para su implementación
           console.warn(signature + ' configurado para [' + _app.inf.name + ']')
           callBack()
             

@@ -66,27 +66,44 @@ class UserController extends Controller
                    {
                        if($res[0]->status == 'ACTIVO')
                        {
+                        $query = 'INSERT INTO `logins` ( `id_user`, `platform`, `token`, `status`, `ip`, `city`, `explorer`) VALUES ( ?, ?, ?, ?, ?, ?, ?)';
 
-                        // quitar todos y dejar solo el token
-                        // hacer otro metodo donde se regre en smart get
-                           $res[0]->password = "oculto";
-                           $res[0]->oldpassword = "oculto";
-                        //    $query = "select company from ".$bd.".cat_company c where c.id = ?";
-                        //    $res['company'] =  DB::select($query, [$res[0]->company_id]);
+                        $new_token = str_random(25) . '$' . $res[0]->id . '-'. str_random(29);
+                        $ok = DB::insert($query,
+                         [
+                            $res[0]->id,
+                            'Web', // #TODO
+                            $new_token,
+                            1,
+                            '0.0.0.0',
+                            'León Gto',
+                            'Google Chrome'
+                         ]
+                         );
+                      
+                         if($ok){
 
-                        //    $query = "SELECT  a.id 'app_id', a.url, a.name, l.key_ FROM ".$bd.".licenses l, ".$bd.".cat_apps a  where a.id = l.app_id and
-                        //    l.company_id = ? ";
-                        //    $res['apps'] =  DB::select($query, [$res[0]->company_id]);
-                           $res['token'] =  '1';
-                           $res['fecha'] =  DB::select('select now()');
-
-                           // #TODO redirigir a la aplicación por default según el usuario.
-                           $res['app_url'] = "main/";
-
-                           $response = ["status" => "success", "message" => "Logeado con éxito", "data" => $res];
-                           $code = 200;
+                            $res[0]->password = "oculto";
+                            $res[0]->oldpassword = "oculto";
+                         
+                            $res['token'] =  $new_token;
+                            $res['fecha'] =  DB::select('select now()');
+ 
+                            // #TODO redirigir a la aplicación por default según el usuario.
+                            $res['app_url'] = "main/";
+ 
+                            $response = ["status" => "success", "message" => "Logeado con éxito", "data" => $res];
+                            $code = 200;
+                            
+                            Log::info('login...', $data);
+                         }
+                         else
+                         {
+                            $response = ["status" => "empty", "message" => "Ocurrió un error, vuelva a intentarlo por favor", "data"=> []];
+                            $code = 200;
+                            Log::warning('login, Error al crear token', $data);
+                         }
                            
-                           Log::info('login...', $data);
                            
                        }
                        else
@@ -193,76 +210,79 @@ class UserController extends Controller
     }
 
 
-    public function getCuenta(Request $request)
+    public function getUserInformation(Request $request)
     {
-        
         try
-            {
-            if (!empty($request->all()))
-            {
+        {
+         if (!empty($request->all()))
+             {
                 $data = $request->all();
                 $isKey = Q_Api::isKey($data['key']);
                 if($isKey == 'true')
                 {
-                    $bd = Q_Api::selectBD($data['key']);
-                    $isToken = User_Q::isToken($bd, $data['token']);
-                    if($isToken == 'true')
+                $bd = Q_Api::selectBD($data['key']);    
+                $isToken = User_Q::isToken($bd, $data['token']);
+                if($isToken == 'true')
+                {
+                    $res = User_Q::selectUserInformation($bd, User_Q::userId($data['token']));
+                    if (empty($res)){
+                       $response = ["status" => "empty", "message" => "No se encontró la información de usuario", "data"=> []];
+                       $code = 200;
+                       Log::warning('login, nombre de usuario incorrecto', $data);
+                    }
+                     else
                     {
-                      $res = User_Q::selectCuenta($bd, $data['data']['id_user']);    
-                      if (empty($res))
-                       {
-                        $response = ["status" => "empty", "message" => "No pudimos encontrar información de su cuenta", "data"=> []];
-                        $code = 204;
-                        Log::warning('No se encontró información de la cunta', $data);
-                      }
-                      else
-                      {
-                   
-                        $response = ["status" => "success", "message" => "Obteniendo datos de la cuenta...", "data" => $res];
-                        $code = 200;
-                     }
-                   }else
-                   {
-                       $code = 401; // FORBIDDEN	
-                       Log::alert($isToken);
-                      $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
-                   }
-
-              } else 
-              {
-                  $code = 401; // No autorizado
-                   Log::alert($isKey);
-                  $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
-                 
-              }
-            }
-            else
-            {
-                $code = 403; // ok pero acceseo denagado
-                Log::alert("acceso denagado request no es un json");
-                $response = ["status" => "unauthorized", "message" => "Acceso denegado", "deta" => []];
-            
+                        $res[0]->password = '** Hola genio :) **';
+                        $res[0]->oldpassword = '** Hola genio :) **';
+                       $response = ["status" => "success", "message" => "Obteniendo información de usuario", "data"=> $res[0]];
+                       $code = 200;
+                       Log::warning('login, nombre de usuario incorrecto', $data);
+                    }
                 }
-            
-      
+                else
+                {
+                   $code = 401; // FORBIDDEN	
+                   Log::alert($isToken);
+                       $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                }
                 
-        } catch (\Exception $e) {
-            if(env('APP_ENV') == 'production' )
+                 }
+                    else 
+                 {
+            
+                    $code = 403; // ok pero acceseo denagado
+                    Log::alert($isKey);
+                    $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+        
+                 }
+             }
+                else
+             {
+                 $code = 403; // ok pero acceseo denagado
+                 Log::alert("acceso denagado request no es un json", [$request]);
+                 $response = ["status" => "unauthorized", "message" => "Acceso denegado", "data" => []];
+        
+             }
+       
+        } 
+        
+          catch (\Exception $e)
             {
-                Log::error($e);
-
-                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
-                $code = 400;
+              if(env('APP_ENV') == 'production' )
+                {
+                 Log::error($e);
+                 $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => "Código de error XXXXX #TODO"];
+                 $code = 400;
+                }
+                 else
+                {
+                    $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
+                    $code = 400;
+                }
             }
-            else
-            {
-                $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
-                $code = 400;
-            }
 
-        }
-
-        return response()->json($response, $code);
+    return response()->json($response, $code);  
+      
 
     }
     

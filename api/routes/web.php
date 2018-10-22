@@ -45,7 +45,7 @@ WS genericos de acceso directo a escritura u lectura a BD´s
 $router->post('/user/getByType', ['uses' => 'UserController@getUsersByType']); // crear usuario
 $router->post('/user/create', ['uses' => 'UserController@createUser']); // crear usuario
 $router->post('/login', ['uses' => 'UserController@login']); // loginget
-$router->post('/user/getCuenta', ['uses' => 'UserController@getCuenta']); // login
+$router->post('/user/getUserInformation', ['uses' => 'UserController@getUserInformation']); // login
 $router->post('/user/getTeams', ['uses' => 'UserController@getTeams']); // login
 
 

@@ -24,26 +24,29 @@
         se inicializa la App.
         Se establecen datos de la app en la que se trabajará y configuración de pag. de inicio.
     */
-   $f.app.initialize(
-    {
-        id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
-        name: 'Panel',
-        logo: 'LOGO-LAB-LIGHT.PNG',
-        key: undefined,
-    },
-    {
-       id:       0,
-       name:    'Panel de control',
-       title:   'Panel de control',
-       desc:    'Aquí podrás administrar tus aplicaciones',
-       url:     'main/inicio.html',
-       icon:    'verified_user',
-       m_name:  'Panel de Control',
-       m_id:    0
-    }
-    ,
-    ready
- )
+
+$(document).ready(function(){
+    $f.app.initialize(
+        {
+            id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
+            name: 'Panel',
+            logo: 'LOGO-LAB-LIGHT.PNG',
+            key: 'POOLMUUJ78DFSJKrwer48ybteertetrw892348UKUJBewweSD5845kijnt',
+        },
+        {
+            id:       0,
+            name:    'Panel de control',
+            title:   'Panel de control',
+            desc:    'Aquí podrás administrar tus aplicaciones',
+            url:     'main/inicio.html',
+            icon:    'verified_user',
+            m_name:  'Panel de Control',
+            m_id:    0
+        }
+        ,
+         ready
+    )
+})
 
     /*
         ready() función que se ejecuta una vez el framework ($f) valida licencia, token
@@ -51,41 +54,64 @@
     */
    function ready() {
 
-    setTimeout(function () {
-        $('#preloader').show()
-        $('#loading').hide()
-
         /*
-            Se immprime el header
+            Efecto de preloadder...
         */
-        // user = getStorage('userdata', true)
-        // reloadImgProfile()
-        // $('.user_name').html(user[0].username)
-        // $('.user_role').html('Administrador')
 
-        /*
-            Se immprime el menú lateral, aspiganado al usuario
+       $f.user.getUserInformationFromApi(function(){
         
-        $f.router.findMenu(printMenu)
+        /**
+         * Efecto de preloader...
+         * Se immprime información de usuario en el header.
+         *  -> Foto de perfil
+         *  -> Opciones de usuario. 
+         */
+
+        reloadUserInformation()
         
-        */
-
-        /*
-            Se immprime la página de inicio
-        */
-
+        /**
+         * Efecto de preloader...
+         */
+        
         setTimeout(function () {
-            printContent($f.router.getCurrentMenu())
-        }, 1500)
+          
+          /**
+           * 
+           * Se detiene  efecto de preloader.
+           * 
+          */
+
+          $('#preloader').show()
+          $('#loading').hide()
+
+            
+          
+        /**
+         *  Se mandan a llmar los  demás componetes:
+         */
+         
+         /**
+          *  #TODO (hacer dinamico el menú del panel de control)
+          * Menú lateral asignado.
+          * 
+          */
+        
+            // $f.router.findMenu(printMenu)
+
+         /**
+          * 
+          * Página principal
+          * 
+          */
+        
+            setTimeout(function () {
+                printContent($f.router.getCurrentMenu())
+            }, 1500)
 
 
+        }, 1000)
 
-    }, 2000)
-
-    /*
-     [Firebase]
-        Se obtienen notificaciónes
-     */
+     })
 
 }
 

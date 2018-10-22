@@ -27,7 +27,7 @@
 
         // Abre la cuenta del usuario, donde se incluyen ajustes, perfil etc.
     $('.acount').click(function(){
-        getAcount()
+        // TODO
     })
 
         // Se ejecuta un log out, donde se borran las variables de sesión y se redirege a //app/index.html
@@ -79,30 +79,35 @@
  */
 
 
- let  getAcount = function (){
-     
-     $f.api.getData('user/getCuenta',
-            {
-               id_user: $f.user.getUserId()
-            },  
-            function(data){
-                console.log(data)
-                $('.userfullname').html(data.data[0].name + ' '+ data.data[0].surnames)
-             
-            }
-            , 
-            undefined 
-     )
-}
+ 
 
 
-let reloadImgProfile =  function()
+let reloadUserInformation =  function()
  {
-    if (user[0].img == '0') {
-        $('.user_img').attr('src', '../assets/dist/img/perfil.png')
-    } else {
-        $('.user_img').attr('src', user[0].img)
-    }
+    user = $f.user.getUser()
+
+     // Foto de perfíl
+     $('.user_img').attr('src', user.img)
+    
+     // Opciones de usuario, disponible, sólo para usuarios que se han logeado.
+     $('.user_options').html(
+        `
+        <li>
+        <a onclick='verPerfil(20)'>
+            <i class="ti-user"></i>&nbsp;${user.name} </a>
+        </li>
+        <li>
+        <a onclick='alert('Verificar si es necesario o se coloca en cuenta')'>
+            <i class="ti-settings"></i>&nbsp; Ajustes </a>
+        </li>
+        <li>
+        <a onclick='$f.session.logout()'>
+            <i class="ti-close"></i>&nbsp; Cerrar sesión </a>
+        </li>
+
+        `
+     )
+
 }
 
 function printMenu(menu)

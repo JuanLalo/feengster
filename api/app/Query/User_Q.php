@@ -5,6 +5,14 @@ use Illuminate\Support\Facades\DB;
 
 class user_Q {
 
+static function userId($token)
+ {
+    $query = "SELECT id_user 'id' FROM logins l WHERE l.token = ?  and l.status = ? limit 1";
+    $res =  DB::select($query, [$token, 1]);
+   
+    return $res[0]->id;
+ }
+
 static function create($bd, $data){
         $query= "INSERT INTO  users (
 	`username`, `email`, `password`, `platform`, `type_default`, `status`) 
@@ -39,11 +47,11 @@ static function isToken($bd, $token)
 
 }
 
-static function selectCuenta($bd, $id_user)
+static function selectUserInformation($bd, $id)
         {
-                $query = "SELECT * from user_profile WHERE
-                        id_user = ? ";
-                $res = DB::select($query, [$id_user]);
+                $query = "SELECT * FROM users WHERE
+                        id = ? ";
+                $res = DB::select($query, [$id]);
                 return $res;
 }
 
