@@ -307,6 +307,10 @@
 
         return _user
       },
+      getFullName: function () {
+
+        return _user.name + ' ' + _user.surnames 
+      },
 
       getUserId: function()
       {
@@ -443,7 +447,7 @@
           //en este punto el usuario ya se ha logeado.
           if(appData.key == undefined)
           {
-            _app.inf.key = 'Buscar key...'
+            _app.inf.key = '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg'
         
           }
           // Obtenemos información de usario, verfificar si aquí es la major opción para su implementación

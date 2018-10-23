@@ -26,7 +26,7 @@ $f.app.initialize({
         id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
         name: 'Lab',
         logo: 'LOGO-LAB-LIGHT.PNG',
-        key: undefined,
+        key: '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg',
     }, {
         id: 0,
         name: 'INICIO',
@@ -45,41 +45,65 @@ $f.app.initialize({
     y configuración de la app.
 */
  
- function ready() {
-
-    setTimeout(function () {
-        $('#preloader').show()
-        $('#loading').hide()
+  function ready() {
 
         /*
-            Se immprime el header
-        */
-        // user = getStorage('userdata', true)
-        // reloadImgProfile()
-        // $('.user_name').html(user[0].username)
-        // $('.user_role').html('Administrador')
-
-        /*
-            Se immprime el menú lateral, aspiganado al usuario
+            Efecto de preloadder...
         */
 
-        $f.router.findMenu(printMenu)
+       $f.user.getUserInformationFromApi(function(){
+        
+        /**
+         * Efecto de preloader...
+         * Se immprime información de usuario en el header.
+         *  -> Foto de perfil
+         *  -> Opciones de usuario. 
+         */
 
-        /*
-            Se immprime la página de inicio
-        */
-
+        reloadUserInformation()
+        
+        /**
+         * Efecto de preloader...
+         */
+        
         setTimeout(function () {
-            printContent($f.router.getCurrentMenu())
+          
+          /**
+           * 
+           * Se detiene  efecto de preloader.
+           * 
+          */
+
+          $('#preloader').show()
+          $('#loading').hide()
+
+            
+          
+        /**
+         *  Se mandan a llmar los  demás componetes:
+         */
+         
+         /**
+          *  #TODO (hacer dinamico el menú del panel de control)
+          * Menú lateral asignado.
+          * 
+          */
+        
+            $f.router.findMenu(printMenu)
+
+         /**
+          * 
+          * Página principal
+          * 
+          */
+        
+            setTimeout(function () {
+                printContent($f.router.getCurrentMenu())
+            }, 1500)
+
+
         }, 1000)
 
-
-
-    }, 2000)
-
-    /*
-     [Firebase]
-        Se obtienen notificaciónes
-     */
+     })
 
 }

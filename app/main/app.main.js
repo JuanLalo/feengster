@@ -26,6 +26,7 @@
     */
 
 $(document).ready(function(){
+    
     $f.app.initialize(
         {
             id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
