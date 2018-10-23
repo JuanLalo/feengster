@@ -27,7 +27,7 @@
 
         // Abre la cuenta del usuario, donde se incluyen ajustes, perfil etc.
     $('.acount').click(function(){
-        // TODO
+        openAcount()
     })
 
         // Se ejecuta un log out, donde se borran las variables de sesión y se redirege a //app/index.html
@@ -93,7 +93,7 @@ let reloadUserInformation =  function()
      $('.user_options').html(
         `
         <li>
-        <a onclick='verPerfil(20)'>
+        <a href='#' class='acount'>
             <i class="ti-user"></i>&nbsp;${user.name} </a>
         </li>
         <li>

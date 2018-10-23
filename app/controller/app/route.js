@@ -4,16 +4,26 @@ var module = {}
 
 
 
-function verPerfil() {
-    printContent(
-        null,
-        'Perfil',
-        'Perfil de Usuario',
-        'Perfil general de usuario',
-        'main/perfil.html',
-        'person'
-    );
+function openAcount() {
+    loadContent()
+    let data  =
+     {
+        menu : { 
+            id : 0,
+            name : '',
+            title : '',
+            desc :  '',
+            url : 'main/perfil.html',
+            ico : ''
+            },
 
+        module : {
+            name : 'Perfil',
+            id : 1
+            }
+    }
+
+    printContent(data)
 }
 
 
@@ -38,35 +48,37 @@ function obtenerContenido(id)
 
 
 function printContent(data) {
- 
-
-    $('.content-header').show()
-    $('#nombre_modulo').html(data.module.name.toUpperCase())
-    $('#tittle').html(data.menu.title);
-    $('#tittle_desc').html(data.menu.desc);
-    $('#ico_content').html(data.menu.ico);
+    
+    if(data.menu.title != '')
+    {
+      $('#nombre_modulo').html(data.module.name.toUpperCase())
+      $('#tittle').html(data.menu.title);
+      $('#tittle_desc').html(data.menu.desc);
+      $('#ico_content').html(data.menu.ico);
+      $('.content-header').show()
+    }
 
     $.get($f.app.getFilesPath() + data.menu.url,
          function (data) {
-        $('#main_content').html(data)
-        $('.lobidrag').lobiPanel({
-            sortable: true,
-
-            unpin: {
-                icon: 'ti-move'
-            },
-            reload: {
-                icon: 'ti-reload'
-            },
-            minimize: {
-                icon: 'ti-minus',
-                icon2: 'ti-plus'
-            },
-            expand: {
-                icon: 'ti-fullscreen',
-                icon2: 'ti-fullscreen'
-            }
-        })
+             $('#main_content').html(data)
+             // #TODO
+            //  $('.lobidrag').lobiPanel({
+            //      sortable: true,
+            //      unpin: {
+            //          icon: 'ti-move'
+            //      },
+            //      reload: {
+            //          icon: 'ti-reload'
+            //      },
+            //      minimize: {
+            //          icon: 'ti-minus',
+            //          icon2: 'ti-plus'
+            //      },
+            //      expand: {
+            //          icon: 'ti-fullscreen',
+            //          icon2: 'ti-fullscreen'
+            //      }
+            //  })
 
     });
 
@@ -165,11 +177,8 @@ function verTickets(filtro, id_menu) {
 }
 
 function loadContent() {
+    $('.content-header').hide()
     $('html, body').animate({ scrollTop: 0 }, 'fast');
-    $('#nombre_modulo').html('Cargando...');
-    $('#tittle').html('');
-    $('#tittle_desc').html('');
-    $('#ico_content').html('');
     $('#main_content').html('<div class="text-center"><br><br><br><img width="50" src="../assets/dist/js/loader.gif" alt="Cargando..."></div>');
 
 }

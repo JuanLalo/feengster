@@ -12,7 +12,7 @@
 
       <div class="panel-body">
 
-        <form class="form-horizontal ">
+        <form id="smart_form"    class="form-horizontal ">
 
        
               <input style="display: none;" id="id" name="id" type="text" class="form-control">
@@ -3912,7 +3912,31 @@
     </div>
   </div>
 
+
+  <script src="../assets/plugins/validator/validator.min.js" type="text/javascript"></script>
   <script src="route/modulos/modulos.js" type="text/javascript"></script>
+
+
+
+  <script>
+    $('#smart_form').validator()
+
+
+    $('#smart_form').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
+ {
+    if (e.isDefaultPrevented())
+    {
+        toastr.warning(' Parece que el formulario no está listo', 'Forms')
+    }
+    else
+    {
+        
+        toastr.info('Forms', 'Aquí se envía')
+
+        return false;
+    }
+})
+</script>
 
 
   

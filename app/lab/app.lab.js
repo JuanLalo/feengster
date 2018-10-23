@@ -99,10 +99,10 @@ $f.app.initialize({
         
             setTimeout(function () {
                 printContent($f.router.getCurrentMenu())
-            }, 1500)
+            }, 500)
 
 
-        }, 1000)
+        }, 10)
 
      })
 
