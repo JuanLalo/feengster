@@ -62,23 +62,24 @@ function printContent(data) {
          function (data) {
              $('#main_content').html(data)
              // #TODO
-            //  $('.lobidrag').lobiPanel({
-            //      sortable: true,
-            //      unpin: {
-            //          icon: 'ti-move'
-            //      },
-            //      reload: {
-            //          icon: 'ti-reload'
-            //      },
-            //      minimize: {
-            //          icon: 'ti-minus',
-            //          icon2: 'ti-plus'
-            //      },
-            //      expand: {
-            //          icon: 'ti-fullscreen',
-            //          icon2: 'ti-fullscreen'
-            //      }
-            //  })
+             // Implentar función de reload 
+             $('.lobidrag').lobiPanel({
+                 reload: false,
+                 close: false,
+                 editTitle: false,
+                 sortable: false,
+                 unpin: {
+                     icon: 'ti-move'
+                 },
+                 minimize: {
+                     icon: 'ti-minus',
+                     icon2: 'ti-plus'
+                 },
+                 expand: {
+                     icon: 'ti-fullscreen',
+                     icon2: 'ti-fullscreen'
+                 }
+             })
 
     });
 

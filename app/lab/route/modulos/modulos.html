@@ -3919,25 +3919,58 @@
 
 
   <script>
-    $('#smart_form').validator()
 
+    /**
+     * 
+     *  Se inicializa formulario
+     *  Asegurate que el nombre nombre del formulario sea unico id="Nombre"
+     * 
+     * **/
 
-    $('#smart_form').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
- {
-    if (e.isDefaultPrevented())
-    {
-        toastr.warning(' Parece que el formulario no está listo', 'Forms')
-    }
-    else
-    {
-        
-        toastr.info('Forms', 'Aquí se envía')
+$(document).ready(function(){
 
-        return false;
-    }
+  let form =  $f.forms.new(
+        {
+             menu_id: undefined,
+             name: 'smart_form',
+             table_code: undefined,
+
+            rules:
+                {
+                   select: false,
+                   insert: false,
+                   update: false,
+                   validate: true
+                }
+        }
+    )
+
 })
+
+
+
+//     $('#smart_form').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
+//  {
+//     if (e.isDefaultPrevented())
+//     {
+//         toastr.warning(' Parece que el formulario no está listo', 'Forms')
+//     }
+//     else
+//     {
+        
+//         toastr.info('Forms', 'Aquí se envía')
+
+//         return false;
+//     }
+// })
 </script>
 
+
+<script>
+ function Simon(){
+     alert('Los forms serán dinamicos')
+ }
+</script>
 
   
 

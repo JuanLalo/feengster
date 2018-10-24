@@ -92,16 +92,16 @@ let reloadUserInformation =  function()
      // Opciones de usuario, disponible, sólo para usuarios que se han logeado.
      $('.user_options').html(
         `
-        <li>
-        <a href='#' class='acount'>
+        <li onclick='openAcount()'>
+        <a >
             <i class="ti-user"></i>&nbsp;${user.name} </a>
         </li>
         <li>
         <a onclick='alert('Verificar si es necesario o se coloca en cuenta')'>
             <i class="ti-settings"></i>&nbsp; Ajustes </a>
         </li>
-        <li>
-        <a onclick='$f.session.logout()'>
+        <li onclick='$f.session.logout()'>
+        <a >
             <i class="ti-close"></i>&nbsp; Cerrar sesión </a>
         </li>
 

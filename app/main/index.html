@@ -102,7 +102,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     <i class="material-icons">menu</i>
                 </button>
-                <a class="navbar-brand inicio">
+                <a style="margin-top: 8px;" class="navbar-brand inicio">
                     <img class="main-logo" src="../assets/dist/img/logos/logo-light-PNG.png" id="bg" alt="Feengster">
                 </a>
             </div>
@@ -110,7 +110,7 @@
             <div class="nav-container  hidden-xs">
 
                 <!-- /.navbar-header -->
-                <ul class="nav navbar-nav navbar-top-links  navbar-left">
+                <ul style="margin-top: 8px;" class="nav navbar-nav navbar-top-links  navbar-left">
                     <li>
                         <a href="#" class=" material-ripple">Inicio </a>
                     </li>
@@ -182,30 +182,39 @@
                             </li><!-- end row -->
                         </ul>
                     </li>
-                    <li><a target="_blank" class="btn-buy hidden-xs hidden-xs hidden-sm ">Ayuda</a></li>
+                    <li><a target="_blank" class="btn-buy hidden-xs hidden-sm ">Ayuda</a></li>
                     <li></li>
                     <li><br><button type="button" class="btn btn-info btn-outline btn-rounded w-md m-b-5 hidden-xs hidden-sm hidden-md ">¡Tengo
                             una idea!</button></li>
 
 
                 </ul>
-                <ul class="nav navbar-nav navbar-top-links   navbar-right">
-                    <li>
-                    </li>
-
-
-
-                    <li>
-
-                    </li>
-
-                    <!-- /.Log out -->
-
-                    <!--End dropdown mega menu-->
-                </ul>
+               
+                
+                
                 <ul class="nav navbar-top-links navbar-right">
+                        <li class=" dropdown">
+                                <a   data-toggle="dropdown" class=" dropdown-toggle ">
+                                  <img width="34px" height="34px"  class="img-circle user_img" alt="cuenta">
+                                </a>
+                                    
+                                <ul class="dropdown-menu dropdown-user user_options">
+                                    <li>
+                                        <a href="app/">
+                                            <i class="ti-plus"></i>&nbsp; Ingresar</a>
+                                    </li>
+                                    <li>
+                                        <a href="app/">
+                                            <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
+                                    </li>
+                                </ul>
+                                <!-- /.dropdown-user -->
+                            </li>
+                    </ul>
+                    
+                <ul style="margin-top: 8px;"  class="nav navbar-top-links navbar-right">
                     <!-- /.Dropdown -->
-                    <li class="dropdown">
+                    <li  class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                             <i class="material-icons">add_alert</i>
 
@@ -232,41 +241,15 @@
                                     </div>
                                 </a>
                             </li>
-
-
-                    </li>
-                    <li class="rad-dropmenu-footer">
-                        <a href="#"></a>
-                    </li>
-                    </ul>
-                    <!-- /.dropdown-alerts -->
-                    <!-- /.dropdown-alerts -->
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">
-                            <div class="col-lg-1">
-                                <img width="27px" height="26px"  class="img-circle user_img" alt="img_profile">
-
-                            </div>
-
-                        </a>
-                        <ul class="dropdown-menu dropdown-user user_options">
-                            <li>
-                                <a href="app/">
-                                    <i class="ti-plus"></i>&nbsp; Ingresar</a>
-                            </li>
-                            <li>
-                                <a href="app/">
-                                    <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
-                            </li>
+                        
+                          <li class="rad-dropmenu-footer">
+                           <a href="#">Ver todas</a>
+                         </li>
                         </ul>
-                        <!-- /.dropdown-user -->
                     </li>
+                        
                 </ul>
-
-                <!-- /.dropdown-user -->
-                </li>
-                </ul>
+                
             </div>
         </nav>
         <!-- /.Navigation -->

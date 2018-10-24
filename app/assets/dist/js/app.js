@@ -273,7 +273,4 @@ $(document).ready(function () {
 
 });
 
-function yo(){
-    alert('yo')
-}
 

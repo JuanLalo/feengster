@@ -43,9 +43,30 @@
     <!-- <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
     <script src="controller/app/firebase_login.js" type="text/javascript"></script> -->
 
+    <style>
+    /* mover de aquí */
+    body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("assets/dist/img/happy-person.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+    </style>
+
 </head>
 
-<body style="background-image: url(assets/dist/img/happy-person.jpg);background-repeat: no-repeat;  background-size:100%; ">
+<body >
 
         <div id="loading"  style="display: block;  background-color:rgb(0, 0, 0); width: 100%;
         min-height: 100%;
@@ -69,9 +90,10 @@
         
             
     <!-- Content Wrapper -->
-    <div id="loader" class=" "  style="display: none;">
-        <div class="container-center">
-            <div class="panel panel-bd">
+    <div  id="loader" class="bg "  style="display: none; ">
+        <br>
+        <div  class="container-center">
+            <div  class="panel panel-bd">
 
                 <div class="row">
                     <div class="view-header">
@@ -155,7 +177,33 @@
                 </div> -->
 
         </div>
+        <ul class=" list-inline text-center">
+                <li class="">
+                              <button type="button" class="btn btn-social-icon btn-facebook m-b-5"><i class="fa fa-facebook"></i></button>
+                </li>
+                <li class="">
+                              <button type="button" class="btn btn-social-icon btn-instagram m-b-5"><i class="fa fa-instagram"></i></button>
+                </li>
+                <li class="">
+                              <button type="button" class="btn btn-social-icon btn-github m-b-5"><i class="fa fa-github"></i></button>
+                </li>
+                <li class="">
+                              <button type="button" class="btn btn-social-icon btn-google m-b-5"><i class="fa fa-google"></i></button>
+                </li>
+                <li class="">
+                              <button type="button" class="btn btn-social-icon btn-twitter m-b-5"><i class="fa fa-twitter"></i></button>
+                </li>
+              </ul>
+              <!-- Social buttons -->
+              
+              <!-- Copyright -->
+              <div class="text-center" style="color: #2c3136">© 2018 Copyright
+              </div>
+              <div class="text-center">
+                      <img width="140vh"  src="../app/assets/dist/img/logos/logo-dark-PNG.png"> 
+              </div>
     </div>
+  
     <!-- /.content-wrapper -->
     <!-- bootstrap js -->
     <!-- START PAGE LABEL PLUGINS -->

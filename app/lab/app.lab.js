@@ -61,6 +61,8 @@ $f.app.initialize({
          */
 
         reloadUserInformation()
+
+        $('.userfullname').html($f.user.getFullName())
         
         /**
          * Efecto de preloader...

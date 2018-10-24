@@ -85,7 +85,23 @@
       menus: {}
 
     }
-    const _forms = {
+
+    let _forms = {
+      /**
+       0 :{
+        menu_id: undefined,
+        name: undefined,
+        table_code: undefined,
+
+      rules:
+        {
+          select: false,
+          insert: false,
+          update: false,
+          validate: false
+        }
+     }
+     */
 
     }
 
@@ -389,7 +405,94 @@
 
     //#region [FORMS CONTROLLER]
     const forms = {
-      // TODO
+      add: function(form)
+      {
+        try {
+          
+        let size = Object.keys(_forms).length
+        //TOTO validar que los formularios no se repitan
+        // recorrer con un for y si existe solo traer el identificador del form
+        _forms[size] = {
+              menu_id: form.menu_id,
+              name: form.name,
+              table_code: form.table_code,
+      
+            rules:
+              {
+                select: form.rules.select,
+                insert: form.rules.insert,
+                update: form.rules.update,
+                validate: form.rules.validate
+              }
+          }
+      return size
+      
+    } catch (error) {
+     console.error(
+       signature,
+       'Error al intentar agragar un nuevo formulario. Detalle:',
+       error
+       )     
+    }
+    },
+
+    new: function(data){
+     let id = this.add(data)
+     if(Number.isInteger(id))
+     {
+      let currentForm = _forms[id]
+
+      /**
+       * Se valida si el  formulario utilizará Bootstrap Validate para
+       * la validación de los campos
+       * Si, sí se establecen las reglas acorde a lo establecido en el formulario
+       */
+      if(currentForm.rules.validate)
+      {
+        $('#' +  currentForm.name ).validator()
+      }
+
+      let code = 
+          `<script>
+          $('# ${currentForm.name}').validator().on('submit', function (e) 
+             {
+               if (e.isDefaultPrevented())
+              {
+          `
+
+
+      /**
+       * Se valida si el  formulario utilizará tendrá la funcionalidad de INSERTAR DATOS
+       * Se inyecta el código JS necesario. 
+       */
+      if(currentForm.rules.insert)
+      {
+        code =+ `// código necesario para [INSERT]`
+      }
+
+      code =+ 
+            `
+            toastr.warning(' Parece que el formulario no está listo', 'Forms')
+             }
+                else
+                 {
+                    
+                    toastr.info('Forms', 'Aquí se envía')
+            
+                    return false;
+                 }
+      
+            `
+
+
+      code =+ '</script>'
+
+      $('#main_content').append(code)
+      alert(code)
+
+      return id
+     }
+    }
     }
     //#endregion
 

@@ -5,14 +5,12 @@
             <div class="col-sm-12 col-md-12">
                 <div class="card">
                     <div class="">
-                    <div class="card-header " style="background-image: url('https://firebasestorage.googleapis.com/v0/b/feengster-app.appspot.com/o/img_profile%2Fportada.png?alt=media&token=31847461-de82-47f7-b06e-1b00b89749e7')" >
-
-                      
+                    <div class="card-header " style=" background-image: url(../assets/dist/img/apps/Lab/lab-1.png); " >
         
-                        <div class="row">
+                        <div style="margin-top: 200px" class="row">
                             <div class="col-md-4">
                                 <div class="inbox-item-img">
-                                        <img width="150px" class="img-circle user_img" alt="">
+                                        <img width="200px" class="img-circle user_img" alt="">
                                        
                                     </div>
                                 </div>
@@ -22,7 +20,7 @@
 
                     <div class="card-content">
                         <div class="card-content-member">
-                            <h4 class="m-t-0 userfullname"> {{alert()}} </h4>
+                            <h4 class="m-t-0 userfullname"></h4>
                             <p class="m-0"><i class="pe-7s-map-marker"></i>León Gto.</p>
                         </div>
                         <div class="card-content-languages">
@@ -227,13 +225,11 @@
 
 <!-- ____________________________________   JS   _________________________________________ -->
 
-<script> 
 
-$(document).ready(function () 
-{
-    $('.content-header').hide()
- 
-}) 
-
+<script>
+$('.userfullname').html($f.user.getFullName())
+$('.user_img').attr('src', user.img)
 </script>
+     
+
   
