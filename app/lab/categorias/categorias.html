@@ -1,3 +1,7 @@
+
+ <!-- STATRT GLOBAL MANDATORY STYLE -->
+
+
 <!--_______________________________________________________________________________________________ -->
 
 
@@ -14,7 +18,7 @@
 
             <div class="panel-body">
 
-                <form id="form_categories"  data-toggle="validator" role="form" >
+                <form id="form_categories" >
                     
                    <input type="hidden" id="id">
                     <div class="form-group">
@@ -33,34 +37,7 @@
                         <div class="help-block with-errors"></div>
                       </div>
                     </div>
-                    <div class="form-group">
-                            <button id="bnt_save" type="submit" class="btn btn-labeled btn-success m-b-5 submit">
-                                    <span class="btn-label">
-                                        <i class="glyphicon glyphicon-ok load"></i>
-                                    </span>Guardar
-                                </button>
-                      <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple m-b-5">
-                            <span class="btn-label">
-                                <i class="glyphicon glyphicon-thumbs-down"></i>
-                            </span>Limpiar
-                        </button>
-                        <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-purple m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-thumbs-down"></i>
-                                </span>No actualizar
-                            </button>
-                            <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-thumbs-down load"></i>
-                                </span>Eliminar
-                            </button>
-    
-                            <button id="btn_update"  type="submit" style="display: none"  type="submit" class="btn btn-labeled btn-success m-b-5 submit">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-ok load"></i>
-                                </span>Actualizar
-                            </button>
-                    </div>
+                    
                   </form>
 
 
@@ -93,8 +70,61 @@
 <!-- STRAT PAGE LABEL PLUGINS -->
 <script src="../../assets/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
 <script src="../../assets/plugins/validator/validator.min.js" type="text/javascript"></script>
-<script src="../main/categorias/categorias.js" type="text/javascript"></script>
+<!-- <script src="../main/categorias/categorias.js" type="text/javascript"></script> -->
+
+
 
 <script>
-    $('#form_categories').validator()
+
+    /**
+     * 
+     *  Se inicializa formulario
+     *  Asegurate que el nombre nombre del formulario sea unico id="Nombre"
+     * 
+     * **/
+
+$(document).ready(function(){
+
+  let form =  $f.forms.new(
+        {
+             menu_id: undefined,
+             name: 'form_categories',
+             table_code: undefined,
+
+            rules:
+                {
+                   select: false,
+                   insert: false,
+                   update: false
+                }
+        }
+    )
+
+})
+
+
+
+//     $('#smart_form').validator().on('submit', function (e) // formulario generico, regisra y actualiza campos
+//  {
+//     if (e.isDefaultPrevented())
+//     {
+//         toastr.warning(' Parece que el formulario no está listo', 'Forms')
+//     }
+//     else
+//     {
+        
+//         toastr.info('Forms', 'Aquí se envía')
+
+//         return false;
+//     }
+// })
+
+
 </script>
+
+
+
+
+
+
+

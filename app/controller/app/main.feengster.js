@@ -97,8 +97,7 @@
         {
           select: false,
           insert: false,
-          update: false,
-          validate: false
+          update: false
         }
      }
      */
@@ -299,10 +298,12 @@
               _user.created_at =  data.created_at
               _user.email =       data.email
               _user.id =          data.id
+              // #check
               if(data.img != '' && data.img.length > 90)
               {
                 _user.img =       data.img
               }
+
               _user.name =        data.name
               _user.oldpassword = data.oldpassword
               _user.password =    data.password
@@ -421,8 +422,7 @@
               {
                 select: form.rules.select,
                 insert: form.rules.insert,
-                update: form.rules.update,
-                validate: form.rules.validate
+                update: form.rules.update
               }
           }
       return size
@@ -437,28 +437,49 @@
     },
 
     new: function(data){
+      try {
+
      let id = this.add(data)
      if(Number.isInteger(id))
      {
       let currentForm = _forms[id]
 
-      /**
-       * Se valida si el  formulario utilizará Bootstrap Validate para
-       * la validación de los campos
-       * Si, sí se establecen las reglas acorde a lo establecido en el formulario
-       */
-      if(currentForm.rules.validate)
-      {
-        $('#' +  currentForm.name ).validator()
-      }
+    
+      let html = 
+          `<div class="form-group" style= "margin-left: 10px">
+          
+          <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Guardar
+          </button>
+          
+          <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-warning m-b-5"><span class="btn-label">
+          <i class="glyphicon glyphicon-thumbs-down"></i></span>No actualizar
+          </button>
 
-      let code = 
-          `<script>
-          $('# ${currentForm.name}').validator().on('submit', function (e) 
+          <button id="btn_reset" type="reset" class="btn btn-labeled btn-inverse m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-down"></i></span>Limpiar</button>
+         
+          <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-floppy-remove"></i></span>Eliminar
+          </button>
+          
+          <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
+          <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
+          </span>Actualizar </button>
+                       
+          </div>`
+
+          $('#' +currentForm.name ).append(html)
+
+      let code = `// #auto
+                  `
+
+      code = code + 
+          ` 
+          $("#${currentForm.name}").validator().on("submit", function (e) 
              {
                if (e.isDefaultPrevented())
               {
           `
+
+          
 
 
       /**
@@ -467,36 +488,43 @@
        */
       if(currentForm.rules.insert)
       {
-        code =+ `// código necesario para [INSERT]`
+        code = code + `// código necesario para [INSERT]`
       }
 
-      code =+ 
-            `
-            toastr.warning(' Parece que el formulario no está listo', 'Forms')
-             }
+      code = code +  `
+              alert("NO")
+              }
                 else
                  {
                     
-                    toastr.info('Forms', 'Aquí se envía')
+                    toastr.info("Forms", "Aquí se envía")
             
                     return false;
                  }
+
+                }
+
+                )
       
             `
+      $('#' +  currentForm.name ).validator()
+      eval(code) 
+       
+     
+      console.log('$fg :: ' +  currentForm.name + ' ' + ' Creado correctamente.')
 
-
-      code =+ '</script>'
-
-      $('#main_content').append(code)
-      alert(code)
-
-      return id
      }
+   
+    } catch (error) {
+
+      // #check ver por qué da ese error
+      console.log(error)
+    }
     }
     }
     //#endregion
 
-    //#region [NOTIFICATIONS TROLLERTION]
+    //#region [NOTIFICATIONS CON TROLLERTION]
     const notify = {
       // TODO
 
