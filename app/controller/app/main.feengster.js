@@ -420,9 +420,10 @@
       
             rules:
               {
-                select: form.rules.select,
-                insert: form.rules.insert,
-                update: form.rules.update
+                show: form.rules.show,
+                new: form.rules.new,
+                change: form.rules.change,
+                delete: form.rules.delete
               }
           }
       return size
@@ -437,78 +438,171 @@
     },
 
     new: function(data){
-      try {
+      
+    try {
 
      let id = this.add(data)
+      
      if(Number.isInteger(id))
      {
+
       let currentForm = _forms[id]
+      let rules = currentForm.rules
+      let idForm = '#' + currentForm.name
 
-    
-      let html = 
-          `<div class="form-group" style= "margin-left: 10px">
-          
-          <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Guardar
-          </button>
-          
-          <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-warning m-b-5"><span class="btn-label">
-          <i class="glyphicon glyphicon-thumbs-down"></i></span>No actualizar
-          </button>
 
-          <button id="btn_reset" type="reset" class="btn btn-labeled btn-inverse m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-thumbs-down"></i></span>Limpiar</button>
+      // #region containers
+          let html_containers =
+              `
+              <div id="html-btn-new" class="col-lg-12" style="margin-left: 10px">
+              
+              </div>
+
+              <div id="html-form" style="display: none">
+              ${$(idForm).html()}
+              </div>
+              
+              <div id="html-table">
+
+              </div>
+
+              `
+              $(idForm).html(html_containers)
+              $(idForm).show()
+
+             
+      //#endregion
+
+      //#region html injection
+          // div button 
+      let html_buttons = ` `
+
+          // save button
+       if(rules.new)
+       { 
          
-          <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-floppy-remove"></i></span>Eliminar
-          </button>
-          
-          <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
-          <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
-          </span>Actualizar </button>
-                       
-          </div>`
-
-          $('#' +currentForm.name ).append(html)
-
-      let code = `// #auto
-                  `
-
-      code = code + 
-          ` 
-          $("#${currentForm.name}").validator().on("submit", function (e) 
-             {
-               if (e.isDefaultPrevented())
-              {
-          `
-
-          
-
-
-      /**
-       * Se valida si el  formulario utilizará tendrá la funcionalidad de INSERTAR DATOS
-       * Se inyecta el código JS necesario. 
-       */
-      if(currentForm.rules.insert)
-      {
-        code = code + `// código necesario para [INSERT]`
-      }
-
-      code = code +  `
-              alert("NO")
-              }
-                else
-                 {
-                    
-                    toastr.info("Forms", "Aquí se envía")
-            
-                    return false;
-                 }
-
-                }
-
-                )
-      
+          html_buttons +=
             `
-      $('#' +  currentForm.name ).validator()
-      eval(code) 
+              <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+              Guardar
+              </button>
+            `
+              // clear button
+          html_buttons +=
+          `
+            <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple  m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
+            Limpiar
+            </button>
+           `
+
+           let html_btn_new =
+                 ` 
+                  <button  id='btn_form_new' type="button" class="btn btn-labeled btn-success m-b-5">
+                  <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
+                  </button>
+                  
+                  <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
+                  <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
+                  </button>
+                  <hr>
+                ` 
+           $(idForm + ' #html-btn-new').append(html_btn_new )
+
+            } 
+          // not update button
+       if(rules.change)
+       {
+        html_buttons += 
+            `    
+            <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-warning m-b-5"><span class="btn-label">
+            <i class="glyphicon glyphicon-thumbs-down"></i></span>
+            No actualizar
+            </button>
+            `
+            // update button
+        html_buttons += 
+             `
+              <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
+              <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
+              </span>
+              Actualizar
+               </button>
+            `
+        }
+      
+          // delete button
+       if(rules.delete)
+       { 
+        html_buttons += 
+           `
+              <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-floppy-remove"></i></span>Eliminar
+               </button>
+           `
+        }    
+      
+
+      $(idForm + ' #html-buttons').append(html_buttons)
+  
+      //#endregion
+
+              
+      //#region  validator
+      
+          $(idForm).validator().on("submit", function (e) 
+           {
+           
+            if (e.isDefaultPrevented())
+            {
+         
+                alert("NO")
+         
+            }
+            else
+            {
+              toastr.info("Forms", "Aquí se envía")
+              return false;
+            }
+           
+          })
+
+      //#endregion validator
+
+
+        //#region form events
+        // ---- On new
+        $(idForm + ' #btn_form_new').click(
+          function()
+          {
+            $(idForm +  ' #html-form').show()
+            $(idForm + ' #btn_form_new').hide()
+            $(idForm + ' #html-table').hide()
+            $(idForm + ' #btn-form-back').show()
+
+          })
+
+        // ----- on Back
+          $(idForm + ' #btn-form-back').click(
+           function()
+           {
+            $(idForm +  ' #html-form').hide()
+            $(idForm + ' #btn_form_new').show()
+            $(idForm + ' #btn-form-back').hide()
+
+            // #TODO validar si se han hecho cambios para regrescar la tabla antes de mostrarla...
+            $(idForm + ' #html-table').show()
+           }
+          )
+        
+        // On only new
+
+        if(rules.new && !rules.show && !rules.change && !rules.delete)
+        {
+          $(idForm + ' #btn_form_new').click()
+        }
+
+      //#endregion
+      
+
        
      
       console.log('$fg :: ' +  currentForm.name + ' ' + ' Creado correctamente.')

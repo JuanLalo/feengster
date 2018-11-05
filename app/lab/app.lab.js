@@ -32,7 +32,7 @@ $f.app.initialize({
         name: 'INICIO',
         title: 'Feengster Lab',
         desc: 'Herramienta para diseñadores y programadores de Feengster.',
-        url: 'lab/inicio.html',
+        url:  'lab/route/modulos/modulos.html',
         icon: 'insert_emoticon',
         m_name: 'Inicio',
         m_id: 0
