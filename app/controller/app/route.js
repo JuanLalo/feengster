@@ -65,12 +65,16 @@ function printContent(data) {
              // Implentar función de reload 
              $('.lobidrag').lobiPanel({
                  reload: false,
-                 close: false,
+                 close: true,
                  editTitle: false,
                  sortable: false,
                  unpin: {
                      icon: 'ti-move'
                  },
+                 
+                close: {
+                  icon: 'ti-close'
+                },
                  minimize: {
                      icon: 'ti-minus',
                      icon2: 'ti-plus'
