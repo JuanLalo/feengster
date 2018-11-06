@@ -62,7 +62,10 @@ function printContent(data) {
          function (data) {
              $('#main_content').html(data)
              // #TODO
-             // Implentar función de reload 
+             // Implentar función de reload
+             
+            if($f.app.getTypeDevice() == 'pc')
+            { 
              $('.lobidrag').lobiPanel({
                  reload: false,
                  close: true,
@@ -84,11 +87,16 @@ function printContent(data) {
                      icon2: 'ti-fullscreen'
                  }
              })
+            }
 
     });
-
-
 }
+
+$('.ti-move').click(function()
+{
+    alert()
+    
+})
 
 
 function goBack() {
@@ -189,36 +197,4 @@ function loadContent() {
 }
 
 
-
-
-// OTHER END
-
-
-// componentes extras importantes! 
-
-var route = [];
-
-function add(id) {
-    if (route[route.length - 1] != id) {
-        route.push(id);
-    }
-}
-
-function pop() {
-    return route.pop();
-}
-
-function getLast() {
-
-    return route[route.length - 2];
-}
-
-
-
-function getNow() {
-    return route[route.length - 1];
-}
-function getroute() {
-    return route;
-}
 

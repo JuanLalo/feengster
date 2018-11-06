@@ -35,7 +35,8 @@
         core_path: 'http://localhost:82/feengster/api/public/',
         main_url: 'localhost:82/feengster/app/lab/?#mainPage',
         login_url: '../',
-        url_lock: ''
+        url_lock: '',
+        device: 'pc',  // mobile | pc
       }
     }
 
@@ -463,7 +464,91 @@
               </div>
               
               <div id="html-table">
-
+              <table id="example" class="display nowrap table table-bordered table-striped table-hover" style="width:100%">
+              <thead>
+                  <tr>
+                      <th></th>
+                      <th>First name</th>
+                      <th>Last name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                      <th>Extn.</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td></td>
+                      <td>Tiger</td>
+                      <td>Nixon</td>
+                      <td>System Architect</td>
+                      <td>Edinburgh</td>
+                      <td>61</td>
+                      <td>2011/04/25</td>
+                      <td>$320,800</td>
+                      <td>5421</td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>Garrett</td>
+                      <td>Winters</td>
+                      <td>Accountant</td>
+                      <td>Tokyo</td>
+                      <td>63</td>
+                      <td>2011/07/25</td>
+                      <td>$170,750</td>
+                      <td>8422</td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>Ashton</td>
+                      <td>Cox</td>
+                      <td>Junior Technical Author</td>
+                      <td>San Francisco</td>
+                      <td>66</td>
+                      <td>2009/01/12</td>
+                      <td>$86,000</td>
+                      <td>1562</td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>Cedric</td>
+                      <td>Kelly</td>
+                      <td>Senior Javascript Developer</td>
+                      <td>Edinburgh</td>
+                      <td>22</td>
+                      <td>2012/03/29</td>
+                      <td>$433,060</td>
+                      <td>6224</td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                      <td>Donna</td>
+                      <td>Snider</td>
+                      <td>Customer Support</td>
+                      <td>New York</td>
+                      <td>27</td>
+                      <td>2011/01/25</td>
+                      <td>$112,000</td>
+                      <td>4226</td>
+                  </tr>
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <th></th>
+                      <th>First name</th>
+                      <th>Last name</th>
+                      <th>Position</th>
+                      <th>Office</th>
+                      <th>Age</th>
+                      <th>Start date</th>
+                      <th>Salary</th>
+                      <th>Extn.</th>
+                  </tr>
+              </tfoot>
+          </table>
               </div>
 
               `
@@ -545,7 +630,38 @@
   
       //#endregion
 
-              
+      //#region DatTable
+
+      if(!rules.show)
+      {
+        $(idForm + ' #html-table').hide()
+      }
+
+      $('#example').DataTable( {
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [ {
+            className: 'control',
+            orderable: false,
+            targets:   0
+        } ],
+        order: [ 1, 'asc' ],
+        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+         buttons: [
+                        {extend: 'copy', className: 'btn-sm'},
+                        {extend: 'csv', title: 'ExampleFile', className: 'btn-sm'},
+                        {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
+                        {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
+                        {extend: 'print', className: 'btn-sm'}
+                    ]
+
+    } );
+      //endregion Dattable
+
+
       //#region  validator
       
           $(idForm).validator().on("submit", function (e) 
@@ -553,13 +669,12 @@
            
             if (e.isDefaultPrevented())
             {
-         
-                alert("NO")
+              toastr.warning("Al parecer el furmulario no está listo", "Atención" )
          
             }
             else
             {
-              toastr.info("Forms", "Aquí se envía")
+              toastr.info("", "Guardando...")
               return false;
             }
            
@@ -683,6 +798,19 @@
         } catch (error) {
           console.error(signature, error, 'Configuración no valia. \n objeto no valido ::', this.data)
         }
+      },
+
+      setTypeDevice: function(type)
+      {
+        if(type != '' | type == 'mobile' | type == 'pc')
+        {
+        _app.static.device = type
+        }
+      },
+      getTypeDevice: function(type)
+      {
+        return _app.static.device 
+        
       }
 
     }
