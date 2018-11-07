@@ -461,14 +461,17 @@
 
               <div id="html-form" style="display: none">
               ${$(idForm).html()}
+
+              <div id="html-buttons" class="form-group" style= "margin-left: 10px; ">
+              </div>
               </div>
               
               <div id="html-table">
-              <table id="example" class="display nowrap table table-bordered table-striped table-hover" style="width:100%">
+              <table id="example" class="display nowrap table" style="width:100%">
               <thead>
                   <tr>
                       <th></th>
-                      <th>First name</th>
+                      <th></th>
                       <th>Last name</th>
                       <th>Position</th>
                       <th>Office</th>
@@ -476,11 +479,15 @@
                       <th>Start date</th>
                       <th>Salary</th>
                       <th>Extn.</th>
+                      <th></th>
                   </tr>
               </thead>
               <tbody>
                   <tr>
                       <td></td>
+                      <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                      <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                      </td>
                       <td>Tiger</td>
                       <td>Nixon</td>
                       <td>System Architect</td>
@@ -488,10 +495,16 @@
                       <td>61</td>
                       <td>2011/04/25</td>
                       <td>$320,800</td>
-                      <td>5421</td>
+                      <td>
+                      <span class="bg-blue badge ">Activo</span>
+                      </td>
+                      
                   </tr>
                   <tr>
-                      <td></td>
+                  <td></td>
+                  <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  </td>
                       <td>Garrett</td>
                       <td>Winters</td>
                       <td>Accountant</td>
@@ -499,10 +512,16 @@
                       <td>63</td>
                       <td>2011/07/25</td>
                       <td>$170,750</td>
-                      <td>8422</td>
+                      <td>
+                      <span class="bg-red badge ">Inactivo</span>
+                      </td>
+                     
                   </tr>
                   <tr>
-                      <td></td>
+                  <td></td>
+                  <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  </td>
                       <td>Ashton</td>
                       <td>Cox</td>
                       <td>Junior Technical Author</td>
@@ -510,10 +529,16 @@
                       <td>66</td>
                       <td>2009/01/12</td>
                       <td>$86,000</td>
-                      <td>1562</td>
+                      <td>
+                      <span class="bg-green badge ">En proceso</span>
+                      </td>
+                      
                   </tr>
                   <tr>
-                      <td></td>
+                  <td></td>
+                  <td><button type="button" class=" edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                      <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                      </td>
                       <td>Cedric</td>
                       <td>Kelly</td>
                       <td>Senior Javascript Developer</td>
@@ -521,24 +546,33 @@
                       <td>22</td>
                       <td>2012/03/29</td>
                       <td>$433,060</td>
-                      <td>6224</td>
+                      <td>
+                      <span class="bg-blue badge ">Activo</span>
+                      </td>
+                      
                   </tr>
                   <tr>
-                      <td></td>
-                      <td>Donna</td>
+                  <td></td>
+                  <td><button type="button" class="edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                  <button type="button" class="btn btn-danger btn-xs delete" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                  </td>
+                      <td> Donna Donna Donna</td>
                       <td>Snider</td>
                       <td>Customer Support</td>
                       <td>New York</td>
                       <td>27</td>
                       <td>2011/01/25</td>
                       <td>$112,000</td>
-                      <td>4226</td>
+                      <td>
+                      <span class="bg-yellow badge ">Revisar</span>
+                      </td>
+                     
                   </tr>
               </tbody>
               <tfoot>
                   <tr>
                       <th></th>
-                      <th>First name</th>
+                      <th></th>
                       <th>Last name</th>
                       <th>Position</th>
                       <th>Office</th>
@@ -546,6 +580,8 @@
                       <th>Start date</th>
                       <th>Salary</th>
                       <th>Extn.</th>
+                      <td>
+                      </td>
                   </tr>
               </tfoot>
           </table>
@@ -597,22 +633,16 @@
           // not update button
        if(rules.change)
        {
+             // update button
         html_buttons += 
-            `    
-            <button id="btn_nothing" type="button" style="display: none"  class="btn btn-labeled btn-warning m-b-5"><span class="btn-label">
-            <i class="glyphicon glyphicon-thumbs-down"></i></span>
-            No actualizar
-            </button>
-            `
-            // update button
-        html_buttons += 
-             `
-              <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
-              <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
-              </span>
-              Actualizar
-               </button>
-            `
+        `
+         <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
+         <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
+         </span>
+         Actualizar
+          </button>
+       `
+               
         }
       
           // delete button
@@ -637,7 +667,7 @@
         $(idForm + ' #html-table').hide()
       }
 
-      $('#example').DataTable( {
+      let table = $(idForm + ' #example').DataTable( {
         responsive: {
             details: {
                 type: 'column'
@@ -652,13 +682,63 @@
         dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
          buttons: [
                         {extend: 'copy', className: 'btn-sm'},
-                        {extend: 'csv', title: 'ExampleFile', className: 'btn-sm'},
+                        {extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'},
                         {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
                         {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
                         {extend: 'print', className: 'btn-sm'}
                     ]
 
     } );
+
+    $(idForm + ' #example tbody').on( 'click', '.edit', function () {
+      var data = table.row( $(this).parents('tr') ).data();
+      toastr.info("", "Listo para editar...")
+
+      $(idForm +  ' #html-form').show()
+      $(idForm + ' #btn_form_new').hide()
+      $(idForm + ' #html-table').hide()
+      $(idForm + ' #btn-form-back').show()
+
+      $(idForm + ' #btn_reset').hide()
+      $(idForm + ' #bnt_save').hide()
+
+      $(idForm + ' #btn_update').show()
+      $(idForm + ' #btn_delete').show()
+
+      $(idForm + ' #btn_nothing').prop("disabled", false); 
+      $(idForm + ' #btn_delete').prop("disabled", false); 
+      
+
+      console.log(data)
+    })
+    
+    $(idForm + ' #example tbody').on( 'click', '.delete', function () {
+      var data = table.row( $(this).parents('tr') ).data();
+      
+      swal(
+        {
+          title: "¿Estás seguro?",
+          text: "Los datos serán eliminados difinitivamente.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "¡Sí, eliminar!",
+        cancelButtonText: "¡No, cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+      function(isConfirm){
+        if (isConfirm) {
+          swal("¡Eliminado!", "Datos eliminados con éxito", "success");
+        } else {
+          swal("¡Cancelado!", "Tus datos estan seguros", "error");
+        }
+      });
+      
+      console.log(data)
+
+    })
+
       //endregion Dattable
 
 
@@ -690,8 +770,19 @@
           {
             $(idForm +  ' #html-form').show()
             $(idForm + ' #btn_form_new').hide()
-            $(idForm + ' #html-table').hide()
             $(idForm + ' #btn-form-back').show()
+            $(idForm + ' #html-table').hide()
+
+            $(idForm + ' #btn_reset').show()
+            $(idForm + ' #bnt_save').show()
+
+
+            $(idForm + ' #btn_update').hide()
+            $(idForm + ' #btn_delete').hide()
+
+            
+          $(idForm + ' #btn_reset').prop("disabled", false); 
+            
 
           })
 

@@ -73,7 +73,7 @@
         closeButton: true,
         progressBar: true,
         showMethod: 'slideDown',
-        timeOut: 4000
+        timeOut: 2500
         // positionClass: "toast-top-left"
   }
   
