@@ -412,12 +412,12 @@
         try {
           
         let size = Object.keys(_forms).length
-        //TOTO validar que los formularios no se repitan
-        // recorrer con un for y si existe solo traer el identificador del form
+     
         _forms[size] = {
               menu_id: form.menu_id,
               name: form.name,
               table_code: form.table_code,
+              view: form.view,
       
             rules:
               {
@@ -451,11 +451,11 @@
       let rules = currentForm.rules
       let idForm = '#' + currentForm.name
 
-
+  
       // #region containers
           let html_containers =
               `
-              <div id="html-btn-new" class="col-lg-12" style="margin-left: 10px">
+              <div id="html-btn-new" class="col-lg-12" style="margin-left: 10px;">
               
               </div>
 
@@ -467,127 +467,16 @@
               </div>
               
               <div id="html-table">
-              <table id="example" class="display nowrap table" style="width:100%">
-              <thead>
-                  <tr>
-                      <th></th>
-                      <th></th>
-                      <th>Last name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                      <th>Extn.</th>
-                      <th></th>
-                  </tr>
-              </thead>
+              <table id="fg-table" class="display nowrap table" style="width:100%">
               <tbody>
-                  <tr>
-                      <td></td>
-                      <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                      <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                      </td>
-                      <td>Tiger</td>
-                      <td>Nixon</td>
-                      <td>System Architect</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>$320,800</td>
-                      <td>
-                      <span class="bg-blue badge ">Activo</span>
-                      </td>
-                      
-                  </tr>
-                  <tr>
-                  <td></td>
-                  <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                  <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                  </td>
-                      <td>Garrett</td>
-                      <td>Winters</td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>$170,750</td>
-                      <td>
-                      <span class="bg-red badge ">Inactivo</span>
-                      </td>
-                     
-                  </tr>
-                  <tr>
-                  <td></td>
-                  <td><button class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                  <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                  </td>
-                      <td>Ashton</td>
-                      <td>Cox</td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>$86,000</td>
-                      <td>
-                      <span class="bg-green badge ">En proceso</span>
-                      </td>
-                      
-                  </tr>
-                  <tr>
-                  <td></td>
-                  <td><button type="button" class=" edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                      <button type="button" class="delete btn btn-danger btn-xs" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                      </td>
-                      <td>Cedric</td>
-                      <td>Kelly</td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>$433,060</td>
-                      <td>
-                      <span class="bg-blue badge ">Activo</span>
-                      </td>
-                      
-                  </tr>
-                  <tr>
-                  <td></td>
-                  <td><button type="button" class="edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                  <button type="button" class="btn btn-danger btn-xs delete" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                  </td>
-                      <td> Donna Donna Donna</td>
-                      <td>Snider</td>
-                      <td>Customer Support</td>
-                      <td>New York</td>
-                      <td>27</td>
-                      <td>2011/01/25</td>
-                      <td>$112,000</td>
-                      <td>
-                      <span class="bg-yellow badge ">Revisar</span>
-                      </td>
-                     
-                  </tr>
+                
               </tbody>
-              <tfoot>
-                  <tr>
-                      <th></th>
-                      <th></th>
-                      <th>Last name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Salary</th>
-                      <th>Extn.</th>
-                      <td>
-                      </td>
-                  </tr>
-              </tfoot>
+            
           </table>
               </div>
 
               `
+
               $(idForm).html(html_containers)
               $(idForm).show()
 
@@ -597,6 +486,7 @@
       //#region html injection
           // div button 
       let html_buttons = ` `
+      let html_btn_new_back = ``
 
           // save button
        if(rules.new)
@@ -616,20 +506,23 @@
             </button>
            `
 
-           let html_btn_new =
+           html_btn_new_back +=
                  ` 
                   <button  id='btn_form_new' type="button" class="btn btn-labeled btn-success m-b-5">
                   <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
-                  </button>
-                  
-                  <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
-                  <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
-                  </button>
-                  <hr>
-                ` 
-           $(idForm + ' #html-btn-new').append(html_btn_new )
+                  </button> ` 
 
+               
             } 
+
+            html_btn_new_back +=    `
+            <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
+            <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
+            </button> <hr>
+          ` 
+            $(idForm + ' #html-btn-new').append(html_btn_new_back )
+
+
           // not update button
        if(rules.change)
        {
@@ -662,82 +555,14 @@
 
       //#region DatTable
 
-      if(!rules.show)
+      if(rules.show)
+      {
+        $f.forms.fillTable( idForm , data)
+      }
+      else
       {
         $(idForm + ' #html-table').hide()
       }
-
-      let table = $(idForm + ' #example').DataTable( {
-        responsive: {
-            details: {
-                type: 'column'
-            }
-        },
-        columnDefs: [ {
-            className: 'control',
-            orderable: false,
-            targets:   0
-        } ],
-        order: [ 1, 'asc' ],
-        dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
-         buttons: [
-                        {extend: 'copy', className: 'btn-sm'},
-                        {extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'},
-                        {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
-                        {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
-                        {extend: 'print', className: 'btn-sm'}
-                    ]
-
-    } );
-
-    $(idForm + ' #example tbody').on( 'click', '.edit', function () {
-      var data = table.row( $(this).parents('tr') ).data();
-      toastr.info("", "Listo para editar...")
-
-      $(idForm +  ' #html-form').show()
-      $(idForm + ' #btn_form_new').hide()
-      $(idForm + ' #html-table').hide()
-      $(idForm + ' #btn-form-back').show()
-
-      $(idForm + ' #btn_reset').hide()
-      $(idForm + ' #bnt_save').hide()
-
-      $(idForm + ' #btn_update').show()
-      $(idForm + ' #btn_delete').show()
-
-      $(idForm + ' #btn_nothing').prop("disabled", false); 
-      $(idForm + ' #btn_delete').prop("disabled", false); 
-      
-
-      console.log(data)
-    })
-    
-    $(idForm + ' #example tbody').on( 'click', '.delete', function () {
-      var data = table.row( $(this).parents('tr') ).data();
-      
-      swal(
-        {
-          title: "¿Estás seguro?",
-          text: "Los datos serán eliminados difinitivamente.",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "¡Sí, eliminar!",
-        cancelButtonText: "¡No, cancelar!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-      },
-      function(isConfirm){
-        if (isConfirm) {
-          swal("¡Eliminado!", "Datos eliminados con éxito", "success");
-        } else {
-          swal("¡Cancelado!", "Tus datos estan seguros", "error");
-        }
-      });
-      
-      console.log(data)
-
-    })
 
       //endregion Dattable
 
@@ -820,7 +645,144 @@
       // #check ver por qué da ese error
       console.log(error)
     }
-    }
+    },
+
+    fillTable: function (idForm, data) 
+    {
+      let idTable = idForm + ' #fg-table'
+      let btn_edit = ``
+      let btn_delete = ``
+      let columns = [
+                      {
+                      data: null, "title": "",
+                      defaultContent: ""
+                      }
+                    ]
+
+      if(data.rules.change)
+      {
+        btn_edit = `
+                <button type="button" class="edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                 `
+      }
+
+      if(data.rules.delete)
+      {
+        btn_delete = `
+                <button type="button" class="btn btn-danger  btn-xs delete" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button>
+                 `
+      }
+
+      if(data.rules.change || data.rules.delete)
+      {
+      columns.push(
+              {
+                data: null, "title": "",
+                defaultContent: `
+                    <td>
+                      ${btn_edit}${btn_delete}
+                    </td>
+                `
+              }
+          )
+      }
+          
+          for (let i = 0; i< data.columns.length; i++) {
+            columns.push(data.columns[i])
+          }
+          
+
+      let table = $(idTable).DataTable({
+        ajax: {
+            url: _app.static.core_path + 'get/smart/request',
+            type: 'POST',
+            data: {
+                 token: _session.token,
+                 key: _app.inf.key,
+                data: { query: data.view }
+            }
+        },
+
+        columns: columns,
+
+      responsive: {
+          details: {
+              type: 'column'
+          }
+      },
+
+      columnDefs: [ 
+        {
+          className: 'control',
+          orderable: true,
+          targets:   0
+      } ],
+
+      order: [ 1, 'asc' ],
+
+      dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
+
+       buttons: [
+                      {extend: 'copy', className: 'btn-sm'},
+                      {extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'},
+                      {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
+                      {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
+                      {extend: 'print', className: 'btn-sm'}
+                  ]
+          })
+
+          $(idTable + ' tbody').on( 'click', '.edit', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            toastr.info("", "Listo para editar...")
+      
+            $(idForm +  ' #html-form').show()
+            $(idForm + ' #btn_form_new').hide()
+            $(idForm + ' #html-table').hide()
+            $(idForm + ' #btn-form-back').show()
+      
+            $(idForm + ' #btn_reset').hide()
+            $(idForm + ' #bnt_save').hide()
+      
+            $(idForm + ' #btn_update').show()
+            $(idForm + ' #btn_delete').show()
+      
+            $(idForm + ' #btn_nothing').prop("disabled", false); 
+            $(idForm + ' #btn_delete').prop("disabled", false); 
+            
+      
+            console.log(data)
+            })
+          
+          $(idTable + ' tbody').on( 'click', '.delete', function () {
+            var data = table.row( $(this).parents('tr') ).data();
+            
+            swal(
+              {
+                title: "¿Estás seguro?",
+                text: "Los datos serán eliminados difinitivamente.",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "¡Sí, eliminar!",
+              cancelButtonText: "¡No, cancelar!",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                swal("¡Eliminado!", "Datos eliminados con éxito", "success");
+              } else {
+                swal("¡Cancelado!", "Tus datos estan seguros", "error");
+              }
+            });
+            
+            console.log(data)
+      
+              })
+          
+        return table
+      }
     }
     //#endregion
 

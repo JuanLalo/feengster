@@ -3901,14 +3901,21 @@ $(document).ready(function(){
              menu_id: undefined,
              name: 'smart_form',
              table_code: undefined,
+             view: 'modules',
 
             rules:
                 {
                    show: true,
-                   new: true,
+                   new: false,
                    change: true,
                    delete: true
-                }
+                },
+
+            columns: [
+                     { "data": "name", "title": "NOMBRE" },
+                     { "data": "icon", "title": "ÍCONO" },
+                     { "data": "status", "title": "ESTATUS" },
+                     ]
         }
     )
 

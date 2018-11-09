@@ -27,10 +27,24 @@ static function appId($key)
 
 static function getData($bd, $data)
  {
+   
+    $query = "";
+    $arr = [];
 
-  switch($data['query'])
-  {  
-          // dataTable
+   switch($data['query'])
+     {  
+
+        //#region GENERAL
+
+          case 'modules': 
+                $query = "SELECT * FROM {$bd}.cat_module ";
+           break;
+
+
+         //#endregion
+
+
+         //#region GENERAL
         case 'getCategories':
         $query = "SELECT * FROM {$bd}.categories WHERE id_app = ? AND `type` = ? AND id_company = ? and `status` <> 'ELIMINADO'";
         return DB::select($query, [$data['id_app'], $data['type'], $data['id_company']]);
@@ -109,17 +123,22 @@ static function getData($bd, $data)
         return DB::select($query);
         break;
 
-        // Query´s esclusivas de App Web
+       
         case "getAllApps":
         $query = "SELECT * from cat_apps where platform = ? AND estatus = ? ";
         return DB::select($query, ["web", "1"]);
         break;
 
+  //#endregion
+
         
         default:
-
+                return false;
         break;
+        
      }
+
+     return DB::select($query, $arr);
    
 }
 
