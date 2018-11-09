@@ -87,23 +87,7 @@
 
     }
 
-    let _forms = {
-      /**
-       0 :{
-        menu_id: undefined,
-        name: undefined,
-        table_code: undefined,
-
-      rules:
-        {
-          select: false,
-          insert: false,
-          update: false
-        }
-     }
-     */
-
-    }
+    let _forms = {}
 
     const _notify = {
 
@@ -414,18 +398,10 @@
         let size = Object.keys(_forms).length
      
         _forms[size] = {
-              menu_id: form.menu_id,
-              name: form.name,
-              table_code: form.table_code,
-              view: form.view,
-      
-            rules:
-              {
-                show: form.rules.show,
-                new: form.rules.new,
-                change: form.rules.change,
-                delete: form.rules.delete
-              }
+              info: form.info,
+              rules: form.rules,
+              columns : form.columns,
+              formData: {}
           }
       return size
       
@@ -443,19 +419,15 @@
     try {
 
      let id = this.add(data)
-      
      if(Number.isInteger(id))
      {
 
-      let currentForm = _forms[id]
-      let rules = currentForm.rules
-      let idForm = '#' + currentForm.name
+      let idForm = ' #' + _forms[id].info.name
 
-  
       // #region containers
           let html_containers =
               `
-              <div id="html-btn-new" class="col-lg-12" style="margin-left: 10px;">
+              <div id="html_btn_new_back" class="col-lg-12" style="margin-left: 10px; display: none">
               
               </div>
 
@@ -469,10 +441,8 @@
               <div id="html-table">
               <table id="fg-table" class="display nowrap table" style="width:100%">
               <tbody>
-                
               </tbody>
-            
-          </table>
+              </table>
               </div>
 
               `
@@ -482,14 +452,14 @@
 
              
       //#endregion
-
+   
       //#region html injection
           // div button 
       let html_buttons = ` `
       let html_btn_new_back = ``
 
           // save button
-       if(rules.new)
+       if(_forms[id].rules.new)
        { 
          
           html_buttons +=
@@ -512,19 +482,12 @@
                   <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
                   </button> ` 
 
+            $('#html_btn_new_back').show()
                
             } 
 
-            html_btn_new_back +=    `
-            <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
-            <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
-            </button> <hr>
-          ` 
-            $(idForm + ' #html-btn-new').append(html_btn_new_back )
-
-
           // not update button
-       if(rules.change)
+       if(_forms[id].rules.change)
        {
              // update button
         html_buttons += 
@@ -535,11 +498,19 @@
          Actualizar
           </button>
        `
-               
+       html_btn_new_back +=    `
+            <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
+            <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
+            </button>
+            `    
         }
+
+       
+        $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
+
       
           // delete button
-       if(rules.delete)
+       if(_forms[id].rules.delete)
        { 
         html_buttons += 
            `
@@ -555,9 +526,9 @@
 
       //#region DatTable
 
-      if(rules.show)
+      if(_forms[id].rules.show)
       {
-        $f.forms.fillTable( idForm , data)
+        forms.fillTable(id)
       }
       else
       {
@@ -571,17 +542,34 @@
       
           $(idForm).validator().on("submit", function (e) 
            {
-           
-            if (e.isDefaultPrevented())
-            {
-              toastr.warning("Al parecer el furmulario no está listo", "Atención" )
+            
+           if (e.isDefaultPrevented())
+                    {
+                      toastr.warning("Al parecer el furmulario no está listo", "Atención" )
          
-            }
-            else
-            {
-              toastr.info("", "Guardando...")
-              return false;
-            }
+                  }
+                    else
+                  {
+
+                    try {
+                      
+                      var $this = $(this)
+                      , viewArr = $this.serializeArray()
+                      , view = {};
+                  
+                      for (var i in viewArr) {
+                          view[viewArr[i].name] = viewArr[i].value;
+                      }
+
+                      console.log(view)
+                      toastr.info("", "Guardando...")
+                    
+                    } catch (error) {
+                      console.error(signature + error)   
+                    }
+
+                    return false
+                  }
            
           })
 
@@ -623,10 +611,20 @@
             $(idForm + ' #html-table').show()
            }
           )
+
+       
+          $(idForm + ' #btn_delete').click(
+            function()
+              {
+                forms.onDelete(id)
+              }
+            
+          )
+
         
         // On only new
 
-        if(rules.new && !rules.show && !rules.change && !rules.delete)
+        if(_forms[id].rules.new && !_forms[id].rules.show && !_forms[id].rules.change && !_forms[id].rules.delete)
         {
           $(idForm + ' #btn_form_new').click()
         }
@@ -634,9 +632,8 @@
       //#endregion
       
 
-       
      
-      console.log('$fg :: ' +  currentForm.name + ' ' + ' Creado correctamente.')
+      console.log('$fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
 
      }
    
@@ -647,8 +644,10 @@
     }
     },
 
-    fillTable: function (idForm, data) 
+    fillTable: function (id) 
     {
+      
+      let idForm = ' #' + _forms[id].info.name
       let idTable = idForm + ' #fg-table'
       let btn_edit = ``
       let btn_delete = ``
@@ -658,15 +657,15 @@
                       defaultContent: ""
                       }
                     ]
-
-      if(data.rules.change)
+      
+      if(_forms[id].rules.change)
       {
         btn_edit = `
                 <button type="button" class="edit btn btn-info btn-xs" data-toggle="tooltip" data-placement="left" title="Update"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                  `
       }
 
-      if(data.rules.delete)
+      if(_forms[id].rules.delete)
       {
         btn_delete = `
                 <button type="button" class="btn btn-danger  btn-xs delete" data-toggle="tooltip" data-placement="right" title="Delete "><i class="fa fa-trash-o" aria-hidden="true"></i>
@@ -674,7 +673,7 @@
                  `
       }
 
-      if(data.rules.change || data.rules.delete)
+      if(_forms[id].rules.change || _forms[id].rules.delete)
       {
       columns.push(
               {
@@ -688,8 +687,8 @@
           )
       }
           
-          for (let i = 0; i< data.columns.length; i++) {
-            columns.push(data.columns[i])
+          for (let i = 0; i< _forms[id].columns.length; i++) {
+            columns.push(_forms[id].columns[i])
           }
           
 
@@ -700,7 +699,7 @@
             data: {
                  token: _session.token,
                  key: _app.inf.key,
-                data: { query: data.view }
+                data: { query: _forms[id].info.view }
             }
         },
 
@@ -735,14 +734,16 @@
           $(idTable + ' tbody').on( 'click', '.edit', function () {
             var data = table.row( $(this).parents('tr') ).data();
             toastr.info("", "Listo para editar...")
-      
-            $(idForm +  ' #html-form').show()
-            $(idForm + ' #btn_form_new').hide()
-            $(idForm + ' #html-table').hide()
-            $(idForm + ' #btn-form-back').show()
-      
+
             $(idForm + ' #btn_reset').hide()
             $(idForm + ' #bnt_save').hide()
+            $(idForm + ' #html-table').hide()
+            $(idForm + ' #btn_form_new').hide()
+      
+            $(idForm + ' #html-form').show()
+            $(idForm + ' #btn-form-back').show()
+            $(idForm + ' #html_btn_new_back').show()
+      
       
             $(idForm + ' #btn_update').show()
             $(idForm + ' #btn_delete').show()
@@ -750,39 +751,52 @@
             $(idForm + ' #btn_nothing').prop("disabled", false); 
             $(idForm + ' #btn_delete').prop("disabled", false); 
             
-      
-            console.log(data)
-            })
+            _forms[id].formData = data
+            
+          })
           
           $(idTable + ' tbody').on( 'click', '.delete', function () {
-            var data = table.row( $(this).parents('tr') ).data();
-            
-            swal(
-              {
-                title: "¿Estás seguro?",
-                text: "Los datos serán eliminados difinitivamente.",
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "¡Sí, eliminar!",
-              cancelButtonText: "¡No, cancelar!",
-              closeOnConfirm: false,
-              closeOnCancel: false
-            },
-            function(isConfirm){
-              if (isConfirm) {
-                swal("¡Eliminado!", "Datos eliminados con éxito", "success");
-              } else {
-                swal("¡Cancelado!", "Tus datos estan seguros", "error");
-              }
-            });
-            
-            console.log(data)
-      
-              })
+            var data = table.row( $(this).parents('tr') ).data()
+            _forms[id].formData = data
+            forms.onDelete(id)
+          })
           
         return table
-      }
+      },
+     onDelete: function(id)
+     {
+      swal(
+        {
+          title: "¿Estás seguro?",
+          text: "Los datos serán eliminados difinitivamente.",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "¡Sí, eliminar!",
+        cancelButtonText: "¡No, cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+      },
+      function(isConfirm){
+        if (isConfirm) {
+            forms.deleteThis(id)
+        } else {
+            forms.cancelDelete(id)
+        }
+        })
+
+     },
+
+     deleteThis: function(id)
+     {
+        swal("¡Eliminado!", "Datos eliminados con éxito " + _forms[id].formData.id, "success")
+     },
+
+     cancelDelete: function(id)
+     {
+      swal("¡Cancelado!", "Tus datos estan seguros", "error")
+     }
+
     }
     //#endregion
 

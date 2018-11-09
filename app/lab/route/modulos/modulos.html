@@ -13,7 +13,7 @@
 
       <div class="panel-body" >
 
-        <form id="smart_form"   class="form-horizontal ">
+        <form id="smart_form" role="form"  class="form-horizontal ">
 
         <input style="display: none;" id="id" name="id" type="text" class="form-control">
             
@@ -3898,20 +3898,24 @@ $(document).ready(function(){
 
        $f.forms.new(
         {
-             menu_id: undefined,
-             name: 'smart_form',
-             table_code: undefined,
-             view: 'modules',
-
-            rules:
+           
+          info: 
+                {
+                  menu_id: undefined,
+                  name: 'smart_form',
+                  table_code: undefined,
+                  view: 'modules'
+                },
+           
+           rules:
                 {
                    show: true,
-                   new: false,
+                   new: true,
                    change: true,
                    delete: true
                 },
 
-            columns: [
+             columns: [
                      { "data": "name", "title": "NOMBRE" },
                      { "data": "icon", "title": "ÍCONO" },
                      { "data": "status", "title": "ESTATUS" },
