@@ -403,6 +403,22 @@
               columns : form.columns,
               formData: {}
           }
+
+        if(form.rules.new)
+        {
+          _forms[size].action = 'new'
+        }
+        else if(form.rules.change)
+        {
+          _forms[size].action = 'change'
+        }
+        else
+        {
+          _forms[size].action = 'nothing'
+        }
+        
+       
+
       return size
       
     } catch (error) {
@@ -553,23 +569,36 @@
 
                     try {
                       
-                      var $this = $(this)
-                      , viewArr = $this.serializeArray()
-                      , view = {};
+                      // Se toaman los datos del formulario
+                      var $this = $(idForm)
+                      , formHTML = $this.serializeArray()
+                      , formData = {};
                   
-                      for (var i in viewArr) {
-                          view[viewArr[i].name] = viewArr[i].value;
+                      for (var i in formHTML) {
+                        formData[formHTML[i].name] = formHTML[i].value;
                       }
-
-                      console.log(view)
+                      // Se valida la aaacción 
+                     if(_forms[id].action == 'new')
+                     {
+                      console.log('Datos para guardar ')
+                      console.log( formData)
                       toastr.info("", "Guardando...")
                     
-                    } catch (error) {
-                      console.error(signature + error)   
+                    }
+                    else if(_forms[id].action == 'change')
+                    {
+                      console.log('Datos para editar ')
+                      console.log(_forms[id].formData)
+                      console.log('Datos datos modificados ' )
+                      console.log(formData )
                     }
 
+                } catch (error) {
+                  console.error(signature + error)   
+                }
                     return false
-                  }
+
+              }
            
           })
 
@@ -733,6 +762,9 @@
 
           $(idTable + ' tbody').on( 'click', '.edit', function () {
             var data = table.row( $(this).parents('tr') ).data();
+           
+            _forms[id].action = 'change'
+           
             toastr.info("", "Listo para editar...")
 
             $(idForm + ' #btn_reset').hide()
@@ -750,8 +782,19 @@
       
             $(idForm + ' #btn_nothing').prop("disabled", false); 
             $(idForm + ' #btn_delete').prop("disabled", false); 
-            
+
             _forms[id].formData = data
+            let $this = $(idForm)
+            let formHTML = $this.serializeArray()
+                  
+             for (let i in formHTML) {
+                $( idForm + ' input[name=' + formHTML[i].name + ']').val(data[formHTML[i].name])
+                console.log(formHTML[i].name + ' = ' +  data[formHTML[i].name])
+            }
+
+            console.log(_forms[id].formData)
+            console.log(formHTML)
+                        
             
           })
           

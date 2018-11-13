@@ -37,7 +37,7 @@ static function getData($bd, $data)
         //#region GENERAL
 
           case 'modules': 
-                $query = "SELECT * FROM {$bd}.cat_module ";
+                $query = "SELECT * FROM {$bd}.cat_module WHERE status <> 'ELIMINADO'";
            break;
 
 

@@ -13,15 +13,13 @@
 
       <div class="panel-body" >
 
-        <form id="smart_form" role="form"  class="form-horizontal ">
-
-        <input style="display: none;" id="id" name="id" type="text" class="form-control">
-            
+        <form id="smart_modules" role="form"  class="form-horizontal ">
+ 
         <div class="form-group">
           <div class="col-xs-12 col-lg-8">
             <div class="input-group">
               <div class="input-group-addon">Nombre</div> 
-              <input id="name" name="name" placeholder="Nombre del modulo" type="text" class="form-control" required="required"> 
+              <input name="name" placeholder="Nombre del modulo" type="text" class="form-control" required="required"> 
               <div class="input-group-addon">
                 <i class="fa fa-sort-alpha-desc"></i>
               </div>
@@ -32,9 +30,9 @@
           <div class="col-xs-12 col-lg-8">
             <div class="input-group">
               <div class="input-group-addon">Icono</div> 
-              <input id="ico" name="ico" placeholder="icono del modulo" type="text" aria-describedby="icoHelpBlock" required="required" class="form-control"> 
+              <input  name="icon" placeholder="icono del modulo" type="text" aria-describedby="icoHelpBlock" required="required" class="form-control"> 
               <div class="input-group-addon">
-                  <i class="fa fa-smile"></i>
+                <i class="material-icons" id="sm-view-icon"> router</i>
               </div>
             </div> 
             <span id="icoHelpBlock" class="help-block">Este icono será usado a los menús que pertenezcan a este modulo</span> 
@@ -3861,9 +3859,10 @@
 
 
           <div class="col-xs-12 col-lg-4">
-            <select id="status" name="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
-              <option value="1">ACTIVO</option>
-              <option value="0">NO ACTIVO</option>
+            <select name="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
+              <option value="Seleccionar">Seleccionar</option>
+              <option value="ACTIVO">ACTIVO</option>
+              <option value="NO ACTIVO">NO ACTIVO</option>
             </select> 
             <span id="statusHelpBlock" class="help-block">Todos los menús de este modulo estarán inactivos si no se activa.</span>
           </div>
@@ -3895,16 +3894,15 @@
 
 $(document).ready(function(){
 
-
        $f.forms.new(
         {
            
           info: 
                 {
                   menu_id: undefined,
-                  name: 'smart_form',
+                  name: 'smart_modules',
                   table_code: undefined,
-                  view: 'modules'
+                  view: 'modules',
                 },
            
            rules:
@@ -3912,7 +3910,8 @@ $(document).ready(function(){
                    show: true,
                    new: true,
                    change: true,
-                   delete: true
+                   delete: true,
+                   security: 'Protected' // Removable - Protected  
                 },
 
              columns: [
@@ -3924,6 +3923,9 @@ $(document).ready(function(){
     )
 
 })
+
+
+sm-view-icon
 
 </script>
 
