@@ -98,18 +98,22 @@ class ApiController extends Controller
                 $isKey =Q_Api::isKey($data['key']);
                 if($isKey == 'true')
                 {
-                    $isToken = User_Q::isToken(null, $data['token']);
+                    $bd = Q_Api::selectBD($data['key']);
+                    $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
-                      $res = Q_Api::smartInsert(Q_Api::selectBD($data['key']), $data['table'], $data['data']);
-                      $code = 202; 
+                      $table =  Q_Api::getTable($data['table_code']); 
+                      $res = Q_Api::smartInsert($bd, $table, $data['data']);
+                      
                       if($res)
                       {
+                        $code = 201; 
                         $response = ["status" => "success", "message" => "Registrado con éxito" , "deta" => $res];
 
                       }
                       else
                       {
+                        $code = 204; 
                         $response = ["status" => "error", "message" => "No se puede realizar el registro, si cree que se trata de un error comuniquese con el equipo de soporte" , "deta" => $res];
                       }
                     }else
@@ -160,18 +164,22 @@ class ApiController extends Controller
                 $isKey =Q_Api::isKey($data['key']);
                 if($isKey == 'true')
                 {
-                    $isToken = User_Q::isToken(null, $data['token']);
+                    $bd = Q_Api::selectBD($data['key']);
+                    $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
-                      $res = Q_Api::smarUpdate(Q_Api::selectBD($data['key']), $data['table'], $data['id'] , $data['data']);
-                      $code = 202; 
+
+                      $table =  Q_Api::getTable($data['table_code']);   
+                      $res = Q_Api::smarUpdate($bd, $table, $data['id'] , $data['data']); 
                       if($res > 0)
                       {
+                        $code = 201;
                         $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "deta" => $res];
 
                       }
                       else
                       {
+                        $code = 204;
                         $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "deta" => $res];
                       }
                     }else

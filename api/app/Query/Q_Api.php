@@ -24,6 +24,13 @@ static function appId($key)
         return $res[0]->app_id;
 }
 
+static function getTable($code)
+{
+        $query = "SELECT t.name FROM tables t where t.code = ?";
+        $res =  DB::select($query, [$code]);
+        return $res[0]->name;
+}
+
 
 static function getData($bd, $data)
  {

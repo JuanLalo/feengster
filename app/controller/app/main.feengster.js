@@ -219,17 +219,55 @@
         })
       },
 
-      getDataCallBack: function (code, data) {
-        //TODO
+      setData: function (table, data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'new/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            table_code: table,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
+
+          }
+        })
       },
 
-      setData: function (data) {
-        // recibe la key de la tabla, campos y valores.
+      changeData: function (table, id, data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'update/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            table_code: table,
+            id: id,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
 
-      },
-
-      changeData: function (data) {
-        // recibe la key de la tabla, campos y valores. (id del registro)
+          }
+        })
       },
 
       deleteData: function (data) {
@@ -401,7 +439,21 @@
               info: form.info,
               rules: form.rules,
               columns : form.columns,
-              formData: {}
+              formData: {},
+              optionalData: form.optionalData,
+
+               /** EVENTS
+               *  --> onEdit
+               *  --> beforeSave
+               *  --> afterSave
+               *  --> onDelete
+               *  --> beforeDelete
+               *  --> afterDelete
+               *  */
+              events: form.events
+              
+             
+              
           }
 
         if(form.rules.new)
@@ -577,20 +629,94 @@
                       for (var i in formHTML) {
                         formData[formHTML[i].name] = formHTML[i].value;
                       }
-                      // Se valida la aaacción 
+                      
+                      delete formData['fg-table_length']
+
                      if(_forms[id].action == 'new')
                      {
-                      console.log('Datos para guardar ')
-                      console.log( formData)
-                      toastr.info("", "Guardando...")
-                    
+                      let save = true
+
+                      if(_forms[id].events.beforeSave != undefined)
+                      {
+                       save = _forms[id].events.beforeSave()
+                      }
+                      if(save){
+                        console.log('Datos para guardar ')
+                        console.log( formData)
+                        toastr.info("", "Guardando...")
+                        api.setData(
+                                    _forms[id].info.table_code,
+                                    formData,
+                                    function(data){
+                                      console.log(data)
+                                      forms.reloadTable(id)
+                                    }
+                                    )
+
+                      }
+                      
+
                     }
                     else if(_forms[id].action == 'change')
                     {
-                      console.log('Datos para editar ')
-                      console.log(_forms[id].formData)
-                      console.log('Datos datos modificados ' )
-                      console.log(formData )
+                      let change = true
+                      
+                      if(_forms[id].events.beforeChange != undefined)
+                      {
+                        change = _forms[id].events.beforeChange()
+                      }
+
+                      if(change){
+                        
+                        console.log('Datos para editar ')
+                        console.log(_forms[id].formData)
+                        
+
+                        let dataToUpdate = {}
+                        let wasChange = true
+                        let change = false
+
+                        for(let i in formData)
+                        {
+                          
+                          for(let ii in _forms[id].formData){
+
+                                 if(formData[i] == _forms[id].formData[ii])
+                                 {
+                                  wasChange = false
+                                }
+                           }
+
+                           if(wasChange)
+                           {
+                             dataToUpdate[i] = formData[i]
+                             change = true
+                           }
+                        }
+
+                        console.log('Datos datos modificados ' )
+                        console.log(dataToUpdate)
+
+                        if(change)
+                        {
+                          toastr.info("", "Actualizando datos...")
+                           api.changeData(
+                              _forms[id].info.table_code,
+                              _forms[id].formData.id, 
+                              dataToUpdate,
+                              function(data){
+                                console.log(data)
+                                forms.reloadTable(id)
+                              }
+                          )
+                        }
+                        else
+                        {
+                          toastr.warning("", "No se detectaron cambios.")
+                        }
+
+                      }
+
                     }
 
                 } catch (error) {
@@ -623,8 +749,15 @@
             $(idForm + ' #btn_delete').hide()
 
             
+          $(idForm + ' #btn_reset').click(); 
           $(idForm + ' #btn_reset').prop("disabled", false); 
-            
+          _forms[id].action = 'new'
+
+          if(_forms[id].events.onNew != undefined)
+          {
+            _forms[id].events.onNew()
+          }
+          
 
           })
 
@@ -638,6 +771,7 @@
 
             // #TODO validar si se han hecho cambios para regrescar la tabla antes de mostrarla...
             $(idForm + ' #html-table').show()
+            _forms[id].action = 'new'
            }
           )
 
@@ -761,6 +895,9 @@
           })
 
           $(idTable + ' tbody').on( 'click', '.edit', function () {
+            
+            try {
+
             var data = table.row( $(this).parents('tr') ).data();
            
             _forms[id].action = 'change'
@@ -789,22 +926,42 @@
                   
              for (let i in formHTML) {
                 $( idForm + ' input[name=' + formHTML[i].name + ']').val(data[formHTML[i].name])
-                console.log(formHTML[i].name + ' = ' +  data[formHTML[i].name])
             }
 
             console.log(_forms[id].formData)
             console.log(formHTML)
+
+            if(_forms[id].events.onEdit != undefined)
+            {
+              _forms[id].events.onEdit()
+            }
+
+          } catch (error) {
+           console.error(signature + error)     
+          }
                         
             
           })
           
           $(idTable + ' tbody').on( 'click', '.delete', function () {
+            try {
+              
             var data = table.row( $(this).parents('tr') ).data()
             _forms[id].formData = data
             forms.onDelete(id)
+
+            if(_forms[id].events.onDelete != undefined)
+            {
+              _forms[id].events.onDelete()
+            }
+ 
+          } catch (error) {
+            console.log(signature + error)              
+          }
           })
           
         return table
+        
       },
      onDelete: function(id)
      {
@@ -838,6 +995,15 @@
      cancelDelete: function(id)
      {
       swal("¡Cancelado!", "Tus datos estan seguros", "error")
+     },
+
+     reloadTable: function(id)
+     {
+      let idForm = ' #' + _forms[id].info.name
+      let idTable = idForm + ' #fg-table'
+
+      let table = $(idTable).DataTable();
+      table.ajax.reload();
      }
 
     }

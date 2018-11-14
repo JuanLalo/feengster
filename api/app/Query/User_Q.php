@@ -24,7 +24,7 @@ static function create($bd, $data){
 
 static function isToken($bd, $token)
         {
-          $query = "select * from logins where status = 1 and token = ? limit 1";
+          $query = "select * from $bd.logins where status = 1 and token = ? limit 1";
           $res = DB::select($query, [$token]);
           if (empty($res))
           {
