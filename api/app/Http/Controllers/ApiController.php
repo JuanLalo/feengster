@@ -6,6 +6,7 @@ use Log;
 use App\Query\Q_api;
 use App\Query\User_Q;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
@@ -118,7 +119,7 @@ class ApiController extends Controller
                       }
                     }else
                     {
-                        $code = 401;
+                        $code = 403;
                         Log::alert($isToken);
                         $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
                     }     
@@ -126,8 +127,8 @@ class ApiController extends Controller
                 }
                 else
                  {
-                 $code = 401; // ok pero acceseo denagado
-                Log::alert($isKey);
+                 $code = 401; 
+                 Log::alert($isKey);
                 $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
             
                 }
@@ -155,8 +156,8 @@ class ApiController extends Controller
     public function updateRow(Request $request)
     {
      
-    //   try
-    //       {
+      try
+          {
           
             if (!empty($request->all()))
             {
@@ -184,7 +185,7 @@ class ApiController extends Controller
                       }
                     }else
                     {
-                        $code = 401;
+                        $code = 403;
                         Log::alert($isToken);
                         $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
                     }     
@@ -206,13 +207,78 @@ class ApiController extends Controller
             }
   
             
-    // } catch (\Exception $e) {
-    //     Log::error($e);
-    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-    //     $code = 400;
-    // }
+    } catch (\Exception $e) {
+        Log::error($e);
+        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+        $code = 400;
+    }
+        return response()->json($response, $code);
 
+    }
+
+
+    public function deleteRow(Request $request)
+    {
+     
+      try
+          {
+          
+            if (!empty($request->all()))
+            {
+                $data = $request->all();
+                $isKey =Q_Api::isKey($data['key']);
+                if($isKey == 'true')
+                {
+                    $bd = Q_Api::selectBD($data['key']);
+                    $isToken = User_Q::isToken($bd, $data['token']);
+                    if($isToken == 'true')
+                    {
+                      $table =  Q_Api::getTable($data['table_code']);
+                       // #TODO se da por hecho que se hace un borrado físico
+                       // validar pra solo vorrado lógico
+
+                      //$res = Q_Api::smarUpdate($bd, $table, $data['id'] , $data['data']);
+                      return DB::delete("DELETE FROM $bd.$table WHERE id = ?", [$data['id']]);
+                      if($res > 0)
+                      {
+                        $code = 201;
+                        $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "deta" => $res];
+
+                      }
+                      else
+                      {
+                        $code = 204;
+                        $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "deta" => $res];
+                      }
+                    }else
+                    {
+                        $code = 403;
+                        Log::alert($isToken);
+                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                    }     
+                   
+                }
+                else
+                 {
+                 $code = 401; // ok pero acceseo denagado
+                Log::alert($isKey);
+                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+            
+                }
+            }
+            else
+            {
+                $code = 403; // ok pero acceseo denagado
+                Log::alert("acceso denagado request no es un json");
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+            }
   
+            
+    } catch (\Exception $e) {
+        Log::error($e);
+        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e->getMessage()];
+        $code = 400;
+    }
         return response()->json($response, $code);
 
     }

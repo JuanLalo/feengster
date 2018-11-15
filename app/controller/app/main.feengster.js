@@ -270,8 +270,29 @@
         })
       },
 
-      deleteData: function (data) {
-        // recibe la key de la tabla, campos y valores. (id del registro)
+      deleteData: function (table, id,  success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'delete/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            table_code: table,
+            id: id
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
+
+          }
+        })
       },
 
       ajaxStatusCode: function (data) {
@@ -300,7 +321,40 @@
 
           } else {
             toastr.error('Error al conectar al servidor ' ,  data.status)
+          }
+        }
+      },
 
+      messageByHttpCode: function (data) {
+        
+        if (data.responseJSON) {
+          
+          if (data.status == 403) {
+            alert('BYE')
+            session.logout()
+          }
+            else
+          {
+            swal("Error - " + data.statusText , data.responseJSON.message , "error")
+          }
+        } else {
+          if (data.status == 205) {
+            swal("Error - " + data.statusText , 'No hemos encontrado resultados para tu solicitud' , "error")
+            
+          } else if (data.status == 405) {
+            swal("Error - " + data.statusText, 'Ruta de WS no encontrada' , "error")
+          }  
+          else if (data.status == 404) {
+
+            swal("Error - " + data.statusText, 'El servidor no pudo encontrar el contenido solicitado' , "error")
+
+          }else if (data.status == 408) {
+
+              swal("Error - " + data.statusText, 'El tiempo de espera se ha agotado, intentelo más tarde. Por favor.' , "error")
+  
+          } else {
+            swal("Error - " + data.statusText, 'Error al conextar con el servidor' , "error")
+  
           }
         }
       }
@@ -485,7 +539,7 @@
     new: function(data){
       
     try {
-
+      
      let id = this.add(data)
      if(Number.isInteger(id))
      {
@@ -502,11 +556,12 @@
               <div id="html-form" style="display: none">
               ${$(idForm).html()}
 
-              <div id="html-buttons" class="form-group" style= "margin-left: 10px; ">
+              <br>
+              <div id="html-buttons" class="col-lg-12" style= "margin-left: 10px; ">
               </div>
               </div>
               
-              <div id="html-table">
+              <div id="html-table" >
               <table id="fg-table" class="display nowrap table" style="width:100%">
               <tbody>
               </tbody>
@@ -527,6 +582,18 @@
       let html_btn_new_back = ``
 
           // save button
+
+          if(_forms[id].rules.change || _forms[id].rules.new )
+          {
+           html_btn_new_back +=    `
+           <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
+           <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
+           </button>
+           `    
+          }
+
+          
+
        if(_forms[id].rules.new)
        { 
          
@@ -546,14 +613,16 @@
 
            html_btn_new_back +=
                  ` 
-                  <button  id='btn_form_new' type="button" class="btn btn-labeled btn-success m-b-5">
+                  <button  id='btn_form_new' type="button" class="btn btn-labeled btn-primary m-b-5">
                   <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
                   </button> ` 
 
             $('#html_btn_new_back').show()
                
-            } 
+            }
 
+            $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
+   
           // not update button
        if(_forms[id].rules.change)
        {
@@ -566,15 +635,8 @@
          Actualizar
           </button>
        `
-       html_btn_new_back +=    `
-            <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
-            <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
-            </button>
-            `    
+      
         }
-
-       
-        $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
 
       
           // delete button
@@ -641,17 +703,32 @@
                        save = _forms[id].events.beforeSave()
                       }
                       if(save){
-                        console.log('Datos para guardar ')
-                        console.log( formData)
-                        toastr.info("", "Guardando...")
+
+                        forms.loading('Guardando', 'Espera un momento por favor.')
+                        $(idForm +  ' #html-buttons').hide()
+
                         api.setData(
                                     _forms[id].info.table_code,
                                     formData,
-                                    function(data){
-                                      console.log(data)
-                                      forms.reloadTable(id)
-                                    }
-                                    )
+                                    function(data)
+                                      {
+                                        swal("¡Listo!", "", "success")
+                                        $(idForm + ' #btn-form-back').click()
+                                        forms.reloadTable(id)
+
+                                        if(_forms[id].events.afterSave != undefined)
+                                        {
+                                          _forms[id].events.afterSave()
+                                        }
+                                      },
+
+                                    function(data)
+                                       {
+                                          api.messageByHttpCode(data)     
+                                          $(idForm +  ' #html-buttons').show()
+                                
+                                      }
+                                  )
 
                       }
                       
@@ -696,31 +773,28 @@
 
                         if(change)
                         {
-                          swal('Actualizando...', "Espera un momento, por favor.")
+                          
+                          forms.loading('Actualizando', 'Espera un momento por favor.')
                           $(idForm +  ' #html-buttons').hide()
-                          $(idForm +  ' #html_btn_new_back').hide()
 
                            api.changeData(
-                              _forms[id].info.table_code,
-                              _forms[id].formData.id, 
-                              dataToUpdate,
-                              function(data){
-                                console.log(data)
-                                $(idForm +  ' #html_btn_new_back').show()
+                            _forms[id].info.table_code,
+                            _forms[id].formData.id, 
+                            dataToUpdate,
+                            function(data){
+
+                               swal("¡Listo!", "", "success")
+                               let table = $(idForm + ' #fg-table').DataTable()
+                               table.row( _forms[id].index ).data( formData).draw()
+                               $(idForm + ' #btn-form-back').click()
+                              
+                              },
+
+                              function(data)
+                              {
+                                api.messageByHttpCode(data)     
                                 $(idForm +  ' #html-buttons').show()
-                                swal("¡Listo!", "", "success")
                                 
-                                for(let i in dataToUpdate)
-                                 {
-                                   _forms[id].formData[i] = dataToUpdate[i]
-                                   console.log(_forms[id].formData[i]) 
-                                 }
-                                 
-                                let table = $(idForm + ' #fg-table').DataTable()
-                                
-                                table.column( 2 ).name( 'icon' );
-                                var columnData = table.column( 'icon:name' ).data();
-                                 alert(columnData) 
                               }
                           )
                         }
@@ -750,6 +824,8 @@
         $(idForm + ' #btn_form_new').click(
           function()
           {
+            
+            $(idForm +  ' #html-buttons').show()
             $(idForm +  ' #html-form').show()
             $(idForm + ' #btn_form_new').hide()
             $(idForm + ' #btn-form-back').show()
@@ -922,7 +998,8 @@
             $(idForm + ' #bnt_save').hide()
             $(idForm + ' #html-table').hide()
             $(idForm + ' #btn_form_new').hide()
-      
+              
+            $(idForm +  ' #html-buttons').show()
             $(idForm + ' #html-form').show()
             $(idForm + ' #btn-form-back').show()
             $(idForm + ' #html_btn_new_back').show()
@@ -944,12 +1021,8 @@
                 if(formHTML[i].name == 'status')
                 {
                   $( idForm + ' #status').val(data[formHTML[i].name]).change();
-                  console.log(data[formHTML[i].name])
                 }
             }
-
-            console.log(_forms[id].formData)
-            console.log(formHTML)
 
             if(_forms[id].events.onEdit != undefined)
             {
@@ -968,13 +1041,9 @@
               
             var data = table.row( $(this).parents('tr') ).data()
             _forms[id].formData = data
-            forms.onDelete(id)
 
-            if(_forms[id].events.onDelete != undefined)
-            {
-              _forms[id].events.onDelete()
-            }
- 
+              forms.onDelete(id)
+
           } catch (error) {
             console.log(signature + error)              
           }
@@ -985,31 +1054,74 @@
       },
      onDelete: function(id)
      {
-      swal(
-        {
-          title: "¿Estás seguro?",
-          text: "Los datos serán eliminados difinitivamente.",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "¡Sí, eliminar!",
-        cancelButtonText: "¡No, cancelar!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-      },
-      function(isConfirm){
-        if (isConfirm) {
-            forms.deleteThis(id)
-        } else {
-            forms.cancelDelete(id)
+
+      if(_forms[id].events.onDelete != undefined)
+            {
+              _forms[id].events.onDelete()
+            }
+            
+            let beforeDelete = true
+
+            if(_forms[id].events.beforeDelete != undefined)
+            {
+              beforeDelete = _forms[id].events.beforeDelete()
+            }
+
+            if(beforeDelete)
+            {
+              
+
+           swal(
+               {
+               title: "¿Estás seguro?",
+               text: "Los datos serán eliminados difinitivamente.",
+               type: "warning",
+               showCancelButton: true,
+               confirmButtonColor: "#DD6B55",
+               confirmButtonText: "¡Sí, eliminar!",
+               cancelButtonText: "¡No, cancelar!",
+               closeOnConfirm: false,
+               closeOnCancel: false
+              },
+              function(isConfirm){
+                  if (isConfirm) {
+                    forms.deleteThis(id)
+                  }
+                  else
+                  {
+                   forms.cancelDelete(id)
+                  }
+              })
         }
-        })
 
      },
 
      deleteThis: function(id)
      {
-        swal("¡Eliminado!", "Datos eliminados con éxito " + _forms[id].formData.id, "success")
+
+      let idForm = ' #' + _forms[id].info.name
+      forms.loading('Eliminando', 'Espera un momento por favor.')
+      api.deleteData(
+        _forms[id].info.table_code,
+        _forms[id].formData.id,
+        function(data)
+          {
+            swal("¡Listo!", "" , "success")
+            $(idForm + ' #btn-form-back').click()
+            forms.reloadTable(id)
+
+            if(_forms[id].events.afterDelete != undefined)
+            {
+              _forms[id].events.afterDelete()
+            }
+          },
+
+        function(data)
+           {
+            api.messageByHttpCode(data)
+          }
+      )
+
      },
 
      cancelDelete: function(id)
@@ -1026,28 +1138,14 @@
       table.ajax.reload();
      },
 
-     loading: function(id, title, msg)
+     loading: function( title, msg)
      {
-      let idForm = ' #' + _forms[id].info.name
-
-      $(idForm ).append(`
-                        <div id="loader" class="text-center">
-                        <br><br><br>
-                        <img width="50" src="../assets/dist/js/loader.gif" alt="Cargando...">
-                        <br>
-                        <br>
-                        <h2>
-                        <p>${title}</p>
-                        </h2>
-                        <br><br><br><br><br><br><br><br><br><br>
-                        </div>
-                        `)
-      
-      $(idForm + ' #html-table').hide()
-      $(idForm +  ' #html-form').hide()
-      $(idForm +  ' #html_btn_new_back').hide()
-      
-      
+      swal({
+        title: title,
+        text: msg,
+        imageUrl: '../assets/dist/js/loader.gif'
+        })      
+        $('.confirm').hide()
 
      },
 

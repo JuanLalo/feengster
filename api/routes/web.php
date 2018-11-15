@@ -26,8 +26,8 @@ $router->get('/test', ['uses' => 'ApiController@test']);
 204 NO CONTENT	Indica que se ha aceptado la solicitud, pero no había datos para devolver. 
 205 Reset Content The server successfully processed the request, but is not returning any content. Unlike a 204 response, this response requires that the requester reset the document view
  400 BAD REQUEST	La solicitud no fue válida.
-401 UNAUTHORIZED (logout)	El servidor de aplicaciones devuelve este código de respuesta cuando está habilitada la seguridad y faltaba la información de autorización en la solicitud.
-403 FORBIDDEN (No se muetsra info.)	Indica que el cliente ha intentado acceder a un recurso al que no tiene acceso. 
+401 UNAUTHORIZED (NO tienes persmisos)	El servidor de aplicaciones devuelve este código de respuesta cuando está habilitada la seguridad y faltaba la información de autorización en la solicitud.
+403 FORBIDDEN (logout)	Indica que el cliente ha intentado acceder a un recurso al que no tiene acceso. 
 */
 
 
@@ -61,10 +61,11 @@ $router->post('/router/set/data', ['uses' => 'ApiController@setData']);
 
 
 //smart
-$router->get('/get/smart/request', ['uses' => 'ApiController@smartGetData']); 
 $router->post('/get/smart/request', ['uses' => 'ApiController@smartGetData']); 
 $router->post('/new/smart/request', ['uses' => 'ApiController@createRow']);
 $router->post('/update/smart/request', ['uses' => 'ApiController@updateRow']);
+$router->post('/delete/smart/request', ['uses' => 'ApiController@deleteRow']);
+
 
 
 // mySypport
