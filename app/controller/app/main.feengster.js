@@ -673,40 +673,54 @@
                         
 
                         let dataToUpdate = {}
-                        let wasChange = true
+                        let wasChange = false
                         let change = false
 
                         for(let i in formData)
                         {
-                          
-                          for(let ii in _forms[id].formData){
-
-                                 if(formData[i] == _forms[id].formData[ii])
-                                 {
-                                  wasChange = false
+                            if(formData[i] != _forms[id].formData[i])
+                                {
+                                  wasChange = true
                                 }
-                           }
 
                            if(wasChange)
                            {
                              dataToUpdate[i] = formData[i]
-                             change = true
+                             wasChange = false
+                             change= true
                            }
                         }
-
-                        console.log('Datos datos modificados ' )
+                        
+                        console.log('Datos modificados ' )
                         console.log(dataToUpdate)
 
                         if(change)
                         {
-                          toastr.info("", "Actualizando datos...")
+                          swal('Actualizando...', "Espera un momento, por favor.")
+                          $(idForm +  ' #html-buttons').hide()
+                          $(idForm +  ' #html_btn_new_back').hide()
+
                            api.changeData(
                               _forms[id].info.table_code,
                               _forms[id].formData.id, 
                               dataToUpdate,
                               function(data){
                                 console.log(data)
-                                forms.reloadTable(id)
+                                $(idForm +  ' #html_btn_new_back').show()
+                                $(idForm +  ' #html-buttons').show()
+                                swal("¡Listo!", "", "success")
+                                
+                                for(let i in dataToUpdate)
+                                 {
+                                   _forms[id].formData[i] = dataToUpdate[i]
+                                   console.log(_forms[id].formData[i]) 
+                                 }
+                                 
+                                let table = $(idForm + ' #fg-table').DataTable()
+                                
+                                table.column( 2 ).name( 'icon' );
+                                var columnData = table.column( 'icon:name' ).data();
+                                 alert(columnData) 
                               }
                           )
                         }
@@ -898,8 +912,8 @@
             
             try {
 
-            var data = table.row( $(this).parents('tr') ).data();
-           
+            var data = table.row( $(this).parents('tr') ).data()
+            _forms[id].index = table.row( $(this).parents('tr') ).index()
             _forms[id].action = 'change'
            
             toastr.info("", "Listo para editar...")
@@ -926,6 +940,12 @@
                   
              for (let i in formHTML) {
                 $( idForm + ' input[name=' + formHTML[i].name + ']').val(data[formHTML[i].name])
+
+                if(formHTML[i].name == 'status')
+                {
+                  $( idForm + ' #status').val(data[formHTML[i].name]).change();
+                  console.log(data[formHTML[i].name])
+                }
             }
 
             console.log(_forms[id].formData)
@@ -1004,6 +1024,39 @@
 
       let table = $(idTable).DataTable();
       table.ajax.reload();
+     },
+
+     loading: function(id, title, msg)
+     {
+      let idForm = ' #' + _forms[id].info.name
+
+      $(idForm ).append(`
+                        <div id="loader" class="text-center">
+                        <br><br><br>
+                        <img width="50" src="../assets/dist/js/loader.gif" alt="Cargando...">
+                        <br>
+                        <br>
+                        <h2>
+                        <p>${title}</p>
+                        </h2>
+                        <br><br><br><br><br><br><br><br><br><br>
+                        </div>
+                        `)
+      
+      $(idForm + ' #html-table').hide()
+      $(idForm +  ' #html-form').hide()
+      $(idForm +  ' #html_btn_new_back').hide()
+      
+      
+
+     },
+
+     stopLoader: function(id)
+     {
+
+      let idForm = ' #' + _forms[id].info.name
+      $(idForm + ' #loader').html('')
+
      }
 
     }

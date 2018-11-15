@@ -3859,12 +3859,13 @@
 
 
           <div class="col-xs-12 col-lg-4">
-            <select name="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
+            <select name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
               <option value="">Seleccionar</option>
               <option value="ACTIVO">ACTIVO</option>
               <option value="NO ACTIVO">NO ACTIVO</option>
             </select> 
-            <span id="statusHelpBlock" class="help-block">Todos los menús de este modulo estarán inactivos si no se activa.</span>
+            <span id="statusHelpBlock" class="help-block">
+                Todos los menús de este modulo estarán inactivos si no se activa.</span>
           </div>
         </div> 
 
@@ -3944,7 +3945,6 @@ $(document).ready(function(){
                 beforeSave: beforeSave, // Si se retorna true se continuará con el guardado, se reotorna                                false no se guardará
                 afterSave: undefined,
                 beforeChange: function(){
-                                 alert('before change') 
                                   return true
                             }, // igual que beforeSave
                 afterChange: undefined,
