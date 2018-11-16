@@ -13,90 +13,117 @@
 
       <div class="panel-body" >
 
-        <form id="fg-menus"  role="form"  class="form-horizontal col-lg-12">
+        <form id="fg-menus" class="form-horizontal">
            
-         
-          <div class=" col-lg-4">
-            <label for="id_module" class="control-label">Módulo</label> 
-            <select id="id_module" name="id_module" aria-describedby="id_moduleHelpBlock" required="required" class="select form-control">
-              <option value="">Seleccionar</option>
-            </select> 
-            <span id="id_moduleHelpBlock" class="help-block"></span>
-          </div>
-          
-          <div class=" col-lg-4">
-            <label for="name" class="control-label">Nombre</label> 
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-sort-numeric-asc"></i>
-              </div> 
-              <input id="name" name="name" type="text" required="required" class="form-control">
+        <div class="row">
+
+           
+          <div class="col-lg-12">
+              <div class="col-lg-1"></div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="id_module" class="control-label">Módulo</label> 
+                    <select id="id_module" name="id_module" class="select form-control" required="required">
+                      <option value="">Seleccionar</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="name" class="control-label">Nombre</label> 
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-text-width"></i>
+                      </div> 
+                      <input id="name" name="name" type="text" required="required" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="android" class="control-label">¿Se usa en aplicaciones móviles?</label> 
+                    <select id="android" name="android" class="select form-control" required="required">
+                      <option value="">Seleccionar</option>
+                      <option value="1">Sí</option>
+                      <option value="0">No</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="url" class="control-label">URL</label> 
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-chrome"></i>
+                      </div> 
+                      <input id="url" name="url" type="text" required="required" class="form-control" aria-describedby="urlHelpBlock"> 
+                      <div class="input-group-addon">
+                        <i class="fa fa-internet-explorer"></i>
+                      </div>
+                    </div> 
+                    <span id="urlHelpBlock" class="help-block">Ejemplo: lab\route\menus\modulos.html</span>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="function_" class="control-label">Función que lo invoca</label> 
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-code"></i>
+                        </div> 
+                        <input id="function_" name="function_" type="text" required="required" class="form-control">
+                      </div>
+                    </div>
+
             </div>
-          </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4">
 
-          <div class="col-lg-4">
-            <label for="order_name" class="control-label">Orden por nombre</label> 
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-sort-numeric-asc"></i>
-              </div> 
-              <input id="order_name" name="order_name" type="text" aria-describedby="order_nameHelpBlock" required="required" class="form-control"> 
-              <div class="input-group-addon">
-                <i class="fa fa-sort-numeric-desc"></i>
-              </div>
-            </div> 
-            <span id="order_nameHelpBlock" class="help-block"></span>
-          </div>
-        
+                <div class="form-group">
+                    <label for="title" class="control-label">Título que se muestra en el contenedor</label> 
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-text-width"></i>
+                      </div> 
+                      <input id="title" name="title" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="title_desc" class="control-label">Descripción del título</label> 
+                    <textarea id="title_desc" name="title_desc" cols="40" rows="5" class="form-control"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="print" class="control-label">¿Se imprime en el menú lateral?</label> 
+                    <select id="print" name="print" class="select form-control" required="required">
+                      <option value="1">Sí</option>
+                      <option value="0">No</option>
+                    </select>
+                  </div> 
+                  <div class="form-group">
+                      <label for="text" class="control-label col-xs-4">Correo (cheque)</label> 
+                      <div class="col-xs-8">
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-apple"></i>
+                          </div> 
+                          <input id="text" name="text" type="text" class="form-control">
+                        </div>
+                      </div>
 
-          <div class="col-lg-4">
-            <label for="android" class="control-label">¿Se usa en aplicaciones móviles?</label> 
-            <div>
-              <label class="radio-inline">
-                <input type="radio" name="android" value="1">
-                      Sí
-              </label>
-              <label class="radio-inline">
-                <input type="radio" name="android" value="0">
-                      No
-              </label> 
-              <span id="androidHelpBlock" class="help-block"></span>
+                  <div class="form-group">
+    
+                      <label for="name" class="control-label">Estatus</label> 
+                    <select name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
+                      <option value="">Seleccionar</option>
+                      <option value="ACTIVO">ACTIVO</option>
+                      <option value="NO ACTIVO">NO ACTIVO</option>
+                    </select> 
+                    <span id="statusHelpBlock" class="help-block">
+                 
+                </div>
+
             </div>
-          </div>
-          <div class="col-lg-4">
-            <label for="url" class="control-label">URL</label> 
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-chrome"></i>
-              </div> 
-              <input id="url" name="url" placeholder="lab\route\modulos\modulos.html" type="text" aria-describedby="urlHelpBlock" required="required" class="form-control">
-            </div> 
-            <span id="urlHelpBlock" class="help-block"></span>
-          </div>
-          <div class="col-lg-4">
-            <label for="function_" class="control-label">Función</label> 
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-code"></i>
-              </div> 
-              <input id="function_" name="function_" placeholder="obtenerContenido(idmodule)" type="text" aria-describedby="function_HelpBlock" required="required" class="form-control">
-            </div> 
-            <span id="function_HelpBlock" class="help-block"></span>
-          </div> 
-       
 
+          </div>
 
-          <div class="col-xs-12 col-lg-4">
+        </div>
+                   
             
-              <label for="name" class="control-label">Estatus</label> 
-            <select name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
-              <option value="">Seleccionar</option>
-              <option value="ACTIVO">ACTIVO</option>
-              <option value="NO ACTIVO">NO ACTIVO</option>
-            </select> 
-            <span id="statusHelpBlock" class="help-block">
-                Debe estar activo para poder mostrarse en las aplicaciones</span>
-          </div>
+          
+          
        
         
           </form>
@@ -135,18 +162,18 @@ $(document).ready(function(){
           info:  
                 {
                   name: 'fg-menus',
-                  table_code: 'JQUOMQJAHC0QB38NA819T1GVPP31MTVL5NJF9ROXBG4ZB93FK9DREI1FP1QC',
-                  view: 'modules',
+                  table_code: 'AT0915E8PJBPA3AXGAQLG7E3ZCJBSNLQMN3ATZ6NIAN25BTTC20MROSMIGFJ',
+                  view: 'all_menus',
                 },
            /**
             * Se estsablace las reglas para el formulario
            */
            rules:
                 {
-                   show: false,
+                   show: true,
                    new: true,
-                   change: false,
-                   delete: false,
+                   change: true,
+                   delete: true,
                    security: undefined 
                 },
             /**
@@ -159,10 +186,26 @@ $(document).ready(function(){
              optionalData: {},
 
              columns: [
-                     { "data": "name", "title": "NOMBRE" },
-                     { "data": "icon", "title": "ÍCONO" },
+                     { "data": "id_module", "title": "MODULO ID" },
+                     { "data": "name", "title": "BOMBRE" },
+                     { "data": "order_name", "title": "ORDEN" },
+                     { "data": "android", "title": "EN MÓVILES" },
+                     { "data": "url", "title": "URL" },
+                     { "data": "function_", "title": "FUNCIÓN" },
+                     { "data": "title", "title": "TÍTULO" },
+                     { "data": "title_desc", "title": "DESC" },
+                     { "data": "print", "title": "SE IMPRIME" },
                      { "data": "status", "title": "ESTATUS" },
+                     { "data": "updated_at", "title": "MODIFICADO" }
                      ],
+                /*
+                   dropdown
+                   Especifica el view o query que obtiene los datos para llenar tus datos en tus <SELECT></SELECRT>
+                */
+                dropdown : {
+                      0: {id: 'id_module', view: 'modules_select_option'}
+                },
+
                 /*
                  * Events
                  */

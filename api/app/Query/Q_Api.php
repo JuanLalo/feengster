@@ -47,6 +47,16 @@ static function getData($bd, $data)
                 $query = "SELECT * FROM {$bd}.cat_module WHERE status <> 'ELIMINADO'";
            break;
 
+           case 'all_menus': 
+           $query = "SELECT * FROM {$bd}.cat_menus ";
+           break;
+
+           case 'modules_select_option': 
+           $query = "SELECT id , name  FROM {$bd}.cat_module WHERE status = 'ACTIVO'";
+           break;
+
+           
+
 
          //#endregion
 

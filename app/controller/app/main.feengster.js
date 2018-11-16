@@ -219,6 +219,30 @@
         })
       },
 
+      getSmartData: function (data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'get/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
+
+          }
+        })
+      },
+
       setData: function (table, data, success, error) {
         $.ajax({
           url: _app.static.core_path + 'new/smart/request',
@@ -495,6 +519,7 @@
               columns : form.columns,
               formData: {},
               optionalData: form.optionalData,
+              dropdown: form.dropdown,
 
                /** EVENTS
                *  --> onEdit
@@ -566,6 +591,7 @@
               <tbody>
               </tbody>
               </table>
+              <hr>
               </div>
 
               `
@@ -650,7 +676,7 @@
         }    
       
 
-      $(idForm + ' #html-buttons').append(html_buttons)
+      $(idForm + ' #html-buttons').append('<hr>' + html_buttons + '<hr>')
   
       //#endregion
 
@@ -848,7 +874,19 @@
             _forms[id].events.onNew()
           }
           
-
+          /**
+           * fill <SELECT>
+           */
+          
+           for(let i in _forms[id].dropdown)
+           {
+           
+              let current = _forms[id].dropdown[i]
+              forms.fillDropdown(current.view, current.id, id)
+               
+           }
+           
+           
           })
 
         // ----- on Back
@@ -1016,12 +1054,50 @@
             let formHTML = $this.serializeArray()
                   
              for (let i in formHTML) {
-                $( idForm + ' input[name=' + formHTML[i].name + ']').val(data[formHTML[i].name])
 
-                if(formHTML[i].name == 'status')
-                {
-                  $( idForm + ' #status').val(data[formHTML[i].name]).change();
+                let type =  $(idForm + ' #' + formHTML[i].name).prop("tagName")
+                console.log(formHTML[i].name + ' - ' + type + ' :' + data[formHTML[i].name]) 
+
+                switch (type) {
+                  case 'INPUT':
+                  $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
+
+                    break;
+
+                    case 'SELECT':
+
+                     if(formHTML[i].name == 'status')
+                       {
+                   
+                         if(data[formHTML[i].name] == 1)
+                          {
+                      
+                                $( idForm + ' #status').val('ACTIVO').change()
+                                
+                          }
+                          else if( data[formHTML[i].name] == 0)
+                          {
+                              $( idForm + ' #status').val('NO ACTIVO').change()
+                          }
+                          else
+                          {
+                           
+                            $( idForm + ' #status').val(data[formHTML[i].name]).change()
+                          }
+
+                      }
+                      else
+                      {
+                        $( idForm + ' #status').val(data[formHTML[i].name])
+                      }
+                    
+                    break;
+
+                    case 'TEXTAREA':
+                    
+                    break;
                 }
+
             }
 
             if(_forms[id].events.onEdit != undefined)
@@ -1155,7 +1231,25 @@
       let idForm = ' #' + _forms[id].info.name
       $(idForm + ' #loader').html('')
 
-     }
+     },
+
+     fillDropdown:  function(view, dropdown, id) 
+     {
+       api.getSmartData({query : view},
+             function(data)
+                {
+                  console.log(data)
+                  let $dropdown = $('#' + _forms[id].name + ' #' + dropdown)
+                  $.each(data,
+                     function () {
+                        $dropdown.append(
+                          $("<option />").val(this.id).text(this.name)
+                          )
+        })
+       })
+
+      }
+
 
     }
     //#endregion
@@ -1269,3 +1363,7 @@
 })(window)
 
 //#endregion
+
+
+
+
