@@ -44,15 +44,54 @@ static function getData($bd, $data)
         //#region GENERAL
 
           case 'modules': 
-                $query = "SELECT * FROM {$bd}.cat_module WHERE status <> 'ELIMINADO'";
+                $query = "SELECT * FROM {$bd}.cat_module ";
            break;
 
            case 'all_menus': 
-           $query = "SELECT * FROM {$bd}.cat_menus ";
+           $query = "SELECT *, (SELECT name FROM {$bd}.cat_module m WHERE  m.id = cm.id_module ) as 'module_name' FROM {$bd}.cat_menus cm";
+           break;
+
+           case 'all_table_codes': 
+                $query = "SELECT * FROM {$bd}.tables" ;
+           break;
+           case 'all_users_apps_all': 
+                $query = "SELECT * FROM {$bd}.users" ;
+           break;
+           
+
+           case 'all_logins_app_all': 
+                $query = "SELECT * FROM {$bd}.logins" ;
+           break;
+
+           
+           case 'all_app_menus': 
+           $query = "SELECT am.id, am.id_menu, am.id_app, ca.name 'app_name', cm.name 'menu_name' , cmo.name                          'module_name', am.`status`,  am.updated_at
+                       FROM app_menus am
+                       INNER JOIN cat_apps ca ON  ca.id = am.id_app AND ca.`status` =   'ACTIVO'
+                       INNER JOIN cat_menus cm ON cm.id = am.id_menu AND cm.`status` = 'ACTIVO'
+                       INNER JOIN cat_module cmo ON cmo.id = cm.id_module AND cmo.`status` = 'ACTIVO' 
+                     WHERE am.`status` = 'ACTIVO'";
            break;
 
            case 'modules_select_option': 
            $query = "SELECT id , name  FROM {$bd}.cat_module WHERE status = 'ACTIVO'";
+           break;
+
+           case 'menus_select_option': 
+           $query = "SELECT id , name  FROM {$bd}.cat_menus WHERE status = 'ACTIVO'";
+           break;
+
+           case 'app_select_option': 
+           $query = "SELECT id , name  FROM {$bd}.cat_apps WHERE status = 'ACTIVO'";
+           break;
+
+                      
+           case 'status_1_0': 
+           $query = "SELECT c.value 'id' , c.option 'name'  FROM {$bd}.cat_options c WHERE c.status = 'ACTIVO' and c.type = 'status_1_0' ";
+           break;
+
+           case 'yes_no_binary': 
+           $query = "SELECT c.value 'id' , c.option 'name'  FROM {$bd}.cat_options c WHERE c.status = 'ACTIVO' and c.type = 'yes_no_binary' ";
            break;
 
            
@@ -143,7 +182,7 @@ static function getData($bd, $data)
        
         case "getAllApps":
         $query = "SELECT * from cat_apps where platform = ? AND estatus = ? ";
-        return DB::select($query, ["web", "1"]);
+        return DB::select($query, ["web", "ACTIVO"]);
         break;
 
   //#endregion

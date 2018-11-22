@@ -12,9 +12,10 @@
       </div>
 
       <div class="panel-body" >
+        
 
-        <form id="fg-menus" class="form-horizontal">
-           
+        <form id="fg-menus" class="form-horizontal" data-toggle="validator" role="form">
+          
         <div class="row">
 
            
@@ -24,26 +25,28 @@
                 <div class="form-group">
                     <label for="id_module" class="control-label">Módulo</label> 
                     <select id="id_module" name="id_module" class="select form-control" required="required">
-                      <option value="">Seleccionar</option>
+                        <option></option>
                     </select>
                   </div>
+
                   <div class="form-group">
                     <label for="name" class="control-label">Nombre</label> 
                     <div class="input-group">
                       <div class="input-group-addon">
                         <i class="fa fa-text-width"></i>
                       </div> 
-                      <input id="name" name="name" type="text" required="required" class="form-control">
+                      <input  data-error="Necesitamos el nombre del Menú"  id="name" name="name" type="text" required class="form-control">
                     </div>
-                  </div>
+                    <div class="help-block with-errors"></div>
+                    </div>
+
                   <div class="form-group">
                     <label for="android" class="control-label">¿Se usa en aplicaciones móviles?</label> 
                     <select id="android" name="android" class="select form-control" required="required">
-                      <option value="">Seleccionar</option>
-                      <option value="1">Sí</option>
-                      <option value="0">No</option>
+                        <option></option>
                     </select>
                   </div>
+
                   <div class="form-group">
                     <label for="url" class="control-label">URL</label> 
                     <div class="input-group">
@@ -67,9 +70,10 @@
                         <input id="function_" name="function_" type="text" required="required" class="form-control">
                       </div>
                     </div>
-
             </div>
+
             <div class="col-lg-1"></div>
+
             <div class="col-lg-4">
 
                 <div class="form-group">
@@ -81,37 +85,38 @@
                       <input id="title" name="title" type="text" class="form-control">
                     </div>
                   </div>
+
                   <div class="form-group">
                     <label for="title_desc" class="control-label">Descripción del título</label> 
                     <textarea id="title_desc" name="title_desc" cols="40" rows="5" class="form-control"></textarea>
                   </div>
+
                   <div class="form-group">
                     <label for="print" class="control-label">¿Se imprime en el menú lateral?</label> 
                     <select id="print" name="print" class="select form-control" required="required">
-                      <option value="1">Sí</option>
-                      <option value="0">No</option>
+                        <option></option>
                     </select>
-                  </div> 
-                  <div class="form-group">
-                      <label for="text" class="control-label col-xs-4">Correo (cheque)</label> 
-                      <div class="col-xs-8">
-                        <div class="input-group">
-                          <div class="input-group-addon">
-                            <i class="fa fa-apple"></i>
-                          </div> 
-                          <input id="text" name="text" type="text" class="form-control">
-                        </div>
-                      </div>
+                  </div>
 
                   <div class="form-group">
-    
+                      <label for="title" class="control-label">Orden en el que se imprimen</label> 
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-text-width"></i>
+                        </div> 
+                        <input id="order_name" name="order_name" type="number" minlength="1" maxlength="30" class="form-control">
+                      </div>
+                    </div>
+                  
+                  
+              
+                  <div  class="form-group">
                       <label for="name" class="control-label">Estatus</label> 
-                    <select name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
-                      <option value="">Seleccionar</option>
-                      <option value="ACTIVO">ACTIVO</option>
-                      <option value="NO ACTIVO">NO ACTIVO</option>
+                    <select  data-error="¡Necesitamos un estatus!"  name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
+                        <option></option>
                     </select> 
-                    <span id="statusHelpBlock" class="help-block">
+                    <span id="statusHelpBlock" class="help-block">Si  no se activa, verifica que no afecte a otras apps.</span>
+                    <div class="help-block with-errors"></div> 
                  
                 </div>
 
@@ -121,12 +126,10 @@
 
         </div>
                    
-            
-          
-          
-       
         
           </form>
+
+          
      </div>
       </div>
     </div>
@@ -176,18 +179,33 @@ $(document).ready(function(){
                    delete: true,
                    security: undefined 
                 },
+
+            reports: {
+                  pdf: false,
+                  excel: false,
+                  print: false,
+                  copy: false,
+                  csv: false
+              },      
             /**
-             * Som los datos que se agragarán al formulario de manera dinamica cada que 
+             * Son los datos que se agragarán al formulario de manera dinamica cada que 
              * ejecute un insert o un update. #TODO 
              * Estos son opcionales y se fucionarán con los datos en el formulario
              * Ejemplo de uso; en el modulo de categorías existen varias como productos, servicios etc
              * Se usuará la misam tabla per distinto tipode categorías
              */
-             optionalData: {},
+             optionalData:  {
+                          0 : {
+                                  name : 'updated_at',
+                                  value: $f.app.getDateTime , function_: true,
+                              }
+                     },
 
              columns: [
-                     { "data": "id_module", "title": "MODULO ID" },
-                     { "data": "name", "title": "BOMBRE" },
+                     { "data": "id", "title": "ID" },
+                     { "data": "name", "title": "MENÚ" },
+                     { "data": "module_name", "title": "MÓDULO" },
+                     { "data": "name", "title": "MENÜ" },
                      { "data": "order_name", "title": "ORDEN" },
                      { "data": "android", "title": "EN MÓVILES" },
                      { "data": "url", "title": "URL" },
@@ -203,7 +221,10 @@ $(document).ready(function(){
                    Especifica el view o query que obtiene los datos para llenar tus datos en tus <SELECT></SELECRT>
                 */
                 dropdown : {
-                      0: {id: 'id_module', view: 'modules_select_option'}
+                      0: {id: 'status', view: 'status_1_0'},
+                      1: {id: 'android', view: 'yes_no_binary'},
+                      2: {id: 'print', view: 'yes_no_binary'},
+                      3: {id: 'id_module', view: 'modules_select_option'}
                 },
 
                 /*
@@ -246,7 +267,6 @@ $(document).ready(function(){
     {   
 //        $(idForm + " #sm-view-icon" ).html('')
     }
-
 
 
 </script>

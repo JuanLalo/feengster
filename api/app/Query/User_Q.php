@@ -8,7 +8,7 @@ class user_Q {
 static function userId($token)
  {
     $query = "SELECT id_user 'id' FROM logins l WHERE l.token = ?  and l.status = ? limit 1";
-    $res =  DB::select($query, [$token, 1]);
+    $res =  DB::select($query, [$token, 'ACTIVO']);
    
     return $res[0]->id;
  }
@@ -24,8 +24,8 @@ static function create($bd, $data){
 
 static function isToken($bd, $token)
         {
-          $query = "select * from $bd.logins where status = 1 and token = ? limit 1";
-          $res = DB::select($query, [$token]);
+          $query = "select * from $bd.logins where status = ? and token = ? limit 1";
+          $res = DB::select($query, [ 'ACTIVO' , $token]);
           if (empty($res))
           {
            return "Token no valido";
@@ -33,7 +33,7 @@ static function isToken($bd, $token)
           }
           else
           {
-            if($res[0]->status == 1)
+            if($res[0]->status == 'ACTIVO')
             {
                   return true;
             } 

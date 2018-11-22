@@ -1,106 +1,255 @@
-<!--_______________________________________________________________________________________________ -->
-
-
+   
 <div id="row">
-    <div class="col-sm-12 col-lg-12">
-        <div class="panel panel-bd lobidrag">
+        <div class="col-sm-12 col-lg-12">
+          <div class="panel panel-bd lobidrag " >
             <div class="panel-heading">
-                <div class="panel-title">
-                    <h4> <p id="tipo">Gestión de usuarios </p></h4>
-                </div>
+              <div class="panel-title ">
+                <h4>
+                  <p id="tipo">Registro de Logins</p>
+              </h4>
+              </div>
             </div>
-            <div class="panel-body">
-
-                
-                <div id="pnl_nuevo_usuario" class="col-sm-5 col-md-4 col-lg-4">
-                        <form >
-                <div class="form-group ">
-                    <label for="username" class=" col-form-label">Nombre de Usuario</label>
-                        <input class="form-control" type="text" id="username">
-                   
-                </div>
-                <div class="form-group">
-                        <label for="email" class=" col-form-label">Correo Electronico</label>
-                            <input class="form-control" type="email" id="email">
-                       
-                    </div>
-
-                <div class="form-group">
-                        <label for="password" class=" col-form-label">Contraseña para este usuario</label>
-                            <input class="form-control" type="password" id="password">  
-                </div>
-
-                <div class="form-group ">
-                        <label for="type_default" class=" col-form-label">Tipo de Usuario</label>
-                            <input class="form-control" disabled type="text" value="Cliente" id="type_default">
-                       
-                    </div>
-
-                    <div class="form-group">
-                            <button id="limpiar" type="reset" class="btn btn-labeled btn-purple m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-thumbs-down"></i>
-                                </span>Limpiar
-                            </button>
-                            <button style="display: none" id="u_no_hacer_n"  class="btn btn-labeled btn-purple m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-thumbs-down"></i>
-                                </span>No hacer nada
-                            </button>
-                            <button style="display: none" id="u_eliminar"  class="btn btn-labeled btn-danger m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-thumbs-down"></i>
-                                </span>Eliminar
-                            </button>
-
-                            <button style="display: none" id="u_actualizar" type="button"  class="btn btn-labeled btn-success m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </span>Actualizar
-                            </button>
-                            <button id="u_guargar" type="button" onclick="nuevoUsuario()" class="btn btn-labeled btn-success m-b-5">
-                                <span class="btn-label">
-                                    <i class="glyphicon glyphicon-ok"></i>
-                                </span>Registrar Usuario
-                            </button>
-
-                        </div>
-                
-
-                    </form>
-                </div>
-
-                <div id="pnl_ver_uisuarios" class="col-sm-offset-6 col-md-offset-5 col-lg-offset-5">
-                        <div class="table-responsive">
-                            <table id="usuarios" class="table table-bordered table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>NOMBRE DE USUARIO</th>
-                                        <th>CORREO</th>
-                                        <th>REGISTRO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
+      
+            <div class="panel-body" >
+              
+      
+              <form id="fg_users_all" class="form-horizontal" data-toggle="validator" role="form">
                     
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-4">
+                                <div class="form-group">
+                                        <label for="username" class="control-label">Nombre de Usuario</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                          </div> 
+                                          <input id="username" name="username" placeholder="JuanLalo" type="text" aria-describedby="usernameHelpBlock" class="form-control">
+                                        </div> 
+                                        <span id="usernameHelpBlock" class="help-block">Nombre de usuario único</span>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="name" class="control-label">Nombre</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-address-card-o"></i>
+                                          </div> 
+                                          <input id="name" name="name" type="text" required="required" class="form-control">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="surnames" class="control-label">Apellidos</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-address-card-o"></i>
+                                          </div> 
+                                          <input id="surnames" name="surnames" type="text" required="required" class="form-control">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="phone" class="control-label">Tel. Celular</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-phone-square"></i>
+                                          </div> 
+                                          <input id="phone" name="phone" placeholder="XXX XXX XX XX" type="text" class="form-control" required="required">
+                                        </div>
+                                      </div>
+                                  
+
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-4">
+                                <div class="form-group">
+                                        <label for="email" class="control-label">Email</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-envelope-o"></i>
+                                          </div> 
+                                          <input id="email" name="email" placeholder="ejemplo@ejemplo.com" type="text" class="form-control">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="password" class="control-label">Password</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-lock"></i>
+                                          </div> 
+                                          <input id="password" name="password" type="text" class="form-control" required="required">
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="birthdate" class="control-label">Fecha de nacimiento</label> 
+                                        <div class="input-group">
+                                          <div class="input-group-addon">
+                                            <i class="fa fa-birthday-cake"></i>
+                                          </div> 
+                                          <input id="birthdate" name="birthdate" type="text" class="form-control">
+                                        </div>
+                                      </div> 
+
+                                      <div  class="form-group">
+                                            <label for="name" class="control-label">Estatus</label> 
+                                          <select  data-error="¡Necesitamos un estatus!"  name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
+                                              <option></option>
+                                          </select> 
+                                          <span id="statusHelpBlock" class="help-block">Si  no se activa, no podrá ingresar este usuario.</span>
+                                          <div class="help-block with-errors"></div> 
+                                       
+                                      </div>
+                        </div>
+                    </div>
+
                 </div>
-
+              </form>
+      
+                
+           </div>
             </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-<!--_______________________________________________________________________________________________ -->
-
-<!-- STRAT PAGE LABEL PLUGINS -->
-<script src="../../assets/plugins/datatables/dataTables.min.js" type="text/javascript"></script>
-<script src="../main/users/user.js" type="text/javascript"></script>
+          </div>
+      
+          </div>
+        
+      
+      
+        <script src="../assets/plugins/validator/validator.min.js" type="text/javascript"></script>
+      
+      
+      
+        <script>
+      
+          /**
+           * 
+           *  Se inicializa formulario
+           *  Asegurate que el nombre nombre del formulario sea unico id="Nombre"
+           * 
+           * **/
+      
+      $(document).ready(function(){
+      
+             $f.forms.new(
+              {
+                 /*
+                 * (name) : Nombre del ID del formulario
+                 * (table_code): código de la tabla 
+                 * donde se harán las acciiones de insert, update y delete.
+                 * El nombre de la tabla se econtrará simpre incriptada.
+                 * (View): Es el nombre de la consulta o vista que obtiene los datos predetrminados para mostrar en la tabla
+                 */
+                info:  
+                      {
+                        name: 'fg_users_all',
+                        table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
+                        view: 'all_users_apps_all',
+                      },
+                 /**
+                  * Se estsablace las reglas para el formulario
+                 */
+                 rules:
+                      {
+                         show: true,
+                         new: true,
+                         change: true,
+                         delete: false
+                      },
+      
+                  reports: {
+                        pdf: true,
+                        excel: true,
+                        print: true,
+                        copy: false,
+                        csv: false
+                    },      
+                  /**
+                   * Son los datos que se agragarán al formulario de manera dinamica cada que 
+                   * ejecute un insert o un update. #TODO 
+                   * Estos son opcionales y se fucionarán con los datos en el formulario
+                   * Ejemplo de uso; en el modulo de categorías existen varias como productos, servicios etc
+                   * Se usuará la misam tabla per distinto tipode categorías
+                   */
+                   optionalData:  {
+                                0 : {
+                                        name : 'updated_at',
+                                        value: $f.app.getDateTime , function_: true,
+                                    }
+                           },
+      
+                   columns: [
+                           { "data": "id", "title": "ID USER" },
+                           { "data": "username", "title": "NOMBRE DE USUARIO" },
+                           { "data": "name", "title": "NOMBRE" },
+                           { "data": "surnames", "title": "APELLIDOS" },
+                           { "data": "phone", "title": "TEL" },
+                           { "data": "email", "title": "EMAIL" },
+                           { "data": "birthdate", "title": "BIRTHDATE" },
+                           { "data": "platform", "title": "PLATFORM" },
+                           { "data": "created_at", "title": "DESDE" },
+                           { "data": "updated_at", "title": "MODIFICADO" },
+                           { "data": "status", "title": "ESTATUS" }
+                           ],
+                      /*
+                         dropdown
+                         Especifica el view o query que obtiene los datos para llenar tus datos en tus <SELECT></SELECRT>
+                      */
+                      dropdown : {
+                            0: {id: 'status', view: 'status_1_0'},
+                            1: {id: 'android', view: 'yes_no_binary'},
+                            2: {id: 'print', view: 'yes_no_binary'},
+                            3: {id: 'id_module', view: 'modules_select_option'}
+                      },
+      
+                      /*
+                       * Events
+                       */
+                   events: 
+                   {
+                      onEdit: cambiarIcon,
+      
+                      beforeSave: beforeSave, // Si se retorna true se continuará con el guardado, se reotorna                                false no se guardará
+                      afterSave: undefined,
+                      beforeChange: function(){
+                                        return true
+                                  }, // igual que beforeSave
+                      afterChange: undefined,
+                      onDelete: function(){ return true},
+                      beforeDelete: undefined,
+                      afterDelete: undefined,
+                      onNew: onNew,
+                   }   
+                    
+      
+              }
+          )
+      
+      })
+      
+          let idForm = '#fg-menus'
+      
+          function cambiarIcon ()
+          {
+            //  $(idForm + " #sm-view-icon" ).html($(idForm + ' input[name=icon]' ).val())
+          }
+      
+          function beforeSave (){
+                  return true
+             }
+      
+          function onNew()
+          {   
+      //        $(idForm + " #sm-view-icon" ).html('')
+          }
+      
+      
+      </script>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+       

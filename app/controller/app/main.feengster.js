@@ -520,6 +520,7 @@
               formData: {},
               optionalData: form.optionalData,
               dropdown: form.dropdown,
+              reports: form.reports,
 
                /** EVENTS
                *  --> onEdit
@@ -648,6 +649,7 @@
             }
 
             $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
+           
    
           // not update button
        if(_forms[id].rules.change)
@@ -694,7 +696,7 @@
       //endregion Dattable
 
 
-      //#region  validator
+      //#region  Guargar / Actualizar
       
           $(idForm).validator().on("submit", function (e) 
            {
@@ -713,6 +715,32 @@
                       var $this = $(idForm)
                       , formHTML = $this.serializeArray()
                       , formData = {};
+
+                       // add optionalData
+                      for(let y in _forms[id].optionalData)
+                      {
+                        if(_forms[id].optionalData[y].function_)
+                        {
+                          let newValue = _forms[id].optionalData[y].value() 
+                          let optional = {
+                                          name: _forms[id].optionalData[y].name, 
+                                          value: newValue 
+                                        }
+
+                          formHTML.push(optional)
+                        }
+                        else
+                        {
+                          let optional = {
+                            name: _forms[id].optionalData[y].name, 
+                            value: _forms[id].optionalData[y].value,
+                          }
+
+                         formHTML.push(optional)
+                        }
+                       
+                      }
+
                   
                       for (var i in formHTML) {
                         formData[formHTML[i].name] = formHTML[i].value;
@@ -778,12 +806,23 @@
                         let dataToUpdate = {}
                         let wasChange = false
                         let change = false
-
+                        let isOptional = false
                         for(let i in formData)
                         {
-                            if(formData[i] != _forms[id].formData[i])
+                            if(formData[i] != _forms[id].formData[i]) 
                                 {
-                                  wasChange = true
+                                  for(let y in _forms[id].optionalData)
+                                  {
+                                    if( i  == _forms[id].optionalData[y].name ){
+                                        isOptional = true
+                                    }
+                                  }
+
+                                  if(!isOptional)
+                                    {
+                                      wasChange = true
+                                    }
+                                  
                                 }
 
                            if(wasChange)
@@ -810,10 +849,13 @@
                             function(data){
 
                                swal("¡Listo!", "", "success")
-                               let table = $(idForm + ' #fg-table').DataTable()
-                               table.row( _forms[id].index ).data( formData).draw()
+                               // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
+                               //let table = $(idForm + ' #fg-table').DataTable()
+                               //formData['id'] = _forms[id].formData.id
+                               //table.row( _forms[id].index ).data( formData).draw()
+                               forms.reloadTable(id)
                                $(idForm + ' #btn-form-back').click()
-                              
+                               
                               },
 
                               function(data)
@@ -865,7 +907,7 @@
             $(idForm + ' #btn_delete').hide()
 
             
-          $(idForm + ' #btn_reset').click(); 
+          
           $(idForm + ' #btn_reset').prop("disabled", false); 
           _forms[id].action = 'new'
 
@@ -873,6 +915,8 @@
           {
             _forms[id].events.onNew()
           }
+
+          $(idForm + ' #btn_reset').click(); 
           
           /**
            * fill <SELECT>
@@ -880,10 +924,17 @@
           
            for(let i in _forms[id].dropdown)
            {
-           
               let current = _forms[id].dropdown[i]
-              forms.fillDropdown(current.view, current.id, id)
-               
+
+              if(_forms[id].dropdown[i].printed == undefined)
+              {
+                
+                forms.fillDropdown(current, i,  id, '')
+              }
+              else if(_forms[id].dropdown[i].printed)
+              {
+                forms.selectOption(idForm + ' #' + current.id , '')
+              }
            }
            
            
@@ -910,6 +961,21 @@
                 forms.onDelete(id)
               }
             
+          )
+
+         $(idForm + ' select').change( 
+            function(){
+              if($(this).val() == '')
+              {
+                $(this).css('font-style', 'italic')
+                $(this).css('font-weight', 'bold') 
+              }
+              else
+              {
+                $(this).css('font-style', 'normal')
+                $(this).css('font-weight', 'normal') 
+              }
+            }
           )
 
         
@@ -982,6 +1048,25 @@
             columns.push(_forms[id].columns[i])
           }
           
+      // reports
+       
+      let reports = []
+      if(_forms[id].reports.pdf){
+        reports.push({extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'})
+      }
+      if(_forms[id].reports.excel){
+        reports.push({extend: 'excel', title: 'ExampleFile', className: 'btn-sm'})
+      }
+      if(_forms[id].reports.print){
+        reports.push({extend: 'print', className: 'btn-sm'})
+      }
+      if(_forms[id].reports.copy){
+        reports.push({extend: 'copy', className: 'btn-sm'})
+      }
+      if(_forms[id].reports.copy){
+        reports.push({extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'})
+      }
+
 
       let table = $(idTable).DataTable({
         ajax: {
@@ -1013,13 +1098,7 @@
 
       dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'B><'col-sm-4'f>>tp",
 
-       buttons: [
-                      {extend: 'copy', className: 'btn-sm'},
-                      {extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'},
-                      {extend: 'excel', title: 'ExampleFile', className: 'btn-sm'},
-                      {extend: 'pdf', title: 'ExampleFile', className: 'btn-sm'},
-                      {extend: 'print', className: 'btn-sm'}
-                  ]
+       buttons: reports
           })
 
           $(idTable + ' tbody').on( 'click', '.edit', function () {
@@ -1027,11 +1106,13 @@
             try {
 
             var data = table.row( $(this).parents('tr') ).data()
+            _forms[id].formData = data
+            console.log(_forms[id].formData)
             _forms[id].index = table.row( $(this).parents('tr') ).index()
             _forms[id].action = 'change'
            
             toastr.info("", "Listo para editar...")
-
+             
             $(idForm + ' #btn_reset').hide()
             $(idForm + ' #bnt_save').hide()
             $(idForm + ' #html-table').hide()
@@ -1048,54 +1129,54 @@
       
             $(idForm + ' #btn_nothing').prop("disabled", false); 
             $(idForm + ' #btn_delete').prop("disabled", false); 
+            $(idForm + ' #btn_reset').click() 
 
-            _forms[id].formData = data
+            
             let $this = $(idForm)
             let formHTML = $this.serializeArray()
-                  
+                             
              for (let i in formHTML) {
 
                 let type =  $(idForm + ' #' + formHTML[i].name).prop("tagName")
-                console.log(formHTML[i].name + ' - ' + type + ' :' + data[formHTML[i].name]) 
+              //  console.log(formHTML[i].name + ' - ' + type + ' :' + data[formHTML[i].name]) 
 
                 switch (type) {
+
                   case 'INPUT':
                   $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
 
-                    break;
+                  break;
 
-                    case 'SELECT':
+                  case 'SELECT':
+                  
+                        $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
+                         
+                        // Se llenan los dropdown de todo el formulario y se seleciona uno por default
+                         
+                        for(let y in _forms[id].dropdown)
+                            {
+                               let current = _forms[id].dropdown[y]
 
-                     if(formHTML[i].name == 'status')
-                       {
+                               if(formHTML[i].name == current.id)
+                                {
+
+                                  if(_forms[id].dropdown[y].printed == undefined)
+                                    {
+                                      forms.fillDropdown(current, y,  id, data[formHTML[i].name])
+                                    }
+                                    else if(_forms[id].dropdown[y].printed)
+                                    {
+                                      forms.selectOption(idForm + ' #' + current.id , data[formHTML[i].name])
+                                    }
+                              }
+                            }
+
                    
-                         if(data[formHTML[i].name] == 1)
-                          {
-                      
-                                $( idForm + ' #status').val('ACTIVO').change()
-                                
-                          }
-                          else if( data[formHTML[i].name] == 0)
-                          {
-                              $( idForm + ' #status').val('NO ACTIVO').change()
-                          }
-                          else
-                          {
-                           
-                            $( idForm + ' #status').val(data[formHTML[i].name]).change()
-                          }
+                  break;
 
-                      }
-                      else
-                      {
-                        $( idForm + ' #status').val(data[formHTML[i].name])
-                      }
-                    
-                    break;
-
-                    case 'TEXTAREA':
-                    
-                    break;
+                  case 'TEXTAREA':
+                    $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
+                  break;
                 }
 
             }
@@ -1233,21 +1314,41 @@
 
      },
 
-     fillDropdown:  function(view, dropdown, id) 
+     fillDropdown:  function(dropdown, n, id, val) 
      {
-       api.getSmartData({query : view},
+      
+      let $dropdown = '#' + _forms[id].info.name + ' #' + dropdown.id
+      $($dropdown).html( `<option value="">Cargando...</option>`)
+       api.getSmartData({query : dropdown.view},
              function(data)
                 {
-                  console.log(data)
-                  let $dropdown = $('#' + _forms[id].name + ' #' + dropdown)
-                  $.each(data,
-                     function () {
-                        $dropdown.append(
-                          $("<option />").val(this.id).text(this.name)
-                          )
-        })
-       })
+                  let option = data.data
+                  let html_options = `<option value="">-- Seleccionar --</option>`
+                  for(let i in option)
+                  {
+                    html_options += `<option value="${option[i].id}">${option[i].name}</option>`
+                  }
+                  $($dropdown).html( html_options)
+                  _forms[id].dropdown[n].printed = true
+                  forms.selectOption($dropdown, val)
+       },
+            function()
+            {
+              swal("¡Error!", "Tuvimos un error al cargar algunas opciones. Revise se conexión a internet o reporte este error", "error")
+              $($dropdown).html( `<option value="">¡Error al cargar las opciones!</option>`)
+            }
+       )
 
+      },
+
+      selectOption:  function($dropdown, val)
+      {
+        $($dropdown).val(val)
+        if( val == '')
+        {
+          $($dropdown).css('font-style', 'italic')
+          $($dropdown).css('font-weight', 'bold') 
+        }
       }
 
 
@@ -1330,8 +1431,13 @@
       },
       getTypeDevice: function(type)
       {
-        return _app.static.device 
-        
+        return _app.static.device  
+      },
+
+      getDateTime: function(){
+        let fecha = new Date()
+          return fecha.getFullYear() + '-'  + (fecha.getMonth() + 1 ) + '-' + fecha.getDate() + ' '+ fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getSeconds()
+
       }
 
     }

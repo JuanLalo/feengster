@@ -3860,9 +3860,7 @@
 
           <div class="col-xs-12 col-lg-4">
             <select name="status" id="status" aria-describedby="statusHelpBlock" class="select form-control" required="required">
-              <option value="">Seleccionar</option>
-              <option value="ACTIVO">ACTIVO</option>
-              <option value="NO ACTIVO">NO ACTIVO</option>
+                <option></option>
             </select> 
             <span id="statusHelpBlock" class="help-block">
                 Todos los menús de este modulo estarán inactivos si no se activa.</span>
@@ -3921,6 +3919,14 @@ $(document).ready(function(){
                    delete: true,
                    security: undefined 
                 },
+             
+                reports: {
+                  pdf: false,
+                  excel: false,
+                  print: false,
+                  copy: false,
+                  csv: false
+              },  
             /**
              * Som los datos que se agragarán al formulario de manera dinamica cada que 
              * ejecute un insert o un update. #TODO 
@@ -3928,12 +3934,22 @@ $(document).ready(function(){
              * Ejemplo de uso; en el modulo de categorías existen varias como productos, servicios etc
              * Se usuará la misam tabla per distinto tipode categorías
              */
-             optionalData: {},
+             optionalData:  {
+                          0 : {
+                                  name : 'updated_at',
+                                  value: $f.app.getDateTime , function_: true,
+                              }
+                     },
 
-             columns: [
+               dropdown : {
+                      0: {id: 'status', view: 'status_1_0'}
+                },
+
+             columns:[
                      { "data": "name", "title": "NOMBRE" },
                      { "data": "icon", "title": "ÍCONO" },
                      { "data": "status", "title": "ESTATUS" },
+                     { "data": "updated_at", "title": "MODIFICADO" }
                      ],
                 /*
                  * Events
