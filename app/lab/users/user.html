@@ -15,21 +15,22 @@
         <form id="fg_users_all" class="form-horizontal" data-toggle="validator" role="form">
           <div class="row">
             <center>
-              <img src="">
-              <img width="27px" height="26px" src="../assets/dist/img/perfil.png" class="img-circle" id="img" > 
-          
+              <img width="160px" height="160px" src="../assets/dist/img/perfil.png" class="img-circle" id="img">
             </center>
+            <br>
           </div>
           <div class="row">
+
             <div class="col-lg-12">
+              <div class="col-lg-1"></div>
               <div class="col-lg-5">
 
                 <div class="form-group has-feedback">
                   <label for="username" class="control-label">Nombre de Usuario</label>
                   <div class="input-group">
                     <span class="input-group-addon">@</span>
-                    <input id="username" name="username" type="text"  maxlength="15" class="form-control"
-                      minlength="3" placeholder="juanLalo" required>
+                    <input id="username" name="username" type="text" maxlength="15" class="form-control" minlength="3"
+                      placeholder="juanLalo" required>
                   </div>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors">Debe ser un nombre de usuario unico</div>
@@ -42,7 +43,7 @@
                     <div class="input-group-addon">
                       <i class="fa fa-address-card-o"></i>
                     </div>
-                    <input id="name" name="name" type="text" minlength="3" maxlength="30" required="required" class="form-control">
+                    <input id="name" name="name" type="text" minlength="3" maxlength="30" class="form-control" required>
                   </div>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors"></div>
@@ -66,10 +67,10 @@
                     <div class="input-group-addon">
                       <i class="fa fa-phone-square"></i>
                     </div>
-                    <input id="phone" name="phone" type="text" class="phone_us form-control"
-                      maxlength="10" minlength="9" required>
+                    <input id="phone" name="phone" type="text" class="phone_us form-control" maxlength="10" minlength="9"
+                      required>
                   </div>
-                  <small class="text-muted">MX +52 <code>lada  + número (7 dígitos)</code></small>
+                  <small class="text-muted">MX +52 <code>lada + número (7 dígitos)</code></small>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors">Telefono celular</div>
                 </div>
@@ -86,7 +87,7 @@
                       <i class="fa fa-envelope-o"></i>
                     </div>
                     <input id="email" name="email" placeholder="ejemplo@ejemplo.com" type="email" minlength="10"
-                      maxlength="40" class="form-control">
+                      maxlength="40" class="form-control" required>
                   </div>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors"></div>
@@ -111,7 +112,8 @@
                     <div class="input-group-addon">
                       <i class="fa fa-birthday-cake"></i>
                     </div>
-                    <input  type="date" class="form-control" id="birthdate" name="birthdate" minlength="10" maxlength="10" max="2008-12-31" min="1940-12-31">
+                    <input type="date" class="form-control" id="birthdate" name="birthdate" minlength="10" maxlength="10"
+                      max="2008-12-31" min="1940-12-31">
                   </div>
                   <small class="text-muted">Formato :<code>dd/mm/aaaa</code></small>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -157,32 +159,19 @@
 
   $(document).ready(function () {
 
-      const user = {
-            
-            idForm: '#fg_users_all',
-            
-            changeValueInputs: function () 
-            {
+    const user = {
 
-              return true
-            },
+      idForm: '#fg_users_all',
 
-            changeInputs: function ()
-             {
-               $( user.idForm + ' .phone_us').mask('0000000000')
-               $( user.idForm + ' #username').mask('@SSSSSSSSSSSSSSSSSSSSS')
-             }
+      changeValueInputs: function () {
+
+        return true
       }
+    }
 
 
-    $f.forms.new({
-     
-      info: {
-        name: 'fg_users_all',
-        table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
-        view: 'all_users_apps_all',
-      },
-     
+    let id = $f.forms.new({
+
       rules: {
         show: true,
         new: true,
@@ -197,7 +186,7 @@
         copy: false,
         csv: false
       },
-    
+
       optionalData: {
         0: {
           name: 'updated_at',
@@ -251,7 +240,9 @@
           "title": "ESTATUS"
         }
       ],
-     
+      
+      tableData: [],
+
       dropdown: {
         0: {
           id: 'status',
@@ -273,17 +264,56 @@
 
 
       events: {
-        onEdit: user.changeInputs,
-        beforeSave: undefined,
+        onEdit: undefined,
+        beforeSave:  function(){
+           alert('se evitó')
+             return false
+            },
         afterSave: undefined,
-        beforeChange: undefined,
+        beforeChange:   function(){
+           alert('se evitó')
+             return 
+            },
         afterChange: undefined,
         onDelete: undefined,
         beforeDelete: undefined,
         afterDelete: undefined,
-        onNew: user.changeInputs,
+        onNew: undefined,
       }
     })
+
+
+    user.imgDefaul = '../assets/dist/img/perfil.png'
+    user.img = '' 
+    $(user.idForm + ' .phone_us').mask('000-000-00-00')
+    $(user.idForm + ' #username').mask('@SSSSSSSSSSSSSSSSSSSSS')
+
+    
+
+    user.onNew = function ()
+     {
+      $(user.idForm + ' #img').attr("src", user.imgDefaul)
+     }
+
+    user.onEdit = function () 
+     {
+
+      let formData = $f.forms.get.formData(id)
+      user.img = formData.img
+      
+      if(formData.img == '' || formData.img == null)
+        {
+           user.img = user.imgDefaul
+        }
+
+      $(user.idForm + ' #img').attr('src', user.img )
+     
+     }
+
+
+    // Update Form events
+    $f.forms.events.onNew(id, user.onNew)
+    $f.forms.events.onEdit(id, user.onEdit)
 
 
   })

@@ -44,8 +44,8 @@ static function getData($bd, $data)
         //#region GENERAL
 
            case 'all_licenses_company_all_app_all':
-        //c.status, c.bd, c.key_, c.app_id, c.company_id, c.fecha_fin, c.fecha_ini, 
-                $query = "SELECT *,  c.name 'company', ca.name 'app', l.status FROM $bd.licenses l
+        
+                $query = "SELECT l.id, l.status, l.bd, l.key_, l.app_id, l.company_id, l.fecha_fin, l.fecha_ini, c.name 'company', ca.name 'app' FROM $bd.licenses l
                                 INNER JOIN $bd.cat_company c ON l.company_id = c.id 
                                 INNER JOIN cat_apps ca ON  ca.id = l.app_id 
                          ";

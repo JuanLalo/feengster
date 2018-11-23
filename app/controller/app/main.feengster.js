@@ -523,14 +523,23 @@
           
         let size = Object.keys(_forms).length
      
-        _forms[size] = {
-              info: form.info,
-              rules: form.rules,
-              columns : form.columns,
-              formData: {},
-              optionalData: form.optionalData,
-              dropdown: form.dropdown,
-              reports: form.reports,
+        if(undefined != form.info)
+         {  
+            _forms[size].info = form.info
+         }
+         else
+         {
+          console.error(signature,'\ Se requiere el objeto [info] : \n nombre (id del formulario), \n table_code (código incriptado de la tablo principal donde harán las peticiones insert, update y delete), \n view (view o consulta por default sino se establece un tableData en [tableData]) ') 
+          //return false
+         }
+
+        _forms[size].rules = form.rules
+        _forms[size].columns = form.columns
+        _forms[size].tableData = form.tableData
+        _forms[size].formData = {}
+        _forms[size].optionalData = form.optionalData
+        _forms[size].dropdown = form.dropdown
+        _forms[size].reports = form.reports
 
                /** EVENTS
                *  --> onEdit
@@ -540,12 +549,9 @@
                *  --> beforeDelete
                *  --> afterDelete
                *  */
-              events: form.events
+        _forms[size].events = form.events
               
-             
-              
-          }
-
+        
         if(form.rules.new)
         {
           _forms[size].action = 'new'
@@ -902,6 +908,12 @@
         $(idForm + ' #btn_form_new').click(
           function()
           {
+            _forms[id].action = 'new'
+
+            if(_forms[id].events.onNew != undefined)
+            {
+              _forms[id].events.onNew()
+            }
             
             $(idForm +  ' #html-buttons').show()
             $(idForm +  ' #html-form').show()
@@ -919,12 +931,6 @@
             
           
           $(idForm + ' #btn_reset').prop("disabled", false); 
-          _forms[id].action = 'new'
-
-          if(_forms[id].events.onNew != undefined)
-          {
-            _forms[id].events.onNew()
-          }
 
           $(idForm + ' #btn_reset').click(); 
           
@@ -968,6 +974,7 @@
           $(idForm + ' #btn_delete').click(
             function()
               {
+
                 forms.onDelete(id)
               }
             
@@ -998,7 +1005,7 @@
 
       //#endregion
       
-
+      return id
      
       console.log('$fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
 
@@ -1222,23 +1229,13 @@
      onDelete: function(id)
      {
 
+      _forms[id].action = 'delete'
       if(_forms[id].events.onDelete != undefined)
-            {
-              _forms[id].events.onDelete()
-            }
+       {
+            _forms[id].events.onDelete()
+       }
             
-            let beforeDelete = true
-
-            if(_forms[id].events.beforeDelete != undefined)
-            {
-              beforeDelete = _forms[id].events.beforeDelete()
-            }
-
-            if(beforeDelete)
-            {
-              
-
-           swal(
+       swal(
                {
                title: "¿Estás seguro?",
                text: "Los datos serán eliminados difinitivamente.",
@@ -1252,14 +1249,24 @@
               },
               function(isConfirm){
                   if (isConfirm) {
+                    let beforeDelete = true
+
+                    if(_forms[id].events.beforeDelete != undefined)
+                    {
+                      beforeDelete = _forms[id].events.beforeDelete()
+                    }
+        
+                    if(beforeDelete)
+                    {
                     forms.deleteThis(id)
+                    }
                   }
                   else
                   {
                    forms.cancelDelete(id)
                   }
               })
-        }
+        
 
      },
 
@@ -1351,7 +1358,7 @@
 
       },
 
-      selectOption:  function($dropdown, val)
+     selectOption:  function($dropdown, val)
       {
         $($dropdown).val(val)
         if( val == '')
@@ -1359,10 +1366,82 @@
           $($dropdown).css('font-style', 'italic')
           $($dropdown).css('font-weight', 'bold') 
         }
-      }
+     },
 
+     get:
+     {
+       index: function(id)
+       {
+          return _forms[id].index
+       },
 
-    }
+       formData: function(id)
+       {
+        return _forms[id].formData
+       },
+
+       formDataHtml: function(id){
+        let $this = $(idForm)
+        let formHTML = $this.serializeArray()
+        return formHTML
+       },
+
+       rules: function(id){
+         return _forms[id].rules
+       },
+
+       optionalData: function(id)
+       {
+        return _forms[id].optionalData
+       }
+
+     },
+
+     events:{
+      onNew: function(id, onNew)
+      {
+        _forms[id].events.onNew = onNew
+        return true
+      },
+
+      onEdit: function(id, onEdit)
+        {
+          _forms[id].events.onEdit = onEdit
+          return true
+        },
+      
+      beforeSave: function(id, beforeSave)
+        {
+           _forms[id].events.beforeSave = beforeSave
+          return true
+        },
+
+      afterSave: function(id, afterSave)
+        {
+          _forms[id].events.afterSave = afterSave
+          return true
+        },
+
+      onDelete: function(id, onDelete)
+        {
+         _forms[id].events.onDelete = onDelete
+          return true
+        },
+
+      beforeDelete: function(id, beforeDelete)
+        { 
+        _forms[id].events.beforeDelete = beforeDelete
+          return true
+        },
+
+      afterDelete: function(id, afterDelete)
+        {
+          _forms[id].events.afterDelete = afterDelete
+          return true
+        }
+     },
+
+  }
     //#endregion
 
     //#region [NOTIFICATIONS CON TROLLERTION]
