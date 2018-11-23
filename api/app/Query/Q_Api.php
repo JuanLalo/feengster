@@ -43,7 +43,15 @@ static function getData($bd, $data)
 
         //#region GENERAL
 
-          case 'modules': 
+           case 'all_licenses_company_all_app_all':
+        //c.status, c.bd, c.key_, c.app_id, c.company_id, c.fecha_fin, c.fecha_ini, 
+                $query = "SELECT *,  c.name 'company', ca.name 'app', l.status FROM $bd.licenses l
+                                INNER JOIN $bd.cat_company c ON l.company_id = c.id 
+                                INNER JOIN cat_apps ca ON  ca.id = l.app_id 
+                         ";
+           break;
+
+           case 'modules': 
                 $query = "SELECT * FROM {$bd}.cat_module ";
            break;
 
@@ -100,7 +108,7 @@ static function getData($bd, $data)
          //#endregion
 
 
-         //#region GENERAL
+         //#region j
         case 'getCategories':
         $query = "SELECT * FROM {$bd}.categories WHERE id_app = ? AND `type` = ? AND id_company = ? and `status` <> 'ELIMINADO'";
         return DB::select($query, [$data['id_app'], $data['type'], $data['id_company']]);
@@ -241,7 +249,7 @@ static function getData($bd, $data)
                 }
                 else
                 {
-                  if($res[0]->status == 1)
+                  if($res[0]->status == 'ACTIVO')
                   {
                         return true;
                   } 

@@ -28,6 +28,12 @@ $router->get('/test', ['uses' => 'ApiController@test']);
  400 BAD REQUEST	La solicitud no fue válida.
 401 UNAUTHORIZED (NO tienes persmisos)	El servidor de aplicaciones devuelve este código de respuesta cuando está habilitada la seguridad y faltaba la información de autorización en la solicitud.
 403 FORBIDDEN (logout)	Indica que el cliente ha intentado acceder a un recurso al que no tiene acceso. 
+
+408 Request Timeout
+El cliente falló al continuar la petición - excepto durante la ejecución de videos Adobe Flash cuando solo significa que el usuario cerró la ventana de video o se movió a otro. ref
+409 Conflict
+Indica que la solicitud no pudo ser procesada debido a un conflicto con el estado actual del recurso que esta identifica.
+
 */
 
 

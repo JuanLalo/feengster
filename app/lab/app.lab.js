@@ -25,14 +25,13 @@
 $f.app.initialize({
         id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
         name: 'Lab',
-        logo: 'LOGO-LAB-LIGHT.PNG',
-        key: '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg',
+        logo: 'LOGO-LAB-LIGHT.PNG'
     }, {
         id: 0,
         name: 'INICIO',
         title: 'Feengster Lab',
         desc: 'Herramienta para diseñadores y programadores de Feengster.',
-        url:  'lab/route/menus/modulos.html',
+        url:  'lab/inicio.html',
         icon: 'insert_emoticon',
         m_name: 'Inicio',
         m_id: 0

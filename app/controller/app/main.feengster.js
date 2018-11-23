@@ -352,17 +352,27 @@
       messageByHttpCode: function (data) {
         
         if (data.responseJSON) {
-          
-          if (data.status == 403) {
-            alert('BYE')
-            session.logout()
-          }
+
+            if(data.status == 409)
+            {
+              swal(  data.responseJSON.message, data.responseJSON.detail , data.responseJSON.status)
+            }
+            else if (data.status == 403) {
+              alert('BYE')
+              session.logout()
+            }
+            else if (data.status == 401) {
+              swal("Error" , "Licencia no activa" , "error")
+              session.logout()
+            }
             else
           {
-            swal("Error - " + data.statusText , data.responseJSON.message , "error")
+            swal("Error" , data.responseJSON.message , "error")
           }
+
         } else {
-          if (data.status == 205) {
+          
+         if (data.status == 205) {
             swal("Error - " + data.statusText , 'No hemos encontrado resultados para tu solicitud' , "error")
             
           } else if (data.status == 405) {
@@ -1263,7 +1273,7 @@
         _forms[id].formData.id,
         function(data)
           {
-            swal("¡Listo!", "" , "success")
+            swal("¡Listo!", "" , 'success')
             $(idForm + ' #btn-form-back').click()
             forms.reloadTable(id)
 

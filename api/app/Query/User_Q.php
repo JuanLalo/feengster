@@ -24,8 +24,14 @@ static function create($bd, $data){
 
 static function isToken($bd, $token)
         {
-          $query = "select * from $bd.logins where status = ? and token = ? limit 1";
-          $res = DB::select($query, [ 'ACTIVO' , $token]);
+          $query = " 
+                     SELECT  l.`status` FROM $bd.logins l
+                              INNER JOIN $bd.users u ON u.id = l.id_user AND u.`status` = ? 
+                       WHERE l.`status`  = ? AND l.token = ? LIMIT 1
+
+                   ";
+
+          $res = DB::select($query, [ 'ACTIVO', 'ACTIVO' , $token]);
           if (empty($res))
           {
            return "Token no valido";

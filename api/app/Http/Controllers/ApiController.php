@@ -238,17 +238,17 @@ class ApiController extends Controller
                        // validar pra solo vorrado lógico
 
                       //$res = Q_Api::smarUpdate($bd, $table, $data['id'] , $data['data']);
-                      return DB::delete("DELETE FROM $bd.$table WHERE id = ?", [$data['id']]);
+                      $res = DB::delete("DELETE FROM $bd.$table WHERE id = ?", [$data['id']]);
                       if($res > 0)
                       {
                         $code = 201;
-                        $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "deta" => $res];
+                        $response = ["status" => "success", "message" => "Se ha eliminado correctamente" , "deta" => $res];
 
                       }
                       else
                       {
-                        $code = 204;
-                        $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "deta" => $res];
+                        $code = 409;
+                        $response = ["status" => "error", "message" => "No pudimos eliminar este registro.", "detail"=> "Causas probables: \n - Otros recursos dependen de esta información. \n - Error de conexión al servidor." , "deta" => $res];
                       }
                     }else
                     {
@@ -276,7 +276,17 @@ class ApiController extends Controller
             
     } catch (\Exception $e) {
         Log::error($e);
-        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e->getMessage()];
+        
+        if(substr($e->getMessage(), 9, 5) == '23000')
+           {
+             $msg = "Otros recursos dependen de esta información. Lo sentimos, no podemos eliminarlo."; 
+           }
+        else
+           {
+            $msg = "Surgió un error al intetar eliminar estos datos. Lo sentimos, si es posible contacta a atención a clientes.";
+           } 
+
+        $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e->getMessage()];
         $code = 400;
     }
         return response()->json($response, $code);
