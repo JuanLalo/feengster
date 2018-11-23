@@ -32,7 +32,7 @@
 
       static: {
         files_path: '../',
-        core_path: 'http://localhost:82/feengster/api/public/',
+        core_path: '../../api/public/',
         main_url: 'localhost:82/feengster/app/lab/?#mainPage',
         login_url: '../',
         url_lock: '',

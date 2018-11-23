@@ -778,13 +778,13 @@ table.table-bordered.dataTable td:first-child {
 /*--- back to top ---*/
 
 #toTop {
-    right: auto;
-    left: 15px;
+    left: auto;
+    right: 15px;
 }
 
 @media (min-width: 768px) {
     #toTop {
-        left: 30px;
+        right: 30px;
     }
 }
 
