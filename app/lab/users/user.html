@@ -171,6 +171,12 @@
 
 
     let id = $f.forms.new({
+      info:  
+                {
+                  name: 'fg_users_all',
+                  table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
+                  view: 'all_users_apps_all',
+                },
 
       rules: {
         show: true,
@@ -271,8 +277,8 @@
             },
         afterSave: undefined,
         beforeChange:   function(){
-           alert('se evitó')
-             return 
+           //alert('se evitó')
+             return true
             },
         afterChange: undefined,
         onDelete: undefined,

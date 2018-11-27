@@ -48,7 +48,7 @@ function obtenerContenido(id)
 
 
 function printContent(data) {
-    
+    //$('.content-header').hide()
     if(data.menu.title != '')
     {
       $('#nombre_modulo').html(data.module.name.toUpperCase())
@@ -56,6 +56,9 @@ function printContent(data) {
       $('#tittle_desc').html(data.menu.desc);
       $('#ico_content').html(data.menu.ico);
       $('.content-header').show()
+    }else
+    {
+        $('.content-header').hide()
     }
 
     $.get($f.app.getFilesPath() + data.menu.url,
@@ -89,7 +92,40 @@ function printContent(data) {
              })
             }
 
-    });
+    })
+    .fail(function() 
+    {
+        let html = 
+                    `
+                    <div class="middle-box">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="error-text">
+                        <h1>4<span class="error bounce">0</span><span class="m-l-90">4</span></h1>
+                        <h3><span>Page</span><br class="hidden-xs"> Not Found</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="error-desc">
+                        <p>Lo sentimos, pero la página que estás buscando no ha sido encontrada. Intente verificar la URL para ver si hay errores, luego presione el botón de actualización en su navegador o intente encontrar algo más en nuestra aplicación.</p>
+                        <form class="navbar-form" role="search">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search for page">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-success" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    `
+
+        $('#main_content').html(html)
+    })
 }
 
 $('.ti-move').click(function()

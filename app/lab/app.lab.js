@@ -29,7 +29,7 @@ $f.app.initialize({
     }, {
         id: 0,
         name: 'INICIO',
-        title: 'Feengster Lab',
+        title: '',
         desc: 'Herramienta para diseñadores y programadores de Feengster.',
         url:  'lab/inicio.html',
         icon: 'insert_emoticon',
@@ -89,7 +89,7 @@ $f.app.initialize({
           * Menú lateral asignado.
           * 
           */
-        
+            resizeContent()
             $f.router.findMenu(printMenu)
 
          /**

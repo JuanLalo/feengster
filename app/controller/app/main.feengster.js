@@ -83,6 +83,8 @@
         },
       },
 
+      main: {},
+
       menus: {}
 
     }
@@ -90,7 +92,8 @@
     let _forms = {}
 
     const _notify = {
-
+      mp3: '',
+      
     }
     //#endregion
 
@@ -475,6 +478,10 @@
         return _router.current
       },
 
+      getMaintMenu: function(){
+        return _router.main
+      },
+
       findMenuContent: function (id, success, error) {
         api.getData('router/getContent',
         {
@@ -522,7 +529,8 @@
         try {
           
         let size = Object.keys(_forms).length
-     
+        _forms[size] = {}
+
         if(undefined != form.info)
          {  
             _forms[size].info = form.info
@@ -530,7 +538,7 @@
          else
          {
           console.error(signature,'\ Se requiere el objeto [info] : \n nombre (id del formulario), \n table_code (código incriptado de la tablo principal donde harán las peticiones insert, update y delete), \n view (view o consulta por default sino se establece un tableData en [tableData]) ') 
-          //return false
+          return false
          }
 
         _forms[size].rules = form.rules
@@ -783,6 +791,7 @@
                                     function(data)
                                       {
                                         swal("¡Listo!", "", "success")
+                                        notify.sound('success')
                                         $(idForm + ' #btn-form-back').click()
                                         forms.reloadTable(id)
 
@@ -863,7 +872,8 @@
                             _forms[id].formData.id, 
                             dataToUpdate,
                             function(data){
-
+                              
+                              notify.sound('success')
                                swal("¡Listo!", "", "success")
                                // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
                                //let table = $(idForm + ' #fg-table').DataTable()
@@ -1446,7 +1456,47 @@
 
     //#region [NOTIFICATIONS CON TROLLERTION]
     const notify = {
-      // TODO
+      sound: function(type)
+      {
+        _notify.mp3 = ''
+        switch (type) {
+          case 'message':
+            
+          break;
+
+          case 'message':
+            
+          break;
+
+          // forms
+          case 'success':
+          _notify.mp3 = _app.static.files_path + 'assets/dist/sounds/success.mp3'
+
+          break;
+
+          case 'error':
+
+          break;
+
+          case 'warning':
+          
+          break;
+
+          default:
+          _notify.mp3 = ''
+          break
+        }
+        
+        if( _notify.mp3 != '')
+        {
+        let sound = new Audio(_notify.mp3)
+        sound.play()
+        }
+        else
+        {
+          console.error(signature + ' No se ha seleccionado un tipo de audio. [type]: message, message, success, error o warning')
+        }
+      }
 
     }
     //#endregion
@@ -1491,6 +1541,13 @@
           _router.current.menu.ico = mainPage.icon
           _router.current.module.name = mainPage.m_name
           _router.current.module.id = mainPage.m_id
+
+          _router.main = {}
+          _router.main.menu = {}
+          _router.main.menu.id = mainPage.id
+          _router.main.menu.name = mainPage.name
+          _router.main.menu.title = ''
+          _router.main.menu.url = mainPage.url
 
           document.title = 'Feengster ' + _app.inf.name
 

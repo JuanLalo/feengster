@@ -22,7 +22,7 @@
 
         // Cambia a la página de inicio configurada en los ajustes de cada app
     $('.mian').click(function(){
-        //TODO
+        printContent($f.router.getMaintMenu())
     })
 
         // Abre la cuenta del usuario, donde se incluyen ajustes, perfil etc.
@@ -49,6 +49,8 @@
      $('.newTicket').click(function(){
         //TODO
     })
+
+    $('#fg_menu_search').focus()
 
 
     // device detection
@@ -173,4 +175,59 @@ $('.hide_menu').click(
         }
     }
 )
+
+function resizeContent()
+{
+    let w = $("body").width()
+    if (w < 768) 
+    {
+        
+     $('.header_menu').css("padding-top","5px")
+     $('#page-wrapper').css("margin-left","1px")
+     $('#sidebar-menu').css("position","absolute")
+     $('.header_menu').css("margin-top","2px")
+      return 'xs'
+    }
+     else if (w < 992)
+    {
+        $('.header_menu').css("padding-top","45px")
+        $('#sidebar-menu').css("position","fixed")
+        $('#sidebar-menu').show()
+        $('#page-wrapper').css("margin-left","245px")
+        $('.hide_menu').html('<a><i class="material-icons">keyboard_backspace</i></a>')
+        hide_menu = false
+        $('#sidebar-menu').css("position","fixed")
+        return 'sm'
+    }
+     else if(w < 1200)
+    {
+        $('.header_menu').css("padding-top","45px")
+        $('#sidebar-menu').css("position","fixed")
+        $('#sidebar-menu').show()
+        $('#page-wrapper').css("margin-left","245px")
+        $('.hide_menu').html('<a><i class="material-icons">keyboard_backspace</i></a>')
+        hide_menu = false  
+      
+        return 'md'
+    } 
+    else 
+    {
+        $('.header_menu').css("padding-top","45px")
+        $('#sidebar-menu').css("position","fixed")
+        $('#sidebar-menu').show()
+        $('#page-wrapper').css("margin-left","245px")
+        $('.hide_menu').html('<a><i class="material-icons">keyboard_backspace</i></a>')
+        hide_menu = false
+      return 'lg'
+    } 
+}
+
+$(window).resize(function() 
+{
+    resizeContent()
+})
+
+
+
+
 

@@ -122,6 +122,14 @@ and open the template in the editor.
    text-align: center;
 }
 
+.menu_footer{
+   position: fixed;
+   left: 0;
+   bottom: 7px;
+   width: 100%;
+   text-align: left;
+}
+
 
 /* Scroll to div */
 
@@ -195,6 +203,3 @@ and open the template in the editor.
   } */
 
 
-  label{
-    color: #17181ae1 
-  }
