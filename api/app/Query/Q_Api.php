@@ -43,8 +43,15 @@ static function getData($bd, $data)
 
         //#region GENERAL
 
-           case 'all_licenses_company_all_app_all':
-        
+             case 'all_options_all_apps':
+                $query = "SELECT * FROM $bd.cat_options ";
+            break;
+
+            case 'all_apps':
+                $query = "SELECT * FROM $bd.cat_apps ";
+            break;
+
+            case 'all_licenses_company_all_app_all':
                 $query = "SELECT l.id, l.status, l.bd, l.key_, l.app_id, l.company_id, l.fecha_fin, l.fecha_ini, c.name 'company', ca.name 'app' FROM $bd.licenses l
                                 INNER JOIN $bd.cat_company c ON l.company_id = c.id 
                                 INNER JOIN cat_apps ca ON  ca.id = l.app_id 
@@ -75,7 +82,7 @@ static function getData($bd, $data)
            case 'all_app_menus': 
            $query = "SELECT am.id, am.id_menu, am.id_app, ca.name 'app_name', cm.name 'menu_name' , cmo.name                          'module_name', am.`status`,  am.updated_at
                        FROM app_menus am
-                       INNER JOIN cat_apps ca ON  ca.id = am.id_app AND ca.`status` =   'ACTIVO'
+                       INNER JOIN cat_apps ca ON  ca.id = am.id_app AND ca.`status` <> 'NO ACTIVO'
                        INNER JOIN cat_menus cm ON cm.id = am.id_menu AND cm.`status` = 'ACTIVO'
                        INNER JOIN cat_module cmo ON cmo.id = cm.id_module AND cmo.`status` = 'ACTIVO' 
                      WHERE am.`status` = 'ACTIVO'";
@@ -90,12 +97,16 @@ static function getData($bd, $data)
            break;
 
            case 'app_select_option': 
-           $query = "SELECT id , name  FROM {$bd}.cat_apps WHERE status = 'ACTIVO'";
+           $query = "SELECT id , name  FROM {$bd}.cat_apps WHERE status <> 'NO ACTIVO'";
            break;
 
                       
            case 'status_1_0': 
            $query = "SELECT c.value 'id' , c.option 'name'  FROM {$bd}.cat_options c WHERE c.status = 'ACTIVO' and c.type = 'status_1_0' ";
+           break;
+
+           case 'status_apps': 
+           $query = "SELECT c.value 'id' , c.option 'name'  FROM {$bd}.cat_options c WHERE c.status = 'ACTIVO' and c.type = 'status_apps' ";
            break;
 
            case 'yes_no_binary': 

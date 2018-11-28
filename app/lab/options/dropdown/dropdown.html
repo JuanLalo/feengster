@@ -4,7 +4,7 @@
       <div class="panel-heading">
         <div class="panel-title ">
           <h4>
-            <p id="tipo">Aplicaciones de Feengster</p>
+            <p id="tipo">Opciones en Feengster</p>
           </h4>
         </div>
       </div>
@@ -12,7 +12,7 @@
       <div class="panel-body">
 
 
-        <form id="fg_apps_all" class="form-horizontal" data-toggle="validator" role="form">
+        <form id="fg_all_options_all_apps" class="form-horizontal" data-toggle="validator" role="form">
         
           <div class="row">
 
@@ -20,62 +20,50 @@
               <div class="col-lg-1"></div>
               <div class="col-lg-5">
 
+                  <div class="form-group has-feedback">
+                      <label for="value" class="control-label">Value</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-code"></i>
+                        </div>
+                        <input id="value" name="value" type="text" minlength="0" maxlength="50" class="form-control" required>
+                      </div>
+                      <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                      <div class="help-block with-errors"></div>
+                    </div>
+    
+
                 <div class="form-group has-feedback">
-                  <label for="name" class="control-label">Nombre</label>
+                  <label for="type" class="control-label">Tipo</label>
                   <div class="input-group">
                     <div class="input-group-addon">
                       <i class="fa fa-address-card-o"></i>
                     </div>
-                    <input id="name" name="name" type="text" minlength="2" maxlength="30" class="form-control" required>
+                    <input id="type" name="type" type="text" minlength="0" maxlength="40" class="form-control" required>
                   </div>
                   <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                   <div class="help-block with-errors"></div>
                 </div>
 
-                <div class="form-group has-feedback">
-                  <label for="code" class="control-label">Código</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-code"></i>
-                    </div>
-                    <input id="code" name="code" type="text" minlength="50" maxlength="60" class="form-control" required>
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="code" class="control-label">Plataformas</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-android"></i>
-                    </div>
-                    <input id="platform" name="platform" type="text" minlength="3" maxlength="30" class="form-control" required>
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors"></div>
-                </div>
-
-   
+                   
               </div>
               <div class="col-lg-1"></div>
               <div class="col-lg-5">
 
 
                
-                <div class="form-group">
-                  <label for="url" class="control-label">URL</label> 
+                <div class="form-group has-feedback">
+                  <label for="option" class="control-label">Option</label>
                   <div class="input-group">
                     <div class="input-group-addon">
-                      <i class="fa fa-chrome"></i>
-                    </div> 
-                    <input id="url" name="url" type="text" required="required" class="form-control" aria-describedby="urlHelpBlock"> 
-                    <div class="input-group-addon">
-                      <i class="fa fa-internet-explorer"></i>
+                      <i class="fa fa-code"></i>
                     </div>
-                  </div> 
-                  <span id="urlHelpBlock" class="help-block">Ejemplo: lab\</span>
+                    <input id="option" name="option" type="text" minlength="0" maxlength="50" class="form-control" required>
+                  </div>
+                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                  <div class="help-block with-errors"></div>
                 </div>
+
              
 
 
@@ -132,55 +120,41 @@
     let id = $f.forms.new({
       info:  
                 {
-                  name: 'fg_apps_all',
-                  table_code: 'K05D7KXN93EDGTHPRFLEYCLM0W9999ADO1W2C900O4C33X16HL9AETNH7AMX',
-                  view: 'all_apps',
+                  name: 'fg_all_options_all_apps',
+                  table_code: 'NZO6M97YU2MJKYU3MIIOKLXLVBRIY232SFGR7GB1W3IZ5HPUS40EP2X4J1B5',
+                  view: 'all_options_all_apps',
                 },
 
       rules: {
         show: true,
         new: true,
         change: true,
-        delete: true
+        delete: false
       },
 
       reports: {
-        pdf: true,
-        excel: true,
-        print: true,
-        copy: false,
+        pdf: false,
+        excel: false,
+        print: false,
+        copy: true,
         csv: false
       },
 
       optionalData: {
-        0: {
-          name: 'updated_at',
-          value: $f.app.getDateTime,
-          function_: true,
-        }
       },
 
       columns: [{
-          "data": "name",
-          "title": "APP"
+          "data": "type",
+          "title": "TIPO"
         },
         {
-          "data": "id",
-          "title": "ID"
+          "data": "value",
+          "title": "VALUE"
         },
         {
-          "data": "code",
-          "title": "CÓDIGO"
+          "data": "option",
+          "title": "OPTION"
         },
-        {
-          "data": "platform",
-          "title": "PLATAFORMA"
-        },
-        {
-          "data": "url",
-          "title": "URL"
-        },
-        
         {
           "data": "status",
           "title": "ESTATUS"
@@ -193,7 +167,7 @@
       dropdown: {
         0: {
           id: 'status',
-          view: 'status_apps'
+          view: 'status_1_0'
         },
         
       },
