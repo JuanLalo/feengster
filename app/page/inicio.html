@@ -26,6 +26,261 @@
     }
 </style>
 
+<style>
+
+        .post-module {
+          position: relative;
+          z-index: 1;
+          display: block;
+          background: #FFFFFF;
+          min-width: 270px;
+          height: 470px;
+          -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+          -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+          -webkit-transition: all 0.3s linear 0s;
+          -moz-transition: all 0.3s linear 0s;
+          -ms-transition: all 0.3s linear 0s;
+          -o-transition: all 0.3s linear 0s;
+          transition: all 0.3s linear 0s;
+          margin-bottom: 15px;
+          margin-left: 8px;
+        }
+        .post-module:hover,
+        .hover {
+          -webkit-box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.3);
+          -moz-box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.3);
+          box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.3);
+        }
+        .post-module:hover .thumbnail img,
+        .hover .thumbnail img {
+          -webkit-transform: scale(1.1);
+          -moz-transform: scale(1.1);
+          transform: scale(1.1);
+          opacity: unset;
+        }
+        .post-module .thumbnail {
+          /* background: #000000; */
+          height: 300px;
+          overflow: hidden;
+        }
+        
+        
+        
+        .post-module .thumbnail img {
+          display: block;
+          width: 100%;
+          -webkit-transition: all 0.3s linear 0s;
+          -moz-transition: all 0.3s linear 0s;
+          -ms-transition: all 0.3s linear 0s;
+          -o-transition: all 0.3s linear 0s;
+          transition: all 0.3s linear 0s;
+          opacity: 0.6;
+        }
+        .post-module .post-content {
+          position: absolute;
+          bottom: 0;
+          background: #495867;
+          width: 100%;
+          padding: 30px;
+          -webkti-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
+          -moz-transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
+          -ms-transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
+          -o-transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
+          transition: all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s;
+        }
+        .post-module .post-content .category {
+          
+          position: absolute;
+          top: -42px;
+          left: 0;
+          /* color generico */
+          background: #495867;
+          padding: 10px 15px;
+          color: rgb(224, 223, 223);
+          font-size: 23px;
+          font-weight: 600;
+        }
+        .post-module .post-content .title {
+          margin: 0;
+          padding: 0 0 10px;
+          color: #c0bfbf;
+          font-size: 33px;
+          font-weight: 700;
+          text-align: center;
+        }
+        .post-module .post-content .sub_title {
+          margin: 0;
+          padding: 0 0 20px;
+          color: #8fd170c9;
+          font-size: 20px;
+          font-weight: 400;
+          text-align: center;
+        }
+        .post-module .post-content .description {
+          display: block; /* to none*/
+          color: #e2e2e2;
+          font-size: 17px;
+          line-height: 1.8em;
+        }
+        .post-module .post-content .post-meta {
+          margin: 30px 0 0;
+          color: #e2e2e2;
+        }
+        .post-module .post-content .post-meta .timestamp {
+          margin: 0 16px 0 0;
+        }
+        .post-module .post-content .post-meta a {
+          color: #e2e2e2;
+          text-decoration: none;
+        }
+        .hover .post-content .description {
+          display: block !important;
+          height: auto !important;
+          opacity: 1 !important;
+        }
+        .container {
+          max-width: 800px;
+          min-width: 640px;
+          margin: 0 auto;
+        }
+        .container:before,
+        .container:after {
+          content: '';
+          display: block;
+          clear: both;
+        }
+        .container .column {
+          width: 50%;
+          padding: 0 25px;
+          -webkti-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          float: left;
+        }
+        .container .column .demo-title {
+          margin: 0 0 15px;
+          color: #666666;
+          font-size: 18px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+        .container .info {
+          width: 300px;
+          margin: 50px auto;
+          text-align: center;
+        }
+        .container .info h1 {
+          margin: 0 0 15px;
+          padding: 0;
+          font-size: 24px;
+          font-weight: bold;
+          color: #333333;
+        }
+        .container .info span {
+          color: #666666;
+          font-size: 12px;
+        }
+        .container .info span a {
+          color: #000000;
+          text-decoration: none;
+        }
+        .container .info span .fa {
+          color: #e74c3c;
+        }
+        
+        .button-go {
+          letter-spacing: 1px;
+          background: none;
+          color: white;
+          position: relative;
+          outline: none;
+          border: none;
+          height: 50px;
+          width: 190px;
+          font-size: 14px;
+          z-index: 2;
+          transition: .01s .23s ease-out all;
+          overflow: hidden;
+        }
+        .button-go:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 55%;
+          background: #202020;
+          z-index: -1;
+          transition: .3s ease-in all;
+        }
+        
+        .button-go:hover {
+          cursor: pointer;
+          color: transparent;
+          background-color: #db4838d3;
+        }
+        .button-go:hover:before {
+          left: 100%;
+          width: 25%;
+        }
+        .button-go:hover:after {
+          left: 100%;
+          width: 70%;
+          
+        }
+        .button-go:hover .icon-right.after:after {
+          left: -80px;
+          color: white;
+          transition: .2s .2s ease all;
+          
+        }
+        .button-go:hover .icon-right.after:before {
+          left: -104px;
+          top: 14px;
+          opacity: 0.2;
+          color: rgb(255, 255, 255);
+        }
+        
+        .icon-right {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+        .icon-right:after {
+          font-family: "FontAwesome";
+          content: '\2192';
+          font-size: 24px;
+          display: inline-block;
+          position: relative;
+          top: 26px;
+          -webkit-transform: translate3D(0, -50%, 0);
+                  transform: translate3D(0, -50%, 0);
+        }
+        .icon-right.after:after {
+          left: -250px;
+          color: black;
+          transition: .15s .25s ease left, .5s .05s ease color;
+        }
+        .icon-right.after:before {
+          position: absolute;
+          left: -230px;
+          top: 14px;
+          opacity: 0;
+          transition: .2s ease-in all;
+        }
+        
+        .precarga {
+            background:transparent url(../assets/dist/js/loader.gif) center no-repeat;
+         }
+        
+        
+        </style>
+        
+
 
 <div class="row" style="background:url(app/assets/dist/img/salud_3.jpg) no-repeat fixed center center; background-size:cover; opacity: .6;">
     <br>
@@ -37,6 +292,84 @@
     <br>
 </div>
 <div class="row">
+    <br>
+    <div class="row">
+       
+          
+                <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12"> 
+                <div class="post-module precarga">
+                  <!-- Thumbnail-->
+                  <div class="thumbnail">
+                   
+                    <img width="60%" src="app/assets/dist/img/pet-2.jpg"/>
+                  </div>
+                  <!-- Post Content-->
+                  <div class="post-content" >
+                    <div class="category">Clinicas veterinarias</div>
+                    <h1 class="title">Feengster Pet</h1>
+                    <h2 class="sub_title">Licencia activa.</h2>
+                    <div class="description text-center">
+          
+                            <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Live
+                                    demo &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>
+                            <button type="button" class="btn btn-warning btn-transparent  btn-rounded w-md m-b-9">Más
+                                    información </button>
+                      
+                    </div>
+
+                    <div class="post-meta">
+                        <div class="col-lg-6">
+                        <span class="comments"><i class="fa fa-smile-o"></i><a href="#"> Lo puedes usar gratis</a></span>
+                        </div>
+                        <div class="col-lg-6"></div>
+                            <div class="post-meta">
+                        <span class="comments"><i class="fa fa-users"></i><a href="#"> 136 usuarios interactuando</a></span>
+                    </div>
+                </div>
+                  </div>
+                </div>
+              </div>
+          
+                 <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12">
+                 <div class="post-module ">
+                  <!-- Thumbnail-->
+                  <div class="thumbnail">
+                   <img  src="app/assets/dist/img/laundry-1.jpg"/>
+                  </div>
+                  <!-- Post Content-->
+                  <div class="post-content">
+                    <div class="category">Lavanderías</div>
+                    <h1 class="title">Feengster Laundry</h1>
+                    <h2 class="sub_title">Licencia activa.</h2>
+                    <div class="description text-center">
+                      <button class="button-go">Ingresar<span class="icon-right"></span><span class="icon-right after"></span></button>
+                      
+                    </div>
+                    <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-o"></i> hace 8 horas</span><span class="comments"><i class="fa fa-users"></i><a href="#"> 10 usuarios interactuando</a></span></div>
+                  </div>
+                </div>
+              </div>
+          
+              <div class="col-lg-4  col-md-4 col-sm-6 col-xs-12">
+                <div class="post-module">
+                 <!-- Thumbnail-->
+                 <div class="thumbnail">
+                  <img src="app/assets/dist/img/beauty-2.jpg"/>
+                 </div>
+                 <!-- Post Content-->
+                 <div class="post-content">
+                   <div class="category">Salones de Belleza</div>
+                   <h1 class="title">Feengster Beauty</h1>
+                   <h2 class="sub_title">Licencia activa.</h2>
+                   <div class="description text-center">
+                    <button class="button-go">Ingresar<span class="icon-right"></span><span class="icon-right after"></span></button>
+                     
+                   </div>
+                   <div class="post-meta"><span class="timestamp"><i class="fa fa-clock-o"></i> hace 8 horas</span><span class="comments"><i class="fa fa-users"></i><a href="#"> 10 usuarios interactuando</a></span></div>
+                 </div>
+               </div>
+             </div>
+              </div>
     <br>
     <!-- Photo by Ani Kolleshi on Unsplash -->
     <div class="col-xs-12 col-sm-6 col-md-3">

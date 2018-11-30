@@ -105,7 +105,7 @@ let reloadUserInformation =  function()
         `
         <li onclick='openAcount()'>
         <a >
-            <i class="ti-user"></i>&nbsp;${user.name} </a>
+            <i class="ti-user"></i>&nbsp; Mi cuenta en Feengster ${$f.app.getAppname()} </a>
         </li>
         <li>
         <a onclick='alert('Verificar si es necesario o se coloca en cuenta')'>

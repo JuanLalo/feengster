@@ -62,40 +62,38 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-            <!-- Firebase -->    
-            <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
-            <script src="app/controller/app/firebase_login.js" type="text/javascript"></script>
-            <script src="app/controller/app/notify.js" type="text/javascript"></script>
-            <!-- Firebase -->
+        <!-- Firebase -->
+        <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
+        <script src="app/controller/app/firebase_login.js" type="text/javascript"></script>
+        <script src="app/controller/app/notify.js" type="text/javascript"></script>
+        <!-- Firebase -->
 
         <script src="app/assets/plugins/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
-        <script src="app/index.config.js" type="text/javascript"></script>
-        <script src="app/controller/app/route.js" type="text/javascript"></script>
-        
-        
+        <script src="app/controller/app/main.feengster.js" type="text/javascript"></script>
+
+
+
 
 
 </head>
 
-<body  >
-<div id="loading"  style="display: block;  background-color:rgb(0, 0, 0); width: 100%;
-min-height: 100%;
-height: auto !important;
-position: fixed;
-top:0; 
-left:0;">
-<div class="row"  style="position: absolute; top: 50%;  left: 45%;   margin-top: -75px;
+<body>
+        <div id="loading" style="display: block;  background-color:rgb(0, 0, 0); width: 100%;
+                min-height: 100%;height: auto !important;position: fixed;top:0;left:0;">
+                <div class="row" style="position: absolute; top: 50%;  left: 45%;   margin-top: -75px;
 margin-left: -97px; ">
-                <div class="text-center">
+                       <div class="text-center">
 
-        <img width="250vw" src="app/assets/dist/img/dark logo pag principal.png" alt="Feengster">
+                        <img width="250vw" src="app/assets/dist/img/logos/logo-light-PNG.png" alt="Feengster">
+                        <div class="text-center">
+                                <img width="30vw" src="app/assets/dist/js/loader.gif" alt="Cargando...">
+                            </div>
+                    </div>
+                </div>
+
 
         </div>
-</div>
-
-
-</div>
-<div id="preloader" style="display: none">
+        <div id="preloader" style="display: none">
 
                 <div id="fb-root"></div>
                 <script>(function(d, s, id) {
@@ -107,8 +105,8 @@ margin-left: -97px; ">
                 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-<!-- Load Facebook SDK for JavaScript -->
-<!-- <div id="fb-root"></div>
+                <!-- Load Facebook SDK for JavaScript -->
+                <!-- <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -123,40 +121,42 @@ margin-left: -97px; ">
   theme_color="#2c3136">
 </div> -->
 
-        
-                <!-- Navigation -->
-                <nav class="navbar navbar-fixed-top" role="navigation">
-                        <div class="navbar-header " style="background-color: black">
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                                        <span class="sr-only">Toggle navigation</span>
-                                                        <i class="material-icons">menu</i>
-                                                </button>
 
-                                <a class="navbar-brand inicio">
-                                        <img  class="main-logo" src="app/assets/dist/img/dark logo pag principal.png"   alt="Feengster">
-                                        
+                <!-- Navigation -->
+                <nav class="navbar navbar-fixed-top" role="navigation" style=" height: 55px;">
+                        <div class="navbar-header " >
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <i class="material-icons">menu</i>
+                                </button>
+
+                                <a href="./" class="navbar-brand inicio">
+                                        <img class="main-logo" src="app/assets/dist/img/logos/logo-light-PNG.png" alt="Feengster">
+
 
                                 </a>
                         </div>
-                       
-                        <div class="nav-container  hidden-xs">
+
+                        <div class="nav-container  hidden-xs" style="height: 55px;">
 
                                 <!-- /.navbar-header -->
-                                <ul class="nav navbar-nav navbar-top-links  navbar-left">
+                                <ul class="nav navbar-nav navbar-top-links  navbar-left" style="height: 55px;">
 
-                                                <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Productos</a></li>  
-                                                <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Servicios</a></li>    
-                                                <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Tecnologías que usamos</a></li>  
-                                                <li><a  target="_blank" class="btn-buy hidden-xs hidden-sm hidden-md">Contacto</a></li>   
-                                                        
+                                        <li>
+                                                <a target="_blank" class="btn-buy hidden-xs ">Productos</a>
+                                        </li>
+                                        <li><a target="_blank" class="btn-buy hidden-xs hidden-sm ">Servicios</a></li>
+                                        <li><a target="_blank" class="btn-buy hidden-xs hidden-sm  ">Tecnologías
+                                                        que usamos</a></li>
+                                        <li><a target="_blank" class="btn-buy hidden-xs  ">Contacto</a></li>
+
 
                                 </ul>
                                 <ul class="nav navbar-nav navbar-top-links   navbar-right">
                                         <li>
                                         </li>
 
-
-
+                                
                                         <li>
 
                                         </li>
@@ -165,13 +165,14 @@ margin-left: -97px; ">
 
                                         <!--End dropdown mega menu-->
                                 </ul>
-                                <ul class="nav navbar-top-links navbar-right">
+                                <ul class="nav navbar-top-links navbar-right" >
 
 
 
                                         <!-- /.Dropdown -->
                                         <li class="dropdown">
-                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"
+                                                        aria-expanded="false">
                                                         <i class="material-icons">add_alert</i>
 
                                                         <div class="notify">
@@ -193,169 +194,181 @@ margin-left: -97px; ">
                                                                         </div>
                                                                         <div class="rad-notification-body">
                                                                                 <div class="lg-text">¡Promoción!</div>
-                                                                                <div class="sm-text">Primer mes gratis al suscribirte en cualquiera
+                                                                                <div class="sm-text">Primer mes gratis
+                                                                                        al suscribirte en cualquiera
                                                                                         de nuestros productos</div>
                                                                         </div>
                                                                 </a>
                                                         </li>
-                                                      
+
 
                                         </li>
                                         <li class="rad-dropmenu-footer">
                                                 <a href="#"></a>
                                         </li>
-                                        </ul>
-                                       
-                                        <li class="dropdown">
-                                                <a class="dropdown-toggle" data-toggle="dropdown">
-                                                        <div class="col-lg-1">
-                                                                <img width="27px" height="26px" src="app/assets/dist/img/perfil.png" class="img-circle user_img" alt="img_profile"> 
-                                                                
-                                                        </div>
+                                </ul>
 
-                                                </a>
-                                                <ul class="dropdown-menu dropdown-user">
-                                                        <li>
-                                                                <a href="app/">
-                                                                        <i class="ti-plus"></i>&nbsp; Ingresar</a>
-                                                        </li>
-                                                        <li>
-                                                                <a href="app/">
-                                                                        <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
-                                                        </li>
-                                                </ul>
-                                                <!-- /.dropdown-user -->
-                                        </li>
+                                <li class="dropdown" >
+                                        <a class="dropdown-toggle" data-toggle="dropdown">
+                                                <div class="col-lg-1">
+                                                        <img width="32px" height="31px" src="app/assets/dist/img/perfil.png"
+                                                                class="img-circle user_img" alt="img_profile">
+
+                                                </div>
+
+                                        </a>
+                                        <ul class="dropdown-menu  user_options">
+                                                <li>
+                                                        <a href="app/">
+                                                                <i class="ti-plus"></i>&nbsp; Ingresar</a>
+                                                </li>
+                                                <li>
+                                                        <a href="app/">
+                                                                <i class="ti-pencil"></i>&nbsp; Crear cuenta</a>
+                                                </li>
+                                        </ul>
+                                        <!-- /.dropdown-user -->
+                                </li>
                         </div>
                 </nav>
                 <!-- /.Navigation -->
 
 
 
-                 <!-- /.Navigation -->
-            <div class="sidebar hidden-lg hidden-sm hidden-md " role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li style="display: none" class="nav-heading ">
-                        <center>
+                <!-- /.Navigation -->
+                <div class="sidebar hidden-lg hidden-sm hidden-md " role="navigation">
+                        <div class="sidebar-nav navbar-collapse">
+                                <ul class="nav" id="side-menu">
+                                    
+                                        <li><a href="index.html" class="material-ripple"><i class="material-icons">web</i>
+                                                        Apps para tu negocio</a></li>
+                                        <li><a href="index.html" class="material-ripple"><i class="material-icons">list</i>
+                                                        Servicios</a></li>
+                                        <li><a href="index.html" class="material-ripple"><i class="material-icons">timeline</i>Tecnologías
+                                                        que usamos</a></li>
+                                        <li><a href="index.html" class="material-ripple"><i class="material-icons">call</i>Contacto</a></li>
+                                        <li style="">
+                                                <a href="#" class="material-ripple">
+                                                        <i class="material-icons">settings</i>Ajustes<span class="fa arrow">
+                                                        </span></a>
 
-                                        <div class="review-block-img">
-                                            <img  src="" class="img-circle user_img" alt="img_profile">
-                                        </div>
-                                        <div><a href="" class="user_name" >Sin nombre de suario</a></div>
-                                        <div class="review-block-date user_role">Administrador</div>
-                                
+                                                <ul class="nav nav-second-level">
+                                                        <li><a onclick="redirigir('../lockscreen.html')">Bloquear
+                                                                        Pantalla</a>
+                                                        </li>
 
-                        </center></li>
-                        <li ><a href="index.html" class="material-ripple"><i class="material-icons">web</i> Apps para tu negocio</a></li>
-                        <li ><a href="index.html" class="material-ripple"><i class="material-icons">list</i> Servicios</a></li>
-                        <li ><a href="index.html" class="material-ripple"><i class="material-icons">timeline</i>Tecnologías que usamos</a></li>
-                        <li ><a href="index.html" class="material-ripple"><i class="material-icons">call</i>Contacto</a></li>
-                        <li style="">
-                            <a href="#" class="material-ripple">
-                                <i class="material-icons">settings</i>Ajustes<span class="fa arrow">
-                            </span></a>
-                            
-                            <ul class="nav nav-second-level"><li><a onclick="redirigir('../lockscreen.html')">Bloquear Pantalla</a>
-                            </li>
+                                                        <li><a onclick="logout()">Cerrar sesión</a></li>
+                                                </ul>
+                                        </li>
+                                </ul>
 
-                        <li><a onclick="logout()">Cerrar sesión</a></li></ul>
-                        </li>
-                    </ul>
-
+                        </div>
+                        <!-- /.sidebar-collapse -->
                 </div>
-                <!-- /.sidebar-collapse -->
-            </div>
 
 
-                 <!-- Start carousel 71px -->
-                 <div id="carousel-1"  class="carousel slide " data-ride="carousel">
+                <!-- Start carousel 71px -->
+                <div id="carousel-1" class="carousel slide hidden-xs" data-ride="carousel" style="margin-top: 70px">
                         <!-- Indicators -->
                         <ol class="carousel-indicators">
-                            <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                            <li data-target="#carousel-1" data-slide-to="1"></li>
-                            <li data-target="#carousel-1" data-slide-to="2"></li>
+                                <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-1" data-slide-to="1"></li>
+                                <li data-target="#carousel-1" data-slide-to="2"></li>
                         </ol>
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner" role="listbox">
-                            <div class="item active">
-                                <img style="opacity: .7;" src="app/assets/dist/img/veterinaria_2.jpg" width="100%"  alt="...">
-                                <div class="carousel-caption">
-                                    <h1 class="title-carousel" >Feengster Pet</h1>
-                                    <h2 class="desc-carousel" >El Software más sofisticado para administrar tu veterinaria. Tú dedicate a lo que te apasiona y deja que PET se encargue del resto.</h2>
-                                    
-                                    <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Live demo &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>    
-                                    <button type="button" class="btn btn-warning btn-transparent  btn-rounded w-md m-b-9">Más información </button>
-                                    
-                                    
+                                <div class="item active">
+                                        <img style="opacity: .8;" src="app/assets/dist/img/veterinaria_2.jpg" width="100%"
+                                                alt="...">
+                                        <div class="carousel-caption">
+                                                <h1 class="title-carousel">Feengster Pet</h1>
+                                                <h2 class="desc-carousel">El Software más sofisticado para administrar
+                                                        tu veterinaria. Tú dedicate a lo que te apasiona y deja que PET
+                                                        se encargue del resto.</h2>
+
+                                                <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Live
+                                                        demo &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                                <button type="button" class="btn btn-warning btn-transparent  btn-rounded w-md m-b-9">Más
+                                                        información </button>
+
+
+                                        </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                <img style="opacity: .5;" width="100%" src="app/assets/dist/img/laundry.jpg" alt="...">
-                                <div class="carousel-caption">
-                                    
-                                    <h1 class="title-carousel">Yo tengo una Lavandería</h1>
-                                    <h2 class="desc-carousel">Y uso Feengster Laundry. Con un mes totalmente<b style="color: rgb(202, 62, 81)">GRATIS</b>. Donde interactuo con mis clientes 
-                                    </h2>
-                                    <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Demo Live &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>       
-                                    <button type="button" class="btn btn-warning  btn-rounded w-md m-b-5">Más información</button>
+                                <div class="item">
+                                        <img style="opacity: .5;" width="100%" src="app/assets/dist/img/laundry.jpg"
+                                                alt="...">
+                                        <div class="carousel-caption">
+
+                                                <h1 class="title-carousel">Yo tengo una Lavandería</h1>
+                                                <h2 class="desc-carousel">Y uso Feengster Laundry. Con un mes
+                                                        totalmente<b style="color: rgb(202, 62, 81)">GRATIS</b>. Donde
+                                                        interactuo con mis clientes
+                                                </h2>
+                                                <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Demo
+                                                        Live &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                                <button type="button" class="btn btn-warning  btn-rounded w-md m-b-5">Más
+                                                        información</button>
+                                        </div>
                                 </div>
-                            </div>
-                            <div class="item">
-                                        <img style="opacity: .6;" width="100%" src="app/assets/dist/img/salud_1 original.jpg" alt="...">
+                                <div class="item">
+                                        <img style="opacity: .6;" width="100%" src="app/assets/dist/img/salud_1 original.jpg"
+                                                alt="...">
                                         <div class="carousel-caption">
                                                 <h1 class="title-carousel">¿Tienes un consultorio médico?</h1>
-                                                <h2 class="desc-carousel">Administramos nuestras citas, tratamientos, medicamento y más con Feengster Healt</h2>
-                                                
-                                                <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Demo Live &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>    
-                                                <button type="button" class="btn btn-warning btn-transparent  btn-rounded w-md m-b-9">Más información </button>
-                                                
-                                                </div>
-                                    </div>
-                            
+                                                <h2 class="desc-carousel">Administramos nuestras citas, tratamientos,
+                                                        medicamento y más con Feengster Healt</h2>
+
+                                                <button type="button" class="btn btn-danger btn-rounded w-md m-b-5">Demo
+                                                        Live &nbsp<i class="fa fa-circle-o-notch fa-spin"></i></button>
+                                                <button type="button" class="btn btn-warning btn-transparent  btn-rounded w-md m-b-9">Más
+                                                        información </button>
+
+                                        </div>
+                                </div>
+
                         </div>
                         <!-- Controls -->
                         <a class="left carousel-control" href="#carousel-1" role="button" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
                         </a>
                         <a class="right carousel-control" href="#carousel-1" role="button" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
                         </a>
 
-
-                          <!-- <facebook>-->
-                <div class="row hidden-xs"  style="background-color:#2c3136">
-                        <br>
-                        <div class="text-center">
-                      <div class="fb-like" data-href="https://www.facebook.com/Feengster-196215167524742/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                </div> <!-- End carousel -->
+      <!-- <facebook>-->
+                <div class="row hidden-xs" style="background-color:#ffffff">
+                                <br>
+                                <div class="text-center">
+                                        <div class="fb-like" data-href="https://www.facebook.com/Feengster-196215167524742/"
+                                                data-layout="standard" data-action="like" data-size="small"
+                                                data-show-faces="true" data-share="true"></div>
+                                </div>
+                                <br>
                         </div>
-                      <br>
-              </div>
-      <!-- </facebook> -->
-                    </div>  <!-- End carousel -->
+                        <!-- </facebook> -->
 
-               
                 <!-- /.Navbar  Static Side -->
                 <!-- <div class="control-sidebar-bg"></div> -->
                 <!-- Page Content -->
-             
-                
-<!-- 
+
+
+                <!-- 
                 <div  style="background:url(app/assets/dist/img/alex-knight-199368-unsplash.jpg) no-repeat fixed center center; background-size:cover; opacity:.4;">
                    <br><br><br>
                    <br><br>
                   
                 <br><br><br>
         </div> -->
-        <div class="row">
-             
-        </div>
+                <div class="row">
+
+                </div>
 
 
                 <div id="row" class=" col-md-12 col-sm-12 col-xs-12">
-                        
+
                         <!-- main content -->
 
                         <div class="content col-sm-12 col-md-12 col-xs-12">
@@ -373,48 +386,49 @@ margin-left: -97px; ">
 
                 </div>
 
-                
+
 
                 <!-- /.main content -->
-       
 
- <!-- Footer -->
-<footer >
 
-                    <!-- Social buttons -->
-        <ul class=" list-inline text-center">
-          <li class="">
-                        <button type="button" class="btn btn-social-icon btn-facebook m-b-5"><i class="fa fa-facebook"></i></button>
-          </li>
-          <li class="">
-                        <button type="button" class="btn btn-social-icon btn-instagram m-b-5"><i class="fa fa-instagram"></i></button>
-          </li>
-          <li class="">
-                        <button type="button" class="btn btn-social-icon btn-github m-b-5"><i class="fa fa-github"></i></button>
-          </li>
-          <li class="">
-                        <button type="button" class="btn btn-social-icon btn-google m-b-5"><i class="fa fa-google"></i></button>
-          </li>
-          <li class="">
-                        <button type="button" class="btn btn-social-icon btn-twitter m-b-5"><i class="fa fa-twitter"></i></button>
-          </li>
-        </ul>
-        <!-- Social buttons -->
-    
-        <!-- Copyright -->
-        <div style="background-color: black; color: aliceblue" class="text-center"><br>© 2018 Copyright<br>
-                <img width="140vh"  src="app/assets/dist/img/dark-logo.png"> <br><br>
+                <!-- Footer -->
+                <footer>
+
+                        <!-- Social buttons -->
+                        <ul class=" list-inline text-center">
+                                <li class="">
+                                        <button type="button" class="btn btn-social-icon btn-facebook m-b-5"><i class="fa fa-facebook"></i></button>
+                                </li>
+                                <li class="">
+                                        <button type="button" class="btn btn-social-icon btn-instagram m-b-5"><i class="fa fa-instagram"></i></button>
+                                </li>
+                                <li class="">
+                                        <button type="button" class="btn btn-social-icon btn-github m-b-5"><i class="fa fa-github"></i></button>
+                                </li>
+                                <li class="">
+                                        <button type="button" class="btn btn-social-icon btn-google m-b-5"><i class="fa fa-google"></i></button>
+                                </li>
+                                <li class="">
+                                        <button type="button" class="btn btn-social-icon btn-twitter m-b-5"><i class="fa fa-twitter"></i></button>
+                                </li>
+                        </ul>
+                        <!-- Social buttons -->
+
+                        <!-- Copyright -->
+                        <div style="background-color: black; color: aliceblue" class="text-center"><br>© 2018 Copyright<br>
+                               <br>
+                                <img width="140vh" src="app/assets/dist/img/logos/logo-light-PNG.png"> <br><br>
+                        </div>
+                        <!-- Copyright -->
+
+
+                </footer>
+                <!-- Footer -->
+
         </div>
-        <!-- Copyright -->
-
-
-    </footer>
-    <!-- Footer -->
-      
-</div>
         <!-- /#preloader -->
 
-        
+
 
 
 
@@ -453,7 +467,8 @@ margin-left: -97px; ">
         <script src="app/assets/dist/js/jQuery.style.switcher.js" type="text/javascript"></script>
 
         <!-- APP -->
-        <script src="app/controller/page/index.js" type="text/javascript"></script>
+        <script src="app/page/controler.js" type="text/javascript"></script>
+        <script src="app/page/app.page.js" type="text/javascript"></script>
         <!-- AAP -->
 
         <!-- <script>

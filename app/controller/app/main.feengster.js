@@ -33,7 +33,7 @@
       static: {
         files_path: '../',
         core_path: '../../api/public/',
-        main_url: 'localhost:82/feengster/app/lab/?#mainPage',
+        main_url: 'localhost:82/feengster/app/main/',
         login_url: '../',
         url_lock: '',
         device: 'pc',  // mobile | pc
@@ -1509,6 +1509,9 @@
       getAppId: function () {
         return _app.inf.id
       },
+      getAppname: function () {
+        return _app.inf.name
+      },
       getFilesPath: function () {
         return _app.static.files_path
       },
@@ -1527,12 +1530,47 @@
           }
           else
           {
-            window.location.href = '../'
+            if(appData.static.login_url != undefined){
+              _app.static.login_url = appData.static.login_url
+            }
+
+            window.location.href = appData.static.login_url
           }
        
          if (_session.status == 'active') {
-            
-          _app.inf = appData
+           
+          _app.inf.id = appData.id
+          _app.inf.name = appData.name
+          _app.inf.logo = appData.logo
+
+         if(typeof appData.static === 'undefined'){
+          console.log('No se especificaron los datos estáticos, se tomarán los default.')
+         }else{
+          if(typeof appData.static.core_path !== 'undefined'){
+            _app.static.core_path = appData.static.core_path
+          }
+
+          if(typeof appData.static.files_path !== 'undefined'){
+            _app.static.files_path = appData.static.files_path
+          }
+          
+          if(typeof appData.static.main_url !== 'undefined'){
+            _app.static.main_url = appData.static.main_url
+          }
+         
+          if(typeof appData.static.login_url !== 'undefined'){
+            _app.static.login_url = appData.static.login_url
+          }
+
+          if(typeof appData.static.url_lock !== 'undefined'){
+            _app.static.url_lock = appData.static.url_lock
+          }
+
+          if(typeof appData.static.device !== 'undefined'){
+            _app.static.device = appData.static.device
+          }
+        }
+
           _router.current.menu.id = mainPage.id
           _router.current.menu.name = mainPage.name
           _router.current.menu.title = mainPage.title
@@ -1558,6 +1596,7 @@
             _app.inf.key = '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg'
         
           }
+          console.log(_app)
           // Obtenemos información de usario, verfificar si aquí es la major opción para su implementación
           console.warn(signature + ' configurado para [' + _app.inf.name + ']')
           callBack()
