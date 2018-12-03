@@ -596,130 +596,8 @@
 
       let idForm = ' #' + _forms[id].info.name
 
-      // #region containers
-          let html_containers =
-              `
-              <div id="html_btn_new_back" class="col-lg-12" style="margin-left: 10px; display: none">
-              
-              </div>
-
-              <div id="html-form" style="display: none">
-              ${$(idForm).html()}
-
-              <br>
-              <div id="html-buttons" class="col-lg-12" style= "margin-left: 10px; ">
-              </div>
-              </div>
-              
-              <div id="html-table" >
-              <table id="fg-table" class="display nowrap table" style="width:100%">
-              <tbody>
-              </tbody>
-              </table>
-              <hr>
-              </div>
-
-              `
-
-              $(idForm).html(html_containers)
-              $(idForm).show()
-
-             
-      //#endregion
-   
-      //#region html injection
-          // div button 
-      let html_buttons = ` `
-      let html_btn_new_back = ``
-
-          // save button
-
-          if(_forms[id].rules.change || _forms[id].rules.new )
-          {
-           html_btn_new_back +=    `
-           <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
-           <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
-           </button>
-           `    
-          }
-
+      forms.html(id, 'one')
           
-
-       if(_forms[id].rules.new)
-       { 
-         
-          html_buttons +=
-            `
-              <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
-              Guardar
-              </button>
-            `
-              // clear button
-          html_buttons +=
-          `
-            <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple  m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
-            Limpiar
-            </button>
-           `
-
-           html_btn_new_back +=
-                 ` 
-                  <button  id='btn_form_new' type="button" class="btn btn-labeled btn-primary m-b-5">
-                  <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
-                  </button> ` 
-
-            $('#html_btn_new_back').show()
-               
-            }
-
-            $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
-           
-   
-          // not update button
-       if(_forms[id].rules.change)
-       {
-             // update button
-        html_buttons += 
-        `
-         <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
-         <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
-         </span>
-         Actualizar
-          </button>
-       `
-      
-        }
-
-      
-          // delete button
-       if(_forms[id].rules.delete)
-       { 
-        html_buttons += 
-           `
-              <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-floppy-remove"></i></span>Eliminar
-               </button>
-           `
-        }    
-      
-
-      $(idForm + ' #html-buttons').append('<hr>' + html_buttons + '<hr>')
-  
-      //#endregion
-
-      //#region DatTable
-
-      if(_forms[id].rules.show)
-      {
-        forms.fillTable(id)
-      }
-      else
-      {
-        $(idForm + ' #html-table').hide()
-      }
-
-      //endregion Dattable
-
-
       //#region  Guargar / Actualizar
       
           $(idForm).validator().on("submit", function (e) 
@@ -911,10 +789,278 @@
           })
 
       //#endregion validator
+       
+      
+      forms.eventsButtons(id, 'one')
+          
+      console.log('Individual $fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
+      return id
 
+     }
+   
+    } catch (error) {
 
-        //#region form events
-        // ---- On new
+      // #check ver por qué da ese error
+      console.log(error)
+    }
+    },
+
+    newMultiple: function(data){
+      try {
+      
+        let id = this.add(data)
+        if(Number.isInteger(id))
+        {
+          forms.html(id, 'multiple')
+          forms.eventsButtons(id, 'multiple')
+
+          console.log(' Multiple $fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
+          return id
+        }
+   
+      } catch (error) {
+  
+        // #check ver por qué da ese error
+        console.log(error)
+      }
+
+    },
+
+    html: function(id, type){
+      
+      let idForm = ' #' + _forms[id].info.name
+
+      // #region containers
+          let html_containers =
+              `
+              <div id="html_btn_new_back" class="col-lg-12" style="margin-left: 10px; display: none">
+              
+              </div>
+
+              <div id="html-form" style="display: none">
+              ${$(idForm).html()}
+
+              <br>
+              <div id="html-buttons" class="col-lg-12" style= "margin-left: 10px; ">
+              </div>
+              </div>
+              
+              <div id="html-table" >
+              <table id="fg-table" class="display nowrap table" style="width:100%">
+              <tbody>
+              </tbody>
+              </table>
+              <hr>
+              </div>
+
+              `
+
+              $(idForm).html(html_containers)
+              $(idForm).show()
+
+             
+      //#endregion
+   
+      //#region html injection
+          // div button 
+      let html_buttons = ` `
+      let html_btn_new_back = ``
+
+          // save button
+
+          if(_forms[id].rules.change || _forms[id].rules.new )
+          {
+           html_btn_new_back +=    `
+           <button id="btn-form-back" style="display: none" type="button" class="btn-labeled btn btn-inverse   w-md m-b-5">
+           <span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span> Regresar
+           </button>
+           `    
+          }
+
+          
+
+       if(_forms[id].rules.new)
+       { 
+     
+         if(type == 'multiple')
+         {
+
+          html_buttons +=  `
+                 <button id="bnt_previous" type="button" class="btn btn-previous btn-labeled  m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>
+                    Anterior
+                  </button>
+                  <button id="bnt_next" type="submit" class="btn btn-labeled btn-warn m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                    Siguiente
+                </button>
+             `
+         }
+         else
+         {
+          html_buttons +=
+            `
+              <button id="bnt_save" type="submit" class="btn btn-labeled btn-info m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+              Guardar
+              </button>
+            `
+              // clear button
+          html_buttons +=
+          `
+            <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple  m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
+            Limpiar
+            </button>
+           `
+          }
+
+           html_btn_new_back +=
+                 ` 
+                  <button  id='btn_form_new' type="button" class="btn btn-labeled btn-primary m-b-5">
+                  <span class="btn-label"><i class="glyphicon glyphicon-plus"></i></span>Nuevo
+                  </button> ` 
+
+            $('#html_btn_new_back').show()
+               
+            }
+
+            $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
+           
+   
+          // not update button
+       if(_forms[id].rules.change)
+       {
+             // update button
+        html_buttons += 
+        `
+         <button id="btn_update"  type="submit" style="display: none" type="submit" class="btn btn-labeled btn-info m-b-5 submit">
+         <span class="btn-label"><i class="glyphicon glyphicon-floppy-saved"></i>
+         </span>
+         Actualizar
+          </button>
+       `
+      
+        }
+
+      
+          // delete button
+       if(_forms[id].rules.delete)
+       { 
+        html_buttons += 
+           `
+              <button id="btn_delete" type="button" style="display: none"  class="btn btn-labeled btn-danger m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-floppy-remove"></i></span>Eliminar
+               </button>
+           `
+        }    
+      
+
+      $(idForm + ' #html-buttons').append('<hr>' + html_buttons + '<hr>')
+  
+      //#endregion
+
+      //#region DatTable
+
+      if(_forms[id].rules.show)
+      {
+        forms.fillTable(id)
+      }
+      else
+      {
+        $(idForm + ' #html-table').hide()
+      }
+
+      //endregion Dattable
+
+    },
+
+    eventsButtons: function(id, type){
+
+      let idForm = ' #' + _forms[id].info.name
+
+      function bar_progress(progress_line_object, direction)
+       {
+        var number_of_steps = progress_line_object.data('number-of-steps');
+        var now_value = progress_line_object.data('now-value');
+        var new_value = 0;
+        if (direction === 'right') {
+            new_value = now_value + (100 / number_of_steps);
+        } else if (direction === 'left') {
+            new_value = now_value - (100 / number_of_steps);
+        }
+        progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value)
+       }
+
+       $('.f1 fieldset:first').fadeIn('slow');
+
+    $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function () {
+        $(this).removeClass('input-error');
+    });
+
+    // next step
+    $('.f1 .btn-next').on('click', function () {
+        var parent_fieldset = $(this).parents('fieldset');
+        var next_step = true;
+        // navigation steps / progress steps
+        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+
+        // fields validation
+        parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function () {
+            if ($(this).val() === "") {
+                $(this).addClass('input-error');
+                next_step = false;
+            } else {
+                $(this).removeClass('input-error');
+            }
+        });
+        // fields validation
+
+        if (next_step) {
+            parent_fieldset.fadeOut(400, function () {
+                // change icons
+                current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+                // progress bar
+                bar_progress(progress_line, 'right');
+                // show next step
+                $(this).next().fadeIn();
+                // scroll window to beginning of the form
+                scroll_to_class($('.f1'), 20);
+            });
+        }
+
+    });
+
+    // previous step
+    $('.f1 .btn-previous').on('click', function () {
+        // navigation steps / progress steps
+        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+
+        $(this).parents('fieldset').fadeOut(400, function () {
+            // change icons
+            current_active_step.removeClass('active').prev().removeClass('activated').addClass('active');
+            // progress bar
+            bar_progress(progress_line, 'left');
+            // show previous step
+            $(this).prev().fadeIn();
+            // scroll window to beginning of the form
+            scroll_to_class($('.f1'), 20);
+        });
+    });
+
+    // submit
+    $('.f1').on('submit', function (e) {
+
+        // fields validation
+        $(this).find('input[type="text"], input[type="password"], textarea').each(function () {
+            if ($(this).val() === "") {
+                e.preventDefault();
+                $(this).addClass('input-error');
+            } else {
+                $(this).removeClass('input-error');
+            }
+        });
+        // fields validation
+
+    });
+
         $(idForm + ' #btn_form_new').click(
           function()
           {
@@ -931,9 +1077,18 @@
             $(idForm + ' #btn-form-back').show()
             $(idForm + ' #html-table').hide()
 
-            $(idForm + ' #btn_reset').show()
-            $(idForm + ' #bnt_save').show()
+            if(type == 'multiple')
+              {
+                $(idForm + ' #bnt_previous').show()
+                $(idForm + ' #bnt_next').show()
 
+              }
+              else
+              {
+                $(idForm + ' #btn_reset').show()
+                $(idForm + ' #bnt_save').show()
+              } 
+            
 
             $(idForm + ' #btn_update').hide()
             $(idForm + ' #btn_delete').hide()
@@ -966,11 +1121,12 @@
            
           })
 
-        // ----- on Back
           $(idForm + ' #btn-form-back').click(
            function()
            {
+
             $(idForm +  ' #html-form').hide()
+
             $(idForm + ' #btn_form_new').show()
             $(idForm + ' #btn-form-back').hide()
 
@@ -1005,27 +1161,11 @@
             }
           )
 
-        
-        // On only new
-
         if(_forms[id].rules.new && !_forms[id].rules.show && !_forms[id].rules.change && !_forms[id].rules.delete)
         {
           $(idForm + ' #btn_form_new').click()
         }
-
-      //#endregion
       
-      return id
-     
-      console.log('$fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
-
-     }
-   
-    } catch (error) {
-
-      // #check ver por qué da ese error
-      console.log(error)
-    }
     },
 
     fillTable: function (id) 

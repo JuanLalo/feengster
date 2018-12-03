@@ -12,130 +12,199 @@
       <div class="panel-body">
 
 
-        <form id="fg_users_all" class="form-horizontal" data-toggle="validator" role="form">
+        <form id="fg_ml_users_all" class="form-horizontal f1" data-toggle="validator" role="form" >
+
+        <div class="col-lg-12 ">  
+        <form method="post" class="f1">
           <div class="row">
-            <center>
-              <img width="160px" height="160px" src="../assets/dist/img/perfil.png" class="img-circle" id="img">
-            </center>
-            <br>
-          </div>
-          <div class="row">
-
-            <div class="col-lg-12">
-              <div class="col-lg-1"></div>
-              <div class="col-lg-5">
-
-                <div class="form-group has-feedback">
-                  <label for="username" class="control-label">Nombre de Usuario</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input id="username" name="username" type="text" maxlength="15" class="form-control" minlength="3"
-                      placeholder="juanLalo" required>
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors">Debe ser un nombre de usuario unico</div>
-                </div>
-
-
-                <div class="form-group has-feedback">
-                  <label for="name" class="control-label">Nombre</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-address-card-o"></i>
-                    </div>
-                    <input id="name" name="name" type="text" minlength="3" maxlength="30" class="form-control" required>
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="surnames" class="control-label">Apellidos</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-address-card-o"></i>
-                    </div>
-                    <input id="surnames" name="surnames" type="text" min="5" maxlength="40" required="required" class="form-control">
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="phone" class="control-label">Tel. Celular</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-phone-square"></i>
-                    </div>
-                    <input id="phone" name="phone" type="text" class="phone_us form-control" maxlength="10" minlength="9"
-                      required>
-                  </div>
-                  <small class="text-muted">MX +52 <code>lada + número (7 dígitos)</code></small>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors">Telefono celular</div>
-                </div>
-
-
+            <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center"> 
+          <div class="f1-steps">
+              <div class="f1-progress">
+                  <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3" style="width: 16.66%;"></div>
               </div>
-              <div class="col-lg-1"></div>
-              <div class="col-lg-5">
-
-                <div class="form-group has-feedback">
-                  <label for="email" class="control-label">Email</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-envelope-o"></i>
-                    </div>
-                    <input id="email" name="email" placeholder="ejemplo@ejemplo.com" type="email" minlength="10"
-                      maxlength="40" class="form-control" required>
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors"></div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="password" class="control-label">Password</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-lock"></i>
-                    </div>
-                    <input id="password" name="password" type="password" minlength="6" maxlength="30" class="form-control"
-                      required="required">
-                  </div>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors">Asugurate de que la recordarás.</div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="birthdate" class="control-label">Fecha de nacimiento</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-birthday-cake"></i>
-                    </div>
-                    <input type="date" class="form-control" id="birthdate" name="birthdate" minlength="10" maxlength="10"
-                      max="2008-12-31" min="1940-12-31">
-                  </div>
-                  <small class="text-muted">Formato :<code>dd/mm/aaaa</code></small>
-                  <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                  <div class="help-block with-errors">Gracias, lo necesitamos para brindarte un mejor servicio.</div>
-                </div>
-
-                <div class="form-group has-feedback">
-                  <label for="name" class="control-label">Estatus</label>
-                  <select data-error="¡Necesitamos un estatus!" name="status" id="status" aria-describedby="statusHelpBlock"
-                    class="select form-control" required="required">
-                    <option></option>
-                  </select>
-                  <span id="HelpBlock" class="help-block">Si no se activa, no podrá ingresar este usuario.</span>
-                  <div class="help-block with-errors"></div>
-
-                </div>
+              <div class="f1-step active">
+                  <div class="f1-step-icon"><i class="fa fa-user"></i></div>
+                  <p>Cuenta</p>
               </div>
-            </div>
-
+              <div class="f1-step">
+                  <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                  <p>empresa</p>
+              </div>
+              <div class="f1-step">
+                  <div class="f1-step-icon"><i class="fa fa-key"></i></div>
+                  <p>roles y oermisos</p>
+              </div>
           </div>
+          </div>
+        </div>
+          <fieldset style="display: block;">
+              <div class="row">
+                  <center>
+                    <img width="160px" height="160px" src="../assets/dist/img/perfil.png" class="img-circle" id="img">
+                  </center>
+                  <br>
+                </div>
+                <div class="row">
+      
+                  <div class="col-lg-12">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-5">
+      
+                      <div class="form-group has-feedback">
+                        <label for="username" class="control-label">Nombre de Usuario</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">@</span>
+                          <input id="username" name="username" type="text" maxlength="15" class="form-control" minlength="3"
+                            placeholder="juanLalo" required>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">Debe ser un nombre de usuario unico</div>
+                      </div>
+      
+      
+                      <div class="form-group has-feedback">
+                        <label for="name" class="control-label">Nombre</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-address-card-o"></i>
+                          </div>
+                          <input id="name" name="name" type="text" minlength="3" maxlength="30" class="form-control" required>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                      </div>
+      
+                      <div class="form-group has-feedback">
+                        <label for="surnames" class="control-label">Apellidos</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-address-card-o"></i>
+                          </div>
+                          <input id="surnames" name="surnames" type="text" min="5" maxlength="40" required="required" class="form-control">
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                      </div>
+      
+                      <div class="form-group has-feedback">
+                        <label for="phone" class="control-label">Tel. Celular</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-phone-square"></i>
+                          </div>
+                          <input id="phone" name="phone" type="text" class="phone_us form-control" maxlength="10" minlength="9"
+                            required>
+                        </div>
+                        <small class="text-muted">MX +52 <code>lada + número (7 dígitos)</code></small>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">Telefono celular</div>
+                      </div>
+      
+      
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-5">
+      
+                      <div class="form-group has-feedback">
+                        <label for="email" class="control-label">Email</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-envelope-o"></i>
+                          </div>
+                          <input id="email" name="email" placeholder="ejemplo@ejemplo.com" type="email" minlength="10"
+                            maxlength="40" class="form-control" required>
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors"></div>
+                      </div>
+      
+                      <div class="form-group has-feedback">
+                        <label for="password" class="control-label">Password</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-lock"></i>
+                          </div>
+                          <input id="password" name="password" type="password" minlength="6" maxlength="30" class="form-control"
+                            required="required">
+                        </div>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">Asugurate de que la recordarás.</div>
+                      </div>
+      
+                      <div class="form-group has-feedback">
+                        <label for="birthdate" class="control-label">Fecha de nacimiento</label>
+                        <div class="input-group">
+                          <div class="input-group-addon">
+                            <i class="fa fa-birthday-cake"></i>
+                          </div>
+                          <input type="date" class="form-control" id="birthdate" name="birthdate" minlength="10" maxlength="10"
+                            max="2008-12-31" min="1940-12-31">
+                        </div>
+                        <small class="text-muted">Formato :<code>dd/mm/aaaa</code></small>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                        <div class="help-block with-errors">Gracias, lo necesitamos para brindarte un mejor servicio.</div>
+                      </div>
+      
+                      <div class="form-group has-feedback">
+                        <label for="name" class="control-label">Estatus</label>
+                        <select data-error="¡Necesitamos un estatus!" name="status" id="status" aria-describedby="statusHelpBlock"
+                          class="select form-control" required="required">
+                          <option></option>
+                        </select>
+                        <span id="HelpBlock" class="help-block">Si no se activa, no podrá ingresar este usuario.</span>
+                        <div class="help-block with-errors"></div>
+      
+                      </div>
+                    </div>
+                  </div>
+      
+                </div>
+              <div class="f1-buttons">
+                  <button type="button" class="btn btn-success btn-next">Next</button>
+              </div>
+          </fieldset>
+          <fieldset>
+              <h4>Set up your account:</h4>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-email">Email</label>
+                  <input type="text" name="f1-email" placeholder="Email..." class="form-control" id="f1-email">
+              </div>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-password">Password</label>
+                  <input type="password" name="f1-password" placeholder="Password..." class="form-control" id="f1-password">
+              </div>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-repeat-password">Repeat password</label>
+                  <input type="password" name="f1-repeat-password" placeholder="Repeat password..." class="form-control" id="f1-repeat-password">
+              </div>
+              <div class="f1-buttons">
+                  <button type="button" class="btn btn-previous">Previous</button>
+                  <button type="button" class="btn btn-success btn-next">Next</button>
+              </div>
+          </fieldset>
+          <fieldset>
+              <h4>Social media profiles:</h4>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-facebook">Facebook</label>
+                  <input type="text" name="f1-facebook" placeholder="Facebook..." class="form-control" id="f1-facebook">
+              </div>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-twitter">Twitter</label>
+                  <input type="text" name="f1-twitter" placeholder="Twitter..." class="form-control" id="f1-twitter">
+              </div>
+              <div class="form-group">
+                  <label class="sr-only" for="f1-google-plus">Google plus</label>
+                  <input type="text" name="f1-google-plus" placeholder="Google plus..." class="form-control" id="f1-google-plus">
+              </div>
+              <div class="f1-buttons">
+                  <button type="button" class="btn btn-previous">Previous</button>
+                  <button type="submit" class="btn btn-success btn-submit">Submit</button>
+              </div>
+          </fieldset>
         </form>
+        </div>
 
+      </form>
 
       </div>
     </div>
@@ -161,7 +230,7 @@
 
     const user = {
 
-      idForm: '#fg_users_all',
+      idForm: '#fg_ml_users_all',
 
       changeValueInputs: function () {
 
@@ -170,10 +239,10 @@
     }
 
 
-    let id = $f.forms.new({
+    let id = $f.forms.newMultiple({
       info:  
                 {
-                  name: 'fg_users_all',
+                  name: 'fg_ml_users_all',
                   table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
                   view: 'all_users_apps_all',
                 },
