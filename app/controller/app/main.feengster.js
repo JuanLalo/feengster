@@ -193,7 +193,7 @@
 
     }
 
-    //#endregion
+   //#endregion
 
 
     //#region [API CONTROLLER]r
@@ -549,14 +549,18 @@
         _forms[size].dropdown = form.dropdown
         _forms[size].reports = form.reports
 
-               /** EVENTS
-               *  --> onEdit
-               *  --> beforeSave
-               *  --> afterSave
-               *  --> onDelete
-               *  --> beforeDelete
-               *  --> afterDelete
-               *  */
+        _forms[size].events =  {
+                onEdit: undefined,
+                beforeSave:  undefined,
+                afterSave: undefined,
+                beforeChange: undefined,
+                afterChange: undefined,
+                onDelete: undefined,
+                beforeDelete: undefined,
+                afterDelete: undefined,
+                onNew: undefined,
+        }
+
         _forms[size].events = form.events
               
         
@@ -805,7 +809,7 @@
     }
     },
 
-    newMultiple: function(data){
+    newMultiple: function(data, callBack){
       try {
       
         let id = this.add(data)
@@ -814,7 +818,204 @@
           forms.html(id, 'multiple')
           forms.eventsButtons(id, 'multiple')
 
+          let idForm = ' #' + _forms[id].info.name
+
+
+          //#region  Guargar / Actualizar
+      
+          $(idForm).validator().on("submit", function (e) 
+           {
+            
+           if (e.isDefaultPrevented())
+                    {
+               notify.sound('warning')
+               toastr.warning("Al parecer el furmulario no está listo", "Atención" )
+         
+                  }
+                    else
+                  {
+
+                    try {
+                      
+                      // Se toaman los datos del formulario
+                      let $this = $(idForm)
+                      , formHTML = $this.serializeArray()
+                      , formData = {};
+
+                       // add optionalData
+                      for(let y in _forms[id].optionalData)
+                      {
+                        if(_forms[id].optionalData[y].function_)
+                        {
+                          let newValue = _forms[id].optionalData[y].value() 
+                          let optional = {
+                                          name: _forms[id].optionalData[y].name, 
+                                          value: newValue 
+                                        }
+
+                          formHTML.push(optional)
+                        }
+                        else
+                        {
+                          let optional = {
+                            name: _forms[id].optionalData[y].name, 
+                            value: _forms[id].optionalData[y].value,
+                          }
+
+                         formHTML.push(optional)
+                        }
+                       
+                      }
+
+                  
+                      for (var i in formHTML) {
+                        formData[formHTML[i].name] = formHTML[i].value;
+                      }
+                      
+                      delete formData['fg-table_length']
+
+                     if(_forms[id].action == 'new')
+                     {
+                      let save = true
+
+                      if(_forms[id].events.beforeSave != undefined)
+                      {
+                       save = _forms[id].events.beforeSave()
+                      }
+                      if(save){
+
+                        forms.loading('Guardando', 'Espera un momento por favor.')
+                        $(idForm +  ' #html-buttons').hide()
+
+                        api.setData(
+                                    _forms[id].info.table_code,
+                                    formData,
+                                    function(data)
+                                      {
+                                        swal("¡Listo!", "", "success")
+                                        notify.sound('success')
+                                        $(idForm + ' #btn-form-back').click()
+                                        forms.reloadTable(id)
+
+                                        if(_forms[id].events.afterSave != undefined)
+                                        {
+                                          _forms[id].events.afterSave()
+                                        }
+                                      },
+
+                                    function(data)
+                                       {
+                                          api.messageByHttpCode(data)     
+                                          $(idForm +  ' #html-buttons').show()
+                                
+                                      }
+                                  )
+
+                      }
+                      
+
+                    }
+                    else if(_forms[id].action == 'change')
+                    {
+                      let change = true
+                      
+                      if(_forms[id].events.beforeChange != undefined)
+                      {
+                        change = _forms[id].events.beforeChange()
+                      }
+
+                      if(change){
+                        
+                        console.log('Datos para editar ')
+                        console.log(_forms[id].formData)
+                        
+
+                        let dataToUpdate = {}
+                        let wasChange = false
+                        let change = false
+                        let isOptional = false
+                        for(let i in formData)
+                        {
+                            if(formData[i] != _forms[id].formData[i]) 
+                                {
+                                  for(let y in _forms[id].optionalData)
+                                  {
+                                    if( i  == _forms[id].optionalData[y].name ){
+                                        isOptional = true
+                                    }
+                                  }
+
+                                  if(!isOptional)
+                                    {
+                                      wasChange = true
+                                    }
+                                  
+                                }
+
+                           if(wasChange)
+                           {
+                             dataToUpdate[i] = formData[i]
+                             wasChange = false
+                             change= true
+                           }
+                        }
+                        
+                        console.log('Datos modificados ' )
+                        console.log(dataToUpdate)
+
+                        if(change)
+                        {
+                          
+                          forms.loading('Actualizando', 'Espera un momento por favor.')
+                          $(idForm +  ' #html-buttons').hide()
+
+                           api.changeData(
+                            _forms[id].info.table_code,
+                            _forms[id].formData.id, 
+                            dataToUpdate,
+                            function(data){
+                              
+                              notify.sound('success')
+                               swal("¡Listo!", "", "success")
+                               // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
+                               //let table = $(idForm + ' #fg-table').DataTable()
+                               //formData['id'] = _forms[id].formData.id
+                               //table.row( _forms[id].index ).data( formData).draw()
+                               forms.reloadTable(id)
+                               $(idForm + ' #btn-form-back').click()
+                               
+                              },
+
+                              function(data)
+                              {
+                                api.messageByHttpCode(data)     
+                                $(idForm +  ' #html-buttons').show()
+                                
+                              }
+                          )
+                        }
+                        else
+                        {
+                          toastr.warning("", "No se detectaron cambios.")
+                        }
+
+                      }
+
+                    }
+
+                } catch (error) {
+                  console.error(signature + error)   
+                }
+                    return false
+
+              }
+           
+          })
+
+      //#endregion validator
+
           console.log(' Multiple $fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
+          callBack(id)
           return id
         }
    
@@ -841,7 +1042,7 @@
               ${$(idForm).html()}
 
               <br>
-              <div id="html-buttons" class="col-lg-12" style= "margin-left: 10px; ">
+              <div id="html-buttons" class="col-lg-12  text-center" >
               </div>
               </div>
               
@@ -882,19 +1083,7 @@
        if(_forms[id].rules.new)
        { 
      
-         if(type == 'multiple')
-         {
-
-          html_buttons +=  `
-                 <button id="bnt_previous" type="button" class="btn btn-previous btn-labeled  m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-chevron-left"></i></span>
-                    Anterior
-                  </button>
-                  <button id="bnt_next" type="submit" class="btn btn-labeled btn-warn m-b-5 submit"><span class="btn-label"><i class="glyphicon glyphicon-arrow-right"></i></span>
-                    Siguiente
-                </button>
-             `
-         }
-         else
+         if(type == 'one')
          {
           html_buttons +=
             `
@@ -974,92 +1163,73 @@
 
       let idForm = ' #' + _forms[id].info.name
 
-      function bar_progress(progress_line_object, direction)
-       {
-        var number_of_steps = progress_line_object.data('number-of-steps');
-        var now_value = progress_line_object.data('now-value');
-        var new_value = 0;
-        if (direction === 'right') {
-            new_value = now_value + (100 / number_of_steps);
-        } else if (direction === 'left') {
-            new_value = now_value - (100 / number_of_steps);
-        }
-        progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value)
-       }
+      // --- Form Animation
 
-       $('.f1 fieldset:first').fadeIn('slow');
+   
+    
+      
+function bar_progress(progress_line_object, direction) {
+  var number_of_steps = progress_line_object.data('number-of-steps');
+  var now_value = progress_line_object.data('now-value');
+  var new_value = 0;
+  if (direction === 'right') {
+      new_value = now_value + (100 / number_of_steps);
+  } else if (direction === 'left') {
+      new_value = now_value - (100 / number_of_steps);
+  }
+  progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
+}
 
-    $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function () {
-        $(this).removeClass('input-error');
-    });
 
-    // next step
-    $('.f1 .btn-next').on('click', function () {
-        var parent_fieldset = $(this).parents('fieldset');
-        var next_step = true;
-        // navigation steps / progress steps
-        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-        // fields validation
-        parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function () {
-            if ($(this).val() === "") {
-                $(this).addClass('input-error');
-                next_step = false;
-            } else {
-                $(this).removeClass('input-error');
-            }
-        });
-        // fields validation
+  $('.f1 fieldset:first').fadeIn('slow');
 
-        if (next_step) {
-            parent_fieldset.fadeOut(400, function () {
-                // change icons
-                current_active_step.removeClass('active').addClass('activated').next().addClass('active');
-                // progress bar
-                bar_progress(progress_line, 'right');
-                // show next step
-                $(this).next().fadeIn();
-                // scroll window to beginning of the form
-                scroll_to_class($('.f1'), 20);
-            });
-        }
+  $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function () {
+      $(this).removeClass('input-error');
+  });
 
-    });
+  // next step
+  $('.f1 .btn-next').on('click', function () {
+      var parent_fieldset = $(this).parents('fieldset');
+      var next_step = true;
+      // navigation steps / progress steps
+      var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+      var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-    // previous step
-    $('.f1 .btn-previous').on('click', function () {
-        // navigation steps / progress steps
-        var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-        var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+     
 
-        $(this).parents('fieldset').fadeOut(400, function () {
-            // change icons
-            current_active_step.removeClass('active').prev().removeClass('activated').addClass('active');
-            // progress bar
-            bar_progress(progress_line, 'left');
-            // show previous step
-            $(this).prev().fadeIn();
-            // scroll window to beginning of the form
-            scroll_to_class($('.f1'), 20);
-        });
-    });
+      if (next_step) {
+          parent_fieldset.fadeOut(400, function () {
+              // change icons
+              current_active_step.removeClass('active').addClass('activated').next().addClass('active');
+              // progress bar
+              bar_progress(progress_line, 'right');
+              // show next step
+              $(this).next().fadeIn()
+          });
+      }
 
-    // submit
-    $('.f1').on('submit', function (e) {
+  });
 
-        // fields validation
-        $(this).find('input[type="text"], input[type="password"], textarea').each(function () {
-            if ($(this).val() === "") {
-                e.preventDefault();
-                $(this).addClass('input-error');
-            } else {
-                $(this).removeClass('input-error');
-            }
-        });
-        // fields validation
+  // previous step
+  $('.f1 .btn-previous').on('click', function () {
+      // navigation steps / progress steps
+      var current_active_step = $(this).parents('.f1').find('.f1-step.active');
+      var progress_line = $(this).parents('.f1').find('.f1-progress-line');
 
-    });
+      $(this).parents('fieldset').fadeOut(400, function () {
+          // change icons
+          current_active_step.removeClass('active').prev().removeClass('activated').addClass('active');
+          // progress bar
+          bar_progress(progress_line, 'left');
+          // show previous step
+          $(this).prev().fadeIn()
+      });
+  });
+
+
+
+
 
         $(idForm + ' #btn_form_new').click(
           function()
@@ -1077,13 +1247,7 @@
             $(idForm + ' #btn-form-back').show()
             $(idForm + ' #html-table').hide()
 
-            if(type == 'multiple')
-              {
-                $(idForm + ' #bnt_previous').show()
-                $(idForm + ' #bnt_next').show()
-
-              }
-              else
+            if(type == 'one')
               {
                 $(idForm + ' #btn_reset').show()
                 $(idForm + ' #bnt_save').show()
@@ -1146,20 +1310,20 @@
             
           )
 
-         $(idForm + ' select').change( 
-            function(){
-              if($(this).val() == '')
-              {
-                $(this).css('font-style', 'italic')
-                $(this).css('font-weight', 'bold') 
-              }
-              else
-              {
-                $(this).css('font-style', 'normal')
-                $(this).css('font-weight', 'normal') 
-              }
-            }
-          )
+        //  $(idForm + ' select').change( 
+        //     function(){
+        //       if($(this).val() == '')
+        //       {
+        //         $(this).css('font-style', 'italic')
+        //         $(this).css('font-weight', 'bold') 
+        //       }
+        //       else
+        //       {
+        //         $(this).css('font-style', 'normal')
+        //         $(this).css('font-weight', 'normal') 
+        //       }
+        //     }
+        //   )
 
         if(_forms[id].rules.new && !_forms[id].rules.show && !_forms[id].rules.change && !_forms[id].rules.delete)
         {
@@ -1502,7 +1666,7 @@
             function()
             {
               swal("¡Error!", "Tuvimos un error al cargar algunas opciones. Revise se conexión a internet o reporte este error", "error")
-              $($dropdown).html( `<option value="">¡Error al cargar las opciones!</option>`)
+              $($dropdown).html( `<option value="error">¡Error al cargar las opciones!</option>`)
             }
        )
 
@@ -1511,11 +1675,11 @@
      selectOption:  function($dropdown, val)
       {
         $($dropdown).val(val)
-        if( val == '')
-        {
-          $($dropdown).css('font-style', 'italic')
-          $($dropdown).css('font-weight', 'bold') 
-        }
+        // if( val == '')
+        // {
+        //   $($dropdown).css('font-style', 'italic')
+        //   $($dropdown).css('font-weight', 'bold') 
+        // }
      },
 
      get:
@@ -1619,7 +1783,8 @@
           break;
 
           case 'warning':
-          
+          _notify.mp3 = _app.static.files_path + 'assets/dist/sounds/warning.wav'
+
           break;
 
           default:
@@ -1762,7 +1927,6 @@
       getDateTime: function(){
         let fecha = new Date()
           return fecha.getFullYear() + '-'  + (fecha.getMonth() + 1 ) + '-' + fecha.getDate() + ' '+ fecha.getHours() + ':' + fecha.getMinutes() + ':' + fecha.getSeconds()
-
       }
 
     }

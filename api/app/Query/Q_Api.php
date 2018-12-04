@@ -47,6 +47,7 @@ static function getData($bd, $data)
                 $query = "SELECT * FROM $bd.cat_options ";
             break;
 
+           
             case 'all_apps':
                 $query = "SELECT * FROM $bd.cat_apps ";
             break;
@@ -99,6 +100,24 @@ static function getData($bd, $data)
            case 'app_select_option': 
            $query = "SELECT id , name  FROM {$bd}.cat_apps WHERE status <> 'NO ACTIVO'";
            break;
+
+           case 'app_select_option_for_new_user': 
+           $query = "SELECT id , name  FROM {$bd}.cat_apps WHERE (type = 'tool' OR type = 'rent') AND  status <> 'NO ACTIVO'";
+           break;
+
+           case 'all_company_all_apps':
+           $query = "SELECT id, name FROM $bd.cat_company WHERE status <> 'ELIMINADO' ";
+           break;
+                
+           case 'all_user_type_for_app_':
+           $query = "SELECT id, name FROM $bd.cat_users WHERE status = 'ACTIVO' ";
+           break;
+
+           
+
+        //    case 'all_company_all_apps':
+        //    $query = "SELECT id, name FROM $bd.cat_company WHERE status <> 'ELIMINADO' ";
+        //    break;
 
                       
            case 'status_1_0': 

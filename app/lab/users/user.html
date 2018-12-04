@@ -15,35 +15,42 @@
         <form id="fg_ml_users_all" class="form-horizontal f1" data-toggle="validator" role="form" >
 
         <div class="col-lg-12 ">  
-        <form method="post" class="f1">
+
           <div class="row">
-            <div class="col-sm-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3 text-center"> 
+            <div class="col-sm-12 col-md-12 col-lg-12  text-center"> 
           <div class="f1-steps">
               <div class="f1-progress">
-                  <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="3" style="width: 16.66%;"></div>
+                  <div class="f1-progress-line" data-now-value="16.66" data-number-of-steps="4" style="width: 16.66%;"></div>
               </div>
               <div class="f1-step active">
                   <div class="f1-step-icon"><i class="fa fa-user"></i></div>
                   <p>Cuenta</p>
               </div>
               <div class="f1-step">
-                  <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                  <p>empresa</p>
+                  <div class="f1-step-icon"><i class="fa fa-address-card"></i></div>
+                  <p>Empresa</p>
               </div>
               <div class="f1-step">
-                  <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                  <p>roles y oermisos</p>
+                  <div class="f1-step-icon"><i class="fa fa-laptop"></i></div>
+                  <p>App</p>
+              </div>
+              <div class="f1-step">
+                  <div class="f1-step-icon"><i class="fa fa-child"></i></div>
+                  <p>Rol</p>
               </div>
           </div>
           </div>
         </div>
-          <fieldset style="display: block;">
+
+          <fieldset  style="display: block;">
+             
               <div class="row">
+                  <div id="step-1"> 
                   <center>
                     <img width="160px" height="160px" src="../assets/dist/img/perfil.png" class="img-circle" id="img">
                   </center>
                   <br>
-                </div>
+               
                 <div class="row">
       
                   <div class="col-lg-12">
@@ -160,48 +167,104 @@
       
                 </div>
               <div class="f1-buttons">
-                  <button type="button" class="btn btn-success btn-next">Next</button>
+                  <button  type="button" class="btn btn-labeled btn-success m-b-5 submit btn-next"><span class="btn-label"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                    Siguiente
+                </button>
               </div>
+            </div>
+          </div>
           </fieldset>
+       
           <fieldset>
-              <h4>Set up your account:</h4>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-email">Email</label>
-                  <input type="text" name="f1-email" placeholder="Email..." class="form-control" id="f1-email">
-              </div>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-password">Password</label>
-                  <input type="password" name="f1-password" placeholder="Password..." class="form-control" id="f1-password">
-              </div>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-repeat-password">Repeat password</label>
-                  <input type="password" name="f1-repeat-password" placeholder="Repeat password..." class="form-control" id="f1-repeat-password">
-              </div>
+              <div class="row">
+                  <div id="step-2"> 
+                      <div class="col-lg-12">
+                          <div class="col-lg-1"></div>
+                          <div class="col-lg-5">
+                      <div class="form-group has-feedback">
+                          <label for="id_company" class="control-label">Empresa a la que pertenece</label>
+                          <select  name="status" id="id_company" aria-describedby="statusHelpBlock"
+                            class="select form-control" >
+                            <option></option>
+                          </select>
+                          <span id="HelpBlock" class="help-block">Si no se selecciona una empresa debe agragar una nueva y daremos por hecho que este usuario será administrador principal.</span>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                      </div>
+                    </div>
+
               <div class="f1-buttons">
-                  <button type="button" class="btn btn-previous">Previous</button>
-                  <button type="button" class="btn btn-success btn-next">Next</button>
+                  <button  type="button" class="btn btn-previous btn-labeled  m-b-5 submit "><span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                    Anterior
+                  </button>
+                  <button  type="button" class="btn btn-labeled btn-success m-b-5 submit btn-next"><span class="btn-label"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                    Siguiente
+                </button>
+              </div>
+              </div>
               </div>
           </fieldset>
+          
           <fieldset>
-              <h4>Social media profiles:</h4>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-facebook">Facebook</label>
-                  <input type="text" name="f1-facebook" placeholder="Facebook..." class="form-control" id="f1-facebook">
-              </div>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-twitter">Twitter</label>
-                  <input type="text" name="f1-twitter" placeholder="Twitter..." class="form-control" id="f1-twitter">
-              </div>
-              <div class="form-group">
-                  <label class="sr-only" for="f1-google-plus">Google plus</label>
-                  <input type="text" name="f1-google-plus" placeholder="Google plus..." class="form-control" id="f1-google-plus">
-              </div>
-              <div class="f1-buttons">
-                  <button type="button" class="btn btn-previous">Previous</button>
-                  <button type="submit" class="btn btn-success btn-submit">Submit</button>
-              </div>
+              <div class="row">
+                  <div id="step-3"> 
+                      <div class="col-lg-12">
+                          <div class="col-lg-1"></div>
+                          <div class="col-lg-5">
+                      <div class="form-group has-feedback">
+                          <label for="app_id" class="control-label">Aplicación a la que se le dará acceso</label>
+                          <select data-error="¡Necesitamos saber cual será la aplicación que usará este usuario!"  name="status" id="app_id" aria-describedby="statusHelpBlock"
+                            class="select form-control" required>
+                            <option></option>
+                          </select>
+                          <span id="HelpBlock" class="help-block"> - Si deseas darle acceso a otra aplicación lo puedes hacer más tarde en el menú de [usuario - apps].</span>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="f1-buttons">
+                        <button  type="button" class="btn btn-previous btn-labeled  m-b-5 submit "><span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                          Anterior
+                        </button>
+                        <button  type="button" class="btn btn-labeled btn-success m-b-5 submit btn-next"><span class="btn-label"><i class="glyphicon glyphicon-arrow-right"></i></span>
+                          Siguiente
+                      </button>
+                    </div>
+             
+            </div>
+          </div>
           </fieldset>
-        </form>
+
+          <fieldset>
+              <div class="row">
+                  <div id="step-4"> 
+                      <div class="col-lg-12">
+                          <div class="col-lg-1"></div>
+                          <div class="col-lg-5">
+                      <div class="form-group has-feedback">
+                          <label for="id_cat_user" class="control-label">¿Cúal será su rol?</label>
+                          <select  name="status" id="id_cat_user" aria-describedby="statusHelpBlock"
+                            class="select form-control" required>
+                            <option></option>
+                          </select>
+                          <span id="HelpBlock" class="help-block">La aplicación tendrá diferentes funciones de acuerdo al tipo de rol.</span>
+                          <div class="help-block with-errors"></div>
+                        </div>
+                      </div>
+                    </div>
+
+              <div class="f1-buttons">
+                  <button  type="button" class="btn btn-previous btn-labeled  m-b-5 submit "><span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span>
+                    Anterior
+                  </button>
+                  <button  type="submit" class="btn btn-labeled btn-info m-b-5 submit btn-submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+                    Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+          </fieldset>
+        
         </div>
 
       </form>
@@ -239,7 +302,7 @@
     }
 
 
-    let id = $f.forms.newMultiple({
+    $f.forms.newMultiple({
       info:  
                 {
                   name: 'fg_ml_users_all',
@@ -324,17 +387,21 @@
           view: 'status_1_0'
         },
         1: {
-          id: 'android',
-          view: 'yes_no_binary'
+          id: 'id_company',
+          view: 'all_company_all_apps'
         },
+
         2: {
-          id: 'print',
-          view: 'yes_no_binary'
+          id: 'app_id',
+          view: 'app_select_option_for_new_user'
         },
+
         3: {
-          id: 'id_module',
-          view: 'modules_select_option'
-        }
+          id: 'id_cat_user',
+          view: 'all_user_type_for_app_'
+        },
+               
+        
       },
 
 
@@ -355,7 +422,13 @@
         afterDelete: undefined,
         onNew: undefined,
       }
-    })
+      },
+      
+      formReady
+
+    )
+
+function formReady(id){
 
 
     user.imgDefaul = '../assets/dist/img/perfil.png'
@@ -389,6 +462,8 @@
     // Update Form events
     $f.forms.events.onNew(id, user.onNew)
     $f.forms.events.onEdit(id, user.onEdit)
+
+}
 
 
   })
