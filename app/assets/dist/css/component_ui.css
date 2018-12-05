@@ -2122,7 +2122,7 @@ table.text-center th {
 .f1-steps {
     overflow: hidden;
     position: relative;
-    margin-top: 20px;
+    margin-top: 8px;
 }
 
 .f1-progress {
@@ -2144,7 +2144,7 @@ table.text-center th {
 .f1-step {
     position: relative;
     float: left;
-    width: 33.333333%;
+    width: 33.333%;
     padding: 0 5px;
 }
 

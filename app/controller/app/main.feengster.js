@@ -271,6 +271,30 @@
         })
       },
 
+      setMultipleData: function (data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'new/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
+
+          }
+        })
+      },
+
       changeData: function (table, id, data, success, error) {
         $.ajax({
           url: _app.static.core_path + 'update/smart/request',
@@ -296,6 +320,7 @@
           }
         })
       },
+      
 
       deleteData: function (table, id,  success, error) {
         $.ajax({
@@ -532,8 +557,14 @@
         _forms[size] = {}
 
         if(undefined != form.info)
-         {  
-            _forms[size].info = form.info
+         {
+          _forms[size].info = {}  
+          _forms[size].info.name = form.info.name
+          _forms[size].info.view = form.info.view
+          if(undefined != form.info.table_code)
+          {
+            _forms[size].info.table_code = form.info.table_code
+          }    
          }
          else
          {
@@ -541,11 +572,21 @@
           return false
          }
 
+         if(undefined != form.steps)
+         {
+          _forms[size].steps = form.steps
+         }
+
         _forms[size].rules = form.rules
         _forms[size].columns = form.columns
         _forms[size].tableData = form.tableData
         _forms[size].formData = {}
-        _forms[size].optionalData = form.optionalData
+
+        if(undefined != form.optionalData)
+         {
+          _forms[size].optionalData = form.optionalData
+         }
+
         _forms[size].dropdown = form.dropdown
         _forms[size].reports = form.reports
 
@@ -838,11 +879,20 @@
                     try {
                       
                       // Se toaman los datos del formulario
-                      let $this = $(idForm)
-                      , formHTML = $this.serializeArray()
-                      , formData = {};
+                      let formHTML = []
+                      for(let s in _forms[id].steps)
+                      {
+                        let n = s + 1
+                        formHTML[s] = $( idForm + ' #step-1 *').serializeArray()
+                      }
+                      
+                      console.log(formHTML)
+                      
+                      let formData = {}
 
-                       // add optionalData
+                       // add optionalData 
+
+                       // aqui se deb emeter en un ford todo ára que recorra los steps
                       for(let y in _forms[id].optionalData)
                       {
                         if(_forms[id].optionalData[y].function_)
@@ -884,32 +934,32 @@
                       }
                       if(save){
 
-                        forms.loading('Guardando', 'Espera un momento por favor.')
-                        $(idForm +  ' #html-buttons').hide()
+                        forms.loading('Guardando', 'aqui se manda el multiple')
+                        // $(idForm +  ' #html-buttons').hide()
 
-                        api.setData(
-                                    _forms[id].info.table_code,
-                                    formData,
-                                    function(data)
-                                      {
-                                        swal("¡Listo!", "", "success")
-                                        notify.sound('success')
-                                        $(idForm + ' #btn-form-back').click()
-                                        forms.reloadTable(id)
+                        // api.setData(
+                        //             _forms[id].info.table_code,
+                        //             formData,
+                        //             function(data)
+                        //               {
+                        //                 swal("¡Listo!", "", "success")
+                        //                 notify.sound('success')
+                        //                 $(idForm + ' #btn-form-back').click()
+                        //                 forms.reloadTable(id)
 
-                                        if(_forms[id].events.afterSave != undefined)
-                                        {
-                                          _forms[id].events.afterSave()
-                                        }
-                                      },
+                        //                 if(_forms[id].events.afterSave != undefined)
+                        //                 {
+                        //                   _forms[id].events.afterSave()
+                        //                 }
+                        //               },
 
-                                    function(data)
-                                       {
-                                          api.messageByHttpCode(data)     
-                                          $(idForm +  ' #html-buttons').show()
+                        //             function(data)
+                        //                {
+                        //                   api.messageByHttpCode(data)     
+                        //                   $(idForm +  ' #html-buttons').show()
                                 
-                                      }
-                                  )
+                        //               }
+                        //           )
 
                       }
                       
@@ -1037,7 +1087,7 @@
               <div id="html_btn_new_back" class="col-lg-12" style="margin-left: 10px; display: none">
               
               </div>
-
+              <br>
               <div id="html-form" style="display: none">
               ${$(idForm).html()}
 
@@ -1051,7 +1101,7 @@
               <tbody>
               </tbody>
               </table>
-              <hr>
+              
               </div>
 
               `
@@ -1091,14 +1141,14 @@
               Guardar
               </button>
             `
-              // clear button
-          html_buttons +=
-          `
-            <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple  m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
-            Limpiar
-            </button>
-           `
           }
+
+                html_buttons +=
+                `
+                  <button id="btn_reset" type="reset" class="btn btn-labeled btn-purple  m-b-5"><span class="btn-label"><i class="glyphicon glyphicon-refresh"></i></span>
+                  Limpiar
+                  </button>
+                 `
 
            html_btn_new_back +=
                  ` 
@@ -1110,7 +1160,7 @@
                
             }
 
-            $(idForm + ' #html_btn_new_back').append(html_btn_new_back + '<hr>')
+            $(idForm + ' #html_btn_new_back').append(html_btn_new_back + ' ') // <hr>
            
    
           // not update button
@@ -1140,7 +1190,7 @@
         }    
       
 
-      $(idForm + ' #html-buttons').append('<hr>' + html_buttons + '<hr>')
+      $(idForm + ' #html-buttons').append(' ' + html_buttons + ' ') // <hr>
   
       //#endregion
 
@@ -1168,33 +1218,44 @@
    
     
       
-function bar_progress(progress_line_object, direction) {
-  var number_of_steps = progress_line_object.data('number-of-steps');
-  var now_value = progress_line_object.data('now-value');
-  var new_value = 0;
-  if (direction === 'right') {
-      new_value = now_value + (100 / number_of_steps);
-  } else if (direction === 'left') {
-      new_value = now_value - (100 / number_of_steps);
-  }
-  progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value);
-}
+  function bar_progress(progress_line_object, direction) 
+    {
+      let number_of_steps = progress_line_object.data('number-of-steps')
+      let now_value = progress_line_object.data('now-value')
+      let new_value = 0
+      
+      if (direction === 'right') {
+        new_value = now_value + (100 / number_of_steps)
+      }
+       else if (direction === 'left')
+      {
+        new_value = now_value - (100 / number_of_steps)
+      }
+      
+      progress_line_object.attr('style', 'width: ' + new_value + '%;').data('now-value', new_value)
+    
+    }
 
 
 
-  $('.f1 fieldset:first').fadeIn('slow');
+    
+  $(  idForm + ' fieldset:first').fadeIn('slow');
+  let progress_line = $( idForm + ' .btn-next').parents(idForm).find('.f1-progress-line')
+  let number_of_steps = progress_line.data('number-of-steps')
+  
+  $(idForm + ' .f1-step').css('width', (100 / number_of_steps) + '%')
+  
 
-  $('.f1 input[type="text"], .f1 input[type="password"], .f1 textarea').on('focus', function () {
-      $(this).removeClass('input-error');
-  });
+
+ 
 
   // next step
-  $('.f1 .btn-next').on('click', function () {
+  $(idForm + ' .btn-next').on('click', function () {
       var parent_fieldset = $(this).parents('fieldset');
       var next_step = true;
       // navigation steps / progress steps
-      var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-      var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+      var current_active_step = $(this).parents(idForm).find('.f1-step.active');
+      var progress_line = $(this).parents(idForm).find('.f1-progress-line');
 
      
 
@@ -1212,10 +1273,10 @@ function bar_progress(progress_line_object, direction) {
   });
 
   // previous step
-  $('.f1 .btn-previous').on('click', function () {
+  $(idForm + ' .btn-previous').on('click', function () {
       // navigation steps / progress steps
-      var current_active_step = $(this).parents('.f1').find('.f1-step.active');
-      var progress_line = $(this).parents('.f1').find('.f1-progress-line');
+      var current_active_step = $(this).parents(idForm).find('.f1-step.active');
+      var progress_line = $(this).parents(idForm).find('.f1-progress-line');
 
       $(this).parents('fieldset').fadeOut(400, function () {
           // change icons
@@ -1246,12 +1307,21 @@ function bar_progress(progress_line_object, direction) {
             $(idForm + ' #btn_form_new').hide()
             $(idForm + ' #btn-form-back').show()
             $(idForm + ' #html-table').hide()
+            
+            $(idForm + ' #btn_reset').prop("disabled", false); 
+            $(idForm + ' #btn_reset').click(); 
 
             if(type == 'one')
               {
                 $(idForm + ' #btn_reset').show()
                 $(idForm + ' #bnt_save').show()
-              } 
+              }
+              else
+              {
+                $(idForm + ' #btn_reset').hide()
+                $(idForm + ' #btn_reset').prop("disabled", true); 
+              }
+
             
 
             $(idForm + ' #btn_update').hide()
@@ -1259,9 +1329,7 @@ function bar_progress(progress_line_object, direction) {
 
             
           
-          $(idForm + ' #btn_reset').prop("disabled", false); 
 
-          $(idForm + ' #btn_reset').click(); 
           
           /**
            * fill <SELECT>
