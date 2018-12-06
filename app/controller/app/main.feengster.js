@@ -273,7 +273,7 @@
 
       setMultipleData: function (data, success, error) {
         $.ajax({
-          url: _app.static.core_path + 'new/smart/request',
+          url: _app.static.core_path + 'newMultiple/smart/request',
           data: {
             token: _session.token,
             key: _app.inf.key,
@@ -880,49 +880,73 @@
                       
                       // Se toaman los datos del formulario
                       let formHTML = []
+                      let formData = {}
                       for(let s in _forms[id].steps)
                       {
-                        let n = s + 1
-                        formHTML[s] = $( idForm + ' #step-1 *').serializeArray()
+                        let n = Number(s) + Number(1) 
+                        let step = ' #step-' + n.toString()
+                        let clasStep = idForm + step + ' * '
+                        console.log(clasStep)
+                        formHTML[s] = $( clasStep ).serializeArray()
+                        formData[s] = {}
                       }
                       
-                      console.log(formHTML)
-                      
-                      let formData = {}
+                     
 
                        // add optionalData 
 
-                       // aqui se deb emeter en un ford todo ára que recorra los steps
-                      for(let y in _forms[id].optionalData)
-                      {
-                        if(_forms[id].optionalData[y].function_)
-                        {
-                          let newValue = _forms[id].optionalData[y].value() 
-                          let optional = {
-                                          name: _forms[id].optionalData[y].name, 
+                       for(let od in _forms[id].steps)
+                       {
+
+                        for(let y in _forms[id].steps[od].optionalData)
+                         {
+
+                          if(_forms[id].steps[od].optionalData[y].function_)
+                          {
+                            let newValue = _forms[id].steps[od].optionalData[y].value() 
+                            let optional = {
+                                          name: _forms[id].steps[od].optionalData[y].name, 
                                           value: newValue 
                                         }
 
-                          formHTML.push(optional)
-                        }
-                        else
-                        {
-                          let optional = {
-                            name: _forms[id].optionalData[y].name, 
-                            value: _forms[id].optionalData[y].value,
+                              formHTML[od].push(optional)
+                           }
+                            else
+                          {
+                              let optional = {
+                              name: _forms[id].steps[od].optionalData[y].name, 
+                              value: _forms[id].steps[od].optionalData[y].value,
                           }
 
-                         formHTML.push(optional)
-                        }
-                       
+                          formHTML[od].push(optional)
+                          }
                       }
+                    
+                  }
 
-                  
-                      for (var i in formHTML) {
-                        formData[formHTML[i].name] = formHTML[i].value;
-                      }
+                
+               
+
+                 for(let index in formData)
+                  {
+                    var detail = { 
+                      table_code : _forms[id].steps[index].table_code,
+                      fk: _forms[id].steps[index].fk,
+                      data: {}
+                  }
+                    for(var f in formHTML[index])
+                       {
+                        detail.data[formHTML[index][f].name] =  formHTML[index][f].value
+                       }
+
+                  formData[index] = detail
+
+                    }
+
+                   
+                  delete formData['fg-table_length']
+
                       
-                      delete formData['fg-table_length']
 
                      if(_forms[id].action == 'new')
                      {
@@ -935,31 +959,30 @@
                       if(save){
 
                         forms.loading('Guardando', 'aqui se manda el multiple')
-                        // $(idForm +  ' #html-buttons').hide()
+                        
 
-                        // api.setData(
-                        //             _forms[id].info.table_code,
-                        //             formData,
-                        //             function(data)
-                        //               {
-                        //                 swal("¡Listo!", "", "success")
-                        //                 notify.sound('success')
-                        //                 $(idForm + ' #btn-form-back').click()
-                        //                 forms.reloadTable(id)
+                        api.setMultipleData(
+                                    formData,
+                                    function(data)
+                                      {
+                                        swal("¡Listo!", "", "success")
+                                        notify.sound('success')
+                                        //$(idForm + ' #btn-form-back').click()
+                                       // forms.reloadTable(id)
+                                        console.log(data)
+                                        if(_forms[id].events.afterSave != undefined)
+                                        {
+                                          _forms[id].events.afterSave()
+                                        }
+                                      },
 
-                        //                 if(_forms[id].events.afterSave != undefined)
-                        //                 {
-                        //                   _forms[id].events.afterSave()
-                        //                 }
-                        //               },
-
-                        //             function(data)
-                        //                {
-                        //                   api.messageByHttpCode(data)     
-                        //                   $(idForm +  ' #html-buttons').show()
+                                    function(data)
+                                       {
+                                          api.messageByHttpCode(data)     
+                                          $(idForm +  ' #html-buttons').show()
                                 
-                        //               }
-                        //           )
+                                      }
+                                  )
 
                       }
                       
@@ -967,91 +990,91 @@
                     }
                     else if(_forms[id].action == 'change')
                     {
-                      let change = true
+                    //   let change = true
                       
-                      if(_forms[id].events.beforeChange != undefined)
-                      {
-                        change = _forms[id].events.beforeChange()
-                      }
+                    //   if(_forms[id].events.beforeChange != undefined)
+                    //   {
+                    //     change = _forms[id].events.beforeChange()
+                    //   }
 
-                      if(change){
+                    //   if(change){
                         
-                        console.log('Datos para editar ')
-                        console.log(_forms[id].formData)
+                    //     console.log('Datos para editar ')
+                    //     console.log(_forms[id].formData)
                         
 
-                        let dataToUpdate = {}
-                        let wasChange = false
-                        let change = false
-                        let isOptional = false
-                        for(let i in formData)
-                        {
-                            if(formData[i] != _forms[id].formData[i]) 
-                                {
-                                  for(let y in _forms[id].optionalData)
-                                  {
-                                    if( i  == _forms[id].optionalData[y].name ){
-                                        isOptional = true
-                                    }
-                                  }
+                    //     let dataToUpdate = {}
+                    //     let wasChange = false
+                    //     let change = false
+                    //     let isOptional = false
+                    //     for(let i in formData)
+                    //     {
+                    //         if(formData[i] != _forms[id].formData[i]) 
+                    //             {
+                    //               for(let y in _forms[id].optionalData)
+                    //               {
+                    //                 if( i  == _forms[id].optionalData[y].name ){
+                    //                     isOptional = true
+                    //                 }
+                    //               }
 
-                                  if(!isOptional)
-                                    {
-                                      wasChange = true
-                                    }
+                    //               if(!isOptional)
+                    //                 {
+                    //                   wasChange = true
+                    //                 }
                                   
-                                }
+                    //             }
 
-                           if(wasChange)
-                           {
-                             dataToUpdate[i] = formData[i]
-                             wasChange = false
-                             change= true
-                           }
-                        }
+                    //        if(wasChange)
+                    //        {
+                    //          dataToUpdate[i] = formData[i]
+                    //          wasChange = false
+                    //          change= true
+                    //        }
+                    //     }
                         
-                        console.log('Datos modificados ' )
-                        console.log(dataToUpdate)
+                    //     console.log('Datos modificados ' )
+                    //     console.log(dataToUpdate)
 
-                        if(change)
-                        {
+                    //     if(change)
+                    //     {
                           
-                          forms.loading('Actualizando', 'Espera un momento por favor.')
-                          $(idForm +  ' #html-buttons').hide()
+                    //       forms.loading('Actualizando', 'Espera un momento por favor.')
+                    //       $(idForm +  ' #html-buttons').hide()
 
-                           api.changeData(
-                            _forms[id].info.table_code,
-                            _forms[id].formData.id, 
-                            dataToUpdate,
-                            function(data){
+                    //        api.changeData(
+                    //         _forms[id].info.table_code,
+                    //         _forms[id].formData.id, 
+                    //         dataToUpdate,
+                    //         function(data){
                               
-                              notify.sound('success')
-                               swal("¡Listo!", "", "success")
-                               // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
-                               //let table = $(idForm + ' #fg-table').DataTable()
-                               //formData['id'] = _forms[id].formData.id
-                               //table.row( _forms[id].index ).data( formData).draw()
-                               forms.reloadTable(id)
-                               $(idForm + ' #btn-form-back').click()
+                    //           notify.sound('success')
+                    //            swal("¡Listo!", "", "success")
+                    //            // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
+                    //            //let table = $(idForm + ' #fg-table').DataTable()
+                    //            //formData['id'] = _forms[id].formData.id
+                    //            //table.row( _forms[id].index ).data( formData).draw()
+                    //            forms.reloadTable(id)
+                    //            $(idForm + ' #btn-form-back').click()
                                
-                              },
+                    //           },
 
-                              function(data)
-                              {
-                                api.messageByHttpCode(data)     
-                                $(idForm +  ' #html-buttons').show()
+                    //           function(data)
+                    //           {
+                    //             api.messageByHttpCode(data)     
+                    //             $(idForm +  ' #html-buttons').show()
                                 
-                              }
-                          )
-                        }
-                        else
-                        {
-                          toastr.warning("", "No se detectaron cambios.")
-                        }
+                    //           }
+                    //       )
+                    //     }
+                    //     else
+                    //     {
+                    //       toastr.warning("", "No se detectaron cambios.")
+                    //     }
 
-                      }
-
-                    }
+                    //   }
+                      alert('terminar')
+                     }
 
                 } catch (error) {
                   console.error(signature + error)   
@@ -1309,7 +1332,7 @@
             $(idForm + ' #html-table').hide()
             
             $(idForm + ' #btn_reset').prop("disabled", false); 
-            $(idForm + ' #btn_reset').click(); 
+            //$(idForm + ' #btn_reset').click(); 
 
             if(type == 'one')
               {

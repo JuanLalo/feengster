@@ -183,7 +183,7 @@
                           <div class="col-lg-5">
                       <div class="form-group has-feedback">
                           <label for="id_company" class="control-label">Empresa a la que pertenece</label>
-                          <select  name="status" id="id_company" aria-describedby="statusHelpBlock"
+                          <select  name="id_company" id="id_company" aria-describedby="statusHelpBlock"
                             class="select form-control" >
                             <option></option>
                           </select>
@@ -213,7 +213,7 @@
                           <div class="col-lg-5">
                       <div class="form-group has-feedback">
                           <label for="app_id" class="control-label">Aplicación a la que se le dará acceso</label>
-                          <select data-error="¡Necesitamos saber cual será la aplicación que usará este usuario!"  name="status" id="app_id" aria-describedby="statusHelpBlock"
+                          <select data-error="¡Necesitamos saber cual será la aplicación que usará este usuario!"  name="app_id" id="app_id" aria-describedby="statusHelpBlock"
                             class="select form-control" required>
                             <option></option>
                           </select>
@@ -243,7 +243,7 @@
                           <div class="col-lg-5">
                       <div class="form-group has-feedback">
                           <label for="id_cat_user" class="control-label">¿Cúal será su rol?</label>
-                          <select  name="status" id="id_cat_user" aria-describedby="statusHelpBlock"
+                          <select  name="id_cat_user" id="id_cat_user" aria-describedby="statusHelpBlock"
                             class="select form-control" required>
                             <option></option>
                           </select>
@@ -321,6 +321,27 @@
         0:{
             
           table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',  
+        
+          },
+        
+        1:{
+          
+          table_code: '3PW4PVWOEQ47E0O1W5PUVHK5PTNJFAU2LG8KS0EQ6D2YACJDZJF8L148JQSE',
+          fk: { 0:{name:'user_id', reference: 0 }, 1:{} },
+          
+          },
+  
+        2:{
+          
+          table_code: 'KZYIGGOP8SWWJOI8BNYN4AV8AG53SB0UXRR9ROX99707OJCW4OO37IK3I1B5',
+          fk: { 0:{name:'user_id', reference: 0 }, 1:{} }, 
+
+          },
+
+        3:{
+          
+          table_code: '41MO8VE2X4K5S6ALVBO4BXDUUGGLBKKUBPDHY4ECA6QSK3K71EI4SC21QAWD',
+          fk: { 0:{name:'user_id', reference: 0 }, 1:{} }, 
           optionalData: {
                 0: {
                       name: 'updated_at',
@@ -329,29 +350,9 @@
                    }
               },
           },
-        
-        1:{
-          
-          table_code: 'codigo de la tabla COMPANIES',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} },
-            
-          
-          },
-
-        2:{
-          
-          table_code: 'codigo de la tabla USER APP',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} }, 
-
-          },
-
-        3:{
-          
-          table_code: 'codigo de la tabla  USER CAT USER',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} }, 
-
-          },
-      },
+      
+        },
+      
 
     
       columns: [{
@@ -446,7 +447,7 @@
         afterDelete: undefined,
         onNew: undefined,
       }
-      },
+    },
       
       formReady
 

@@ -15,78 +15,7 @@ class ApiController extends Controller
   // crear un metodo que devuelva el id de la aplicación por medio de la key de licencia
   //verificar las _key de la tabla licencias ponerlas únicas
 
-  
-    public function getData(Request $request)
-    {
-         try
-             {
-                $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
-                if($isKey == 'true'){
-                $res = Q_Api::getData(Q_Api::selectBD($data['key']), $data);
-                if (empty($res)){
-                    $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
-                    $code = 403;
-               }else{
-                     $response = ["data" => $res];
-                     $code = 200;
-                      }
-                   
-                }
-                else
-                 {
-                 $code = 403; // ok pero acceseo denagado
-                Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
-            
-                }
-              
-        } catch (\Exception $e) {
-            Log::error($e);
-            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
-            $code = 500;
-        }
-
-        return response()->json($response, $code);
-
-    }
-
-
-    public function setData(Request $request)
-    {
-        try
-            {
-                $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
-                if($isKey == 'true'){
-                $res = Q_Api::setData(Q_Api::selectBD($data['key']), $data);
-                if ($res){
-                    $response = ["status" => "success", "message" => "Se realizó con éxito", "data"=> $res];
-                    $code = 200;
-               }else{
-                $response = ["status" => "error", "message" => "Surgio un error al realizar esta acción", "data"=> $res];
-                $code = 403;
-                  }   
-                }
-                else
-                 {
-                 $code = 403; // ok pero acceseo denagado
-                Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
-            
-                }
-              
-        } catch (\Exception $e) {
-            Log::error($e);
-            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
-            $code = 500;
-        }
-
-        return response()->json($response, $code);
-
-    }
-
-
+   
     public function createRow(Request $request)
     {
      
@@ -104,24 +33,24 @@ class ApiController extends Controller
                     if($isToken == 'true')
                     {
                       $table =  Q_Api::getTable($data['table_code']); 
-                      $res = Q_Api::smartInsert($bd, $table, $data['data']);
-                      
+                      $generated = Q_Api::generateQueryInsert($bd, $table, $data['data']);
+                      $res = DB::insert($generated['query'], $generated['array']);
                       if($res)
                       {
                         $code = 201; 
-                        $response = ["status" => "success", "message" => "Registrado con éxito" , "deta" => $res];
+                        $response = ["status" => "success", "message" => "Registrado con éxito" , "data" => $res];
 
                       }
                       else
                       {
                         $code = 204; 
-                        $response = ["status" => "error", "message" => "No se puede realizar el registro, si cree que se trata de un error comuniquese con el equipo de soporte" , "deta" => $res];
+                        $response = ["status" => "error", "message" => "No se puede realizar el registro, si cree que se trata de un error comuniquese con el equipo de soporte" , "data" => $res];
                       }
                     }else
                     {
                         $code = 403;
                         Log::alert($isToken);
-                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                     }     
                    
                 }
@@ -129,7 +58,7 @@ class ApiController extends Controller
                  {
                  $code = 401; 
                  Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
             
                 }
             }
@@ -137,7 +66,7 @@ class ApiController extends Controller
             {
                 $code = 403; // ok pero acceseo denagado
                 Log::alert("acceso denagado request no es un json");
-                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
             }
   
             
@@ -146,11 +75,82 @@ class ApiController extends Controller
         $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
         $code = 400;
     }
-
-  
         return response()->json($response, $code);
-
     }
+
+
+    public function createMultipleRow(Request $request)
+    {
+     
+    //   try
+    //       {
+          
+            if (!empty($request->all()))
+            {
+                $data = $request->all();
+                $isKey =Q_Api::isKey($data['key']);
+                if($isKey == 'true')
+                {
+                    $bd = Q_Api::selectBD($data['key']);
+                    $isToken = User_Q::isToken($bd, $data['token']);
+                    if($isToken == 'true')
+                    {
+                      $res =  DB::transaction(function () {
+                            for ($i=0; $i < 4 ; $i++) 
+                            { 
+                                $table =  Q_Api::getTable($data[$i]['table_code']);
+                                $generated = Q_Api::generateQueryInsert($bd, $table, $data[$i]['data']);
+                                BD::insert($generated['query'], $generated['aray']);
+                            }
+                                   
+                         },
+                         1);
+                        
+                      
+                    if(true)
+                      {
+                        $code = 201; 
+                        $response = ["status" => "success", "message" => "Registrado con éxito" , "data" =>  $data['data']];
+
+                      }
+                      else
+                      {
+                        $code = 204; 
+                        $response = ["status" => "error", "message" => "No se puede realizar el registro, si cree que se trata de un error comuniquese con el equipo de soporte" , "data" => $res];
+                      }
+                    }
+                      else
+                    {
+                        $code = 403;
+                        Log::alert($isToken);
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
+                    }     
+                   
+                }
+                else
+                 {
+                 $code = 401; 
+                 Log::alert($isKey);
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
+            
+                }
+            }
+            else
+            {
+                $code = 403; // ok pero acceseo denagado
+                Log::alert("acceso denagado request no es un json");
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
+            }
+  
+            
+    // } catch (\Exception $e) {
+    //     Log::error($e);
+    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+    //     $code = 400;
+    // }
+        return response()->json($response, $code);
+    }
+       
 
     
     public function updateRow(Request $request)
@@ -171,23 +171,23 @@ class ApiController extends Controller
                     {
 
                       $table =  Q_Api::getTable($data['table_code']);   
-                      $res = Q_Api::smarUpdate($bd, $table, $data['id'] , $data['data']); 
+                      $res = Q_Api::smartUpdate($bd, $table, $data['id'] , $data['data']); 
                       if($res > 0)
                       {
                         $code = 201;
-                        $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "deta" => $res];
+                        $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "data" => $res];
 
                       }
                       else
                       {
                         $code = 204;
-                        $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "deta" => $res];
+                        $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "data" => $res];
                       }
                     }else
                     {
                         $code = 403;
                         Log::alert($isToken);
-                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                     }     
                    
                 }
@@ -195,7 +195,7 @@ class ApiController extends Controller
                  {
                  $code = 401; // ok pero acceseo denagado
                 Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
             
                 }
             }
@@ -203,7 +203,7 @@ class ApiController extends Controller
             {
                 $code = 403; // ok pero acceseo denagado
                 Log::alert("acceso denagado request no es un json");
-                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
             }
   
             
@@ -242,19 +242,19 @@ class ApiController extends Controller
                       if($res > 0)
                       {
                         $code = 201;
-                        $response = ["status" => "success", "message" => "Se ha eliminado correctamente" , "deta" => $res];
+                        $response = ["status" => "success", "message" => "Se ha eliminado correctamente" , "data" => $res];
 
                       }
                       else
                       {
                         $code = 409;
-                        $response = ["status" => "error", "message" => "No pudimos eliminar este registro.", "detail"=> "Causas probables: \n - Otros recursos dependen de esta información. \n - Error de conexión al servidor." , "deta" => $res];
+                        $response = ["status" => "error", "message" => "No pudimos eliminar este registro.", "datail"=> "Causas probables: \n - Otros recursos dependen de esta información. \n - Error de conexión al servidor." , "data" => $res];
                       }
                     }else
                     {
                         $code = 403;
                         Log::alert($isToken);
-                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                     }     
                    
                 }
@@ -262,7 +262,7 @@ class ApiController extends Controller
                  {
                  $code = 401; // ok pero acceseo denagado
                 Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
             
                 }
             }
@@ -270,7 +270,7 @@ class ApiController extends Controller
             {
                 $code = 403; // ok pero acceseo denagado
                 Log::alert("acceso denagado request no es un json");
-                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
             }
   
             
@@ -325,7 +325,7 @@ class ApiController extends Controller
                      {
                         $code = 401;
                         Log::alert($isToken);
-                        $response = ["status" => "unauthorized", "message" => $isToken, "deta" => []];  
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                      }     
                    
                 }
@@ -333,7 +333,7 @@ class ApiController extends Controller
                  {
                  $code = 401; // ok pero acceseo denagado
                 Log::alert($isKey);
-                $response = ["status" => "unauthorized", "message" => $isKey, "deta" => []];
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
             
                 }
             }
@@ -341,7 +341,7 @@ class ApiController extends Controller
             {
                 $code = 403; // ok pero acceseo denagado
                 Log::alert("acceso denagado request no es un json");
-                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "deta" => []];
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
             }
   
             
@@ -352,33 +352,6 @@ class ApiController extends Controller
     }
 
   
-        return response()->json($response, $code);
-
-    }
-
-    
-    public function test(Request $request)
-    {
-        //  try
-        //      {
-                $data['query'] = "test"; 
-                $res = Q_Api::getData("", $data);
-                if (empty($res)){
-                    $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
-                    $code = 403;
-               }else{
-                     $response = ["data" => $res];
-                     $code = 200;
-                      }
-                   
-              
-              
-        // } catch (\Exception $e) {
-        //     Log::error($e);
-        //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
-        //     $code = 500;
-        // }
-
         return response()->json($response, $code);
 
     }

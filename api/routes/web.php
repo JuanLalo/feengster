@@ -69,6 +69,7 @@ $router->post('/router/set/data', ['uses' => 'ApiController@setData']);
 //smart
 $router->post('/get/smart/request', ['uses' => 'ApiController@smartGetData']); 
 $router->post('/new/smart/request', ['uses' => 'ApiController@createRow']);
+$router->post('newMultiple/smart/request', ['uses' => 'ApiController@createMultipleRow']);
 $router->post('/update/smart/request', ['uses' => 'ApiController@updateRow']);
 $router->post('/delete/smart/request', ['uses' => 'ApiController@deleteRow']);
 

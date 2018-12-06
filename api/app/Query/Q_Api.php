@@ -16,6 +16,30 @@ static function selectBD($key)
         return $res[0]->bd;
 }
 
+static function isKey($key)
+{
+        $query = $query = "SELECT status FROM licenses where 
+        key_ = ? AND (NOW() <= fecha_fin AND NOW() >= fecha_ini) Limit 1";
+              $res = DB::select($query, [$key]);
+                if (empty($res))
+                {
+                 return "Key no valida, acceso denegado ";
+               
+                }
+                else
+                {
+                  if($res[0]->status == 'ACTIVO')
+                  {
+                        return true;
+                  } 
+                  else
+                  {
+                 return "Key no activa, acceso denegado";
+               
+                  }     
+                }
+}
+
 static function appId($key)
 {
         $query = "SELECT app_id FROM licenses where 
@@ -31,6 +55,14 @@ static function getTable($code)
         return $res[0]->name;
 }
 
+static function table($bd, $code)
+  {
+      $query = "SELECT name from tables WHRE code = ?";
+      $res = DB::select($query, [$code]);
+      return $res;
+  }
+
+ 
 
 static function getData($bd, $data)
  {
@@ -237,82 +269,9 @@ static function getData($bd, $data)
 }
 
 
-  static function setData($bd,$data)
-{
-     switch($data['query']){
-        case 'newUser':
-        $query = "update users  set username = ?, email = ?, password = ? where id = ?";
-        $terms = [$data['username'], $data['email'], Hash::make($data['password']), $data['id']];
-        return DB::update($query, $terms);
-        break;
-
-        case 'deleteAsUpdate':
-        $query = "update ".$bd.".".$data['tb']."  set status = ? where id = ?";
-        $terms = [0, $data['id']];
-        return DB::update($query, $terms);
-        break;
-
-        case 'newLogTicket':
-        $query = "INSERT INTO ".$bd.".log_ticket
-        (`id_ticket`, `id_user`, `time`, `desc`) 
-       VALUES (?, ? , ?, ?);";
-        $terms = [$data['id_ticket'], $data['id_user'], $data['time'], $data['desc'] ];
-        return DB::update($query, $terms);
-        break;
-        
-        default:
-
-        break;
-        }       
-}
-
-
-  static function isKey($key)
-{
-        $query = $query = "SELECT status FROM licenses where 
-        key_ = ? AND (NOW() <= fecha_fin AND NOW() >= fecha_ini) Limit 1";
-              $res = DB::select($query, [$key]);
-                if (empty($res))
-                {
-                 return "Key no valida, acceso denegado ";
-               
-                }
-                else
-                {
-                  if($res[0]->status == 'ACTIVO')
-                  {
-                        return true;
-                  } 
-                  else
-                  {
-                 return "Key no activa, acceso denegado";
-               
-                  }     
-                }
-}
-
-   // Actualiza dinamicamnete. Recibe cualquier objeto para realizar el update en cualquir tabla
-static function smartUpdate($bd, $table, $data)
-{
-
-        $query = "INSERT INTO ".$bd.".".$table." SET ";
-        
-        $count = COUNT($data);
-        foreach ($data as $key => $value) {
-           $query .= " ´{$key}´ = '{$value}'";
-           $count--;
-           if($count > 0)
-           {
-               $query .=" AND "; 
-           }
-           
-        }
-
-       return DB::insert($query, $data);
-}
-
-static function smartInsert($bd, $table, $data)
-{
+static function generateQueryInsert($bd, $table, $data)
+{       
+        $res = [];
         $array = array();
         $p1 = "INSERT INTO ".$bd.".".$table." (";
         $p2 = "";
@@ -332,11 +291,15 @@ static function smartInsert($bd, $table, $data)
         }
 
         $query =  $p1.") VALUES (".$p2.")";
-        
-   return DB::insert($query, $array);
+
+        $res['query'] = $query;
+        $res['array'] = $array;
+
+        return $res;
 }
 
-static function smarUpdate($bd, $table, $id, $data)
+
+static function smartUpdate($bd, $table, $id, $data)
 {
         $array = array();
         $p1 = "UPDATE ".$bd.".".$table." SET ";
@@ -355,10 +318,10 @@ static function smarUpdate($bd, $table, $id, $data)
 
        $query =  $p1." WHERE `id`= ? ";
        array_push($array, $id);
-       return DB::insert($query, $array);
+       return DB::update($query, $array);
 }
 
-
+// pasar aquí el get data hacer una función inteligente que genere SELECT dinamicos #TODO
 static function smartSelect($bd, $data)
  {
         switch($data['type'])
@@ -378,6 +341,8 @@ static function smartSelect($bd, $data)
 
 
 }
+
+
 static function  selectInfoApp($bd, $data)
  {
         switch($data['query'])
@@ -412,13 +377,6 @@ static function selectDropdown($bd, $data)
 }
 
 
-
-static function table($bd, $code)
-        {
-                $query = "SELECT name from tables WHRE code = ?";
-                $res = DB::select($query, [$code]);
-                return $res;
-}
 
 
 }
