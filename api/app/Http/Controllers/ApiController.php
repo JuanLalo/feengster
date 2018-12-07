@@ -82,8 +82,8 @@ class ApiController extends Controller
     public function createMultipleRow(Request $request)
     {
      
-    //   try
-    //       {
+      try
+          {
           
             if (!empty($request->all()))
             {
@@ -94,23 +94,69 @@ class ApiController extends Controller
                     $bd = Q_Api::selectBD($data['key']);
                     $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
-                    {
-                      $res =  DB::transaction(function () {
-                            for ($i=0; $i < 4 ; $i++) 
-                            { 
-                                $table =  Q_Api::getTable($data[$i]['table_code']);
-                                $generated = Q_Api::generateQueryInsert($bd, $table, $data[$i]['data']);
-                                BD::insert($generated['query'], $generated['aray']);
-                            }
-                                   
-                         },
-                         1);
+                    {  
+                      $arrData = $data['data'];
+                      $status = false;
+                      $completed = false;
+                    
+                      /**
+                       *  Se inicializa la transacción.
+                       */
                         
+
+
+    /***
+     * 
+     *      Ya se manda todo el objeto y se agrega ahorita lo dejaste hardcode porque le pasas en el optional data
+     *         el fk del id ususario de cada tabla.
+     *      lo que debes hacer es que el FK lo tome de donde hace referencia en el nodo fk de cada form
+     *      ;) easy 
+     * 
+     * 
+     */
+
+
                       
-                    if(true)
+                       DB::beginTransaction();
+                      // array_push($arrData[1]['data'], 'user_id', 2);
+
+                      for ($i=0; $i < count($arrData); $i++) {    
+                        
+                        /**
+                         * Verificamos si la quiery en curso requiere de una FK
+                         */
+                           //for ($f=0; $f < $arrData[$i]['fk']; $f++) { 
+
+                            
+                           //} 
+                            
+                         /**
+                          *  Generamos la consulta e insertamos, si surge un error se hace un rollback
+                          */
+
+                        $dataQuery = Q_Api::generateQueryInsert($bd,  Q_Api::getTable($arrData[$i]['table_code']), $arrData[$i]['data']); 
+                        $status = DB::insert($dataQuery['query'], $dataQuery['array']);
+
+                        if($status)
+                        {
+                          $completed = true; 
+                        }
+                        else
+                        {   
+                         DB::rollBack();
+                          $completed = false;
+                          break;
+                        }
+                      }
+
+                      if($completed){
+                        DB::commit();
+                      }
+                  
+                    if($completed)
                       {
                         $code = 201; 
-                        $response = ["status" => "success", "message" => "Registrado con éxito" , "data" =>  $data['data']];
+                        $response = ["status" => "success", "message" => "Registrado con éxito" , "data" =>  'completado' ];
 
                       }
                       else
@@ -143,11 +189,21 @@ class ApiController extends Controller
             }
   
             
-    // } catch (\Exception $e) {
-    //     Log::error($e);
-    //     $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
-    //     $code = 400;
-    // }
+    } catch (\Exception $e) {
+        Log::error($e);
+        
+        if(substr($e->getMessage(), 9, 5) == '23000')
+           {
+             $msg = "Violación de restricción de integridad"; 
+           }
+        else
+           {
+            $msg = $e->getMessage();
+           } 
+
+        $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e];
+        $code = 400;
+    }
         return response()->json($response, $code);
     }
        
