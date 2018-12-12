@@ -320,49 +320,47 @@
         
         0:{
             
-          table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',  
-        
+          table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
+          referenced: true,  
+          optionalData: {
+              0 : {
+                    name : 'updated_at',
+                    value: $f.app.getDateTime , function_: true,
+                  }
+            } 
           },
+
         
         1:{
           
           table_code: '3PW4PVWOEQ47E0O1W5PUVHK5PTNJFAU2LG8KS0EQ6D2YACJDZJF8L148JQSE',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} },
-          optionalData: {
-                0: {
-                      name: 'id_user',
-                      value: 2,
-                      function_: false,
-                   }
-              },
+          fk: { 0:{name:'user_id', reference: 0 }},
+          optionalData: {},
+          referenced: false,
           
           },
   
         2:{
           
           table_code: 'KZYIGGOP8SWWJOI8BNYN4AV8AG53SB0UXRR9ROX99707OJCW4OO37IK3I1B5',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} },
-          optionalData: {
-                0: {
-                      name: 'user_id',
-                      value: 2,
-                      function_: false,
-                   }
-              }, 
+          fk: { 0:{name:'user_id', reference: 0 }},
+          optionalData: { 0 : {
+                                  name : 'main',
+                                  value: 1 , function_: false,
+                              }},
+          referenced: false, 
 
           },
 
         3:{
           
           table_code: '41MO8VE2X4K5S6ALVBO4BXDUUGGLBKKUBPDHY4ECA6QSK3K71EI4SC21QAWD',
-          fk: { 0:{name:'user_id', reference: 0 }, 1:{} }, 
-          optionalData: {
-                0: {
-                      name: 'id_user',
-                      value: 2,
-                      function_: false,
-                   }
-              },
+          fk: { 0:{name:'user_id', reference: 0 } }, 
+          optionalData: { 0 : {
+                                  name : 'main',
+                                  value: 1 , function_: false,
+                              }},
+          referenced: false,
           },
       
         },

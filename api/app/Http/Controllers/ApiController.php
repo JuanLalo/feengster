@@ -82,8 +82,8 @@ class ApiController extends Controller
     public function createMultipleRow(Request $request)
     {
      
-      try
-          {
+    //   try
+    //       {
           
             if (!empty($request->all()))
             {
@@ -98,44 +98,32 @@ class ApiController extends Controller
                       $arrData = $data['data'];
                       $status = false;
                       $completed = false;
-                    
-                      /**
-                       *  Se inicializa la transacción.
-                       */
-                        
-
-
-    /***
-     * 
-     *      Ya se manda todo el objeto y se agrega ahorita lo dejaste hardcode porque le pasas en el optional data
-     *         el fk del id ususario de cada tabla.
-     *      lo que debes hacer es que el FK lo tome de donde hace referencia en el nodo fk de cada form
-     *      ;) easy 
-     * 
-     * 
-     */
-
-
-                      
+                          
                        DB::beginTransaction();
-                      // array_push($arrData[1]['data'], 'user_id', 2);
+                      for ($i=0; $i < count($arrData); $i++) { 
+                             
+                        if(!empty($arrData[$i]['fk']))
+                        {
+                            $currentFK = $arrData[$i]['fk'];
 
-                      for ($i=0; $i < count($arrData); $i++) {    
-                        
-                        /**
-                         * Verificamos si la quiery en curso requiere de una FK
-                         */
-                           //for ($f=0; $f < $arrData[$i]['fk']; $f++) { 
-
+                            foreach ($currentFK as $key => $value) {
+                                    $name = $arrData[$i]['fk'][$key]['name'];
+                                    $reference = $arrData[$i]['fk'][$key]['reference'];
+                                    $value = $arrData[$reference]['id'];
+                                    $arrData[$i]['data'][$name] = (string)$value;
+                            }
                             
-                           //} 
-                            
-                         /**
-                          *  Generamos la consulta e insertamos, si surge un error se hace un rollback
-                          */
+                        }
 
-                        $dataQuery = Q_Api::generateQueryInsert($bd,  Q_Api::getTable($arrData[$i]['table_code']), $arrData[$i]['data']); 
+                        $table = Q_Api::getTable($arrData[$i]['table_code']);    
+                        $dataQuery = Q_Api::generateQueryInsert($bd, $table , $arrData[$i]['data']); 
                         $status = DB::insert($dataQuery['query'], $dataQuery['array']);
+                         
+                        if($arrData[$i]['referenced'] )
+                        {
+                            $new =  DB::select("SELECT  id FROM $table order by id desc limit 1"); 
+                            $arrData[$i]['id'] = $new[0]->id;  
+                        }
 
                         if($status)
                         {
@@ -143,18 +131,16 @@ class ApiController extends Controller
                         }
                         else
                         {   
-                         DB::rollBack();
+                          DB::rollBack();
                           $completed = false;
                           break;
                         }
                       }
 
-                      if($completed){
-                        DB::commit();
-                      }
-                  
                     if($completed)
                       {
+                          
+                        DB::commit();
                         $code = 201; 
                         $response = ["status" => "success", "message" => "Registrado con éxito" , "data" =>  'completado' ];
 
@@ -189,21 +175,21 @@ class ApiController extends Controller
             }
   
             
-    } catch (\Exception $e) {
-        Log::error($e);
+    // } catch (\Exception $e) {
+    //     Log::error($e);
         
-        if(substr($e->getMessage(), 9, 5) == '23000')
-           {
-             $msg = "Violación de restricción de integridad"; 
-           }
-        else
-           {
-            $msg = $e->getMessage();
-           } 
+    //     if(substr($e->getMessage(), 9, 5) == '23000')
+    //        {
+    //          $msg = "Violación de restricción de integridad"; 
+    //        }
+    //     else
+    //        {
+    //         $msg = $e->getMessage();
+    //        } 
 
-        $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e];
-        $code = 400;
-    }
+    //     $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e];
+    //     $code = 400;
+    // }
         return response()->json($response, $code);
     }
        

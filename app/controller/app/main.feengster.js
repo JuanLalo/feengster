@@ -932,6 +932,7 @@
                     var detail = { 
                       table_code : _forms[id].steps[index].table_code,
                       fk: _forms[id].steps[index].fk,
+                      referenced: _forms[id].steps[index].referenced,
                       data: {}
                   }
                     for(var f in formHTML[index])
@@ -967,8 +968,8 @@
                                       {
                                         swal("¡Listo!", "", "success")
                                         notify.sound('success')
-                                        //$(idForm + ' #btn-form-back').click()
-                                       // forms.reloadTable(id)
+                                        $(idForm + ' #btn-form-back').click()
+                                        forms.reloadTable(id)
                                         console.log(data)
                                         if(_forms[id].events.afterSave != undefined)
                                         {
@@ -979,8 +980,6 @@
                                     function(data)
                                        {
                                           api.messageByHttpCode(data)     
-                                          $(idForm +  ' #html-buttons').show()
-                                
                                       }
                                   )
 
@@ -990,89 +989,89 @@
                     }
                     else if(_forms[id].action == 'change')
                     {
-                    //   let change = true
+                      let change = true
                       
-                    //   if(_forms[id].events.beforeChange != undefined)
-                    //   {
-                    //     change = _forms[id].events.beforeChange()
-                    //   }
+                      if(_forms[id].events.beforeChange != undefined)
+                      {
+                        change = _forms[id].events.beforeChange()
+                      }
 
-                    //   if(change){
+                      if(change){
                         
-                    //     console.log('Datos para editar ')
-                    //     console.log(_forms[id].formData)
+                        console.log('Datos para editar ')
+                        console.log(_forms[id].formData)
                         
 
-                    //     let dataToUpdate = {}
-                    //     let wasChange = false
-                    //     let change = false
-                    //     let isOptional = false
-                    //     for(let i in formData)
-                    //     {
-                    //         if(formData[i] != _forms[id].formData[i]) 
-                    //             {
-                    //               for(let y in _forms[id].optionalData)
-                    //               {
-                    //                 if( i  == _forms[id].optionalData[y].name ){
-                    //                     isOptional = true
-                    //                 }
-                    //               }
+                        let dataToUpdate = {}
+                        let wasChange = false
+                        let change = false
+                        let isOptional = false
+                        for(let i in formData)
+                        {
+                            if(formData[i] != _forms[id].formData[i]) 
+                                {
+                                  for(let y in _forms[id].optionalData)
+                                  {
+                                    if( i  == _forms[id].optionalData[y].name ){
+                                        isOptional = true
+                                    }
+                                  }
 
-                    //               if(!isOptional)
-                    //                 {
-                    //                   wasChange = true
-                    //                 }
+                                  if(!isOptional)
+                                    {
+                                      wasChange = true
+                                    }
                                   
-                    //             }
+                                }
 
-                    //        if(wasChange)
-                    //        {
-                    //          dataToUpdate[i] = formData[i]
-                    //          wasChange = false
-                    //          change= true
-                    //        }
-                    //     }
+                           if(wasChange)
+                           {
+                             dataToUpdate[i] = formData[i]
+                             wasChange = false
+                             change= true
+                           }
+                        }
                         
-                    //     console.log('Datos modificados ' )
-                    //     console.log(dataToUpdate)
+                        console.log('Datos modificados ' )
+                        console.log(dataToUpdate)
 
-                    //     if(change)
-                    //     {
+                        if(change)
+                        {
                           
-                    //       forms.loading('Actualizando', 'Espera un momento por favor.')
-                    //       $(idForm +  ' #html-buttons').hide()
+                          forms.loading('Actualizando', 'Espera un momento por favor.')
+                          $(idForm +  ' #html-buttons').hide()
 
-                    //        api.changeData(
-                    //         _forms[id].info.table_code,
-                    //         _forms[id].formData.id, 
-                    //         dataToUpdate,
-                    //         function(data){
+                           api.changeData(
+                            _forms[id].info.table_code,
+                            _forms[id].formData.id, 
+                            dataToUpdate,
+                            function(data){
                               
-                    //           notify.sound('success')
-                    //            swal("¡Listo!", "", "success")
-                    //            // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
-                    //            //let table = $(idForm + ' #fg-table').DataTable()
-                    //            //formData['id'] = _forms[id].formData.id
-                    //            //table.row( _forms[id].index ).data( formData).draw()
-                    //            forms.reloadTable(id)
-                    //            $(idForm + ' #btn-form-back').click()
+                              notify.sound('success')
+                               swal("¡Listo!", "", "success")
+                               // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
+                               //let table = $(idForm + ' #fg-table').DataTable()
+                               //formData['id'] = _forms[id].formData.id
+                               //table.row( _forms[id].index ).data( formData).draw()
+                               forms.reloadTable(id)
+                               $(idForm + ' #btn-form-back').click()
                                
-                    //           },
+                              },
 
-                    //           function(data)
-                    //           {
-                    //             api.messageByHttpCode(data)     
-                    //             $(idForm +  ' #html-buttons').show()
+                              function(data)
+                              {
+                                api.messageByHttpCode(data)     
+                                $(idForm +  ' #html-buttons').show()
                                 
-                    //           }
-                    //       )
-                    //     }
-                    //     else
-                    //     {
-                    //       toastr.warning("", "No se detectaron cambios.")
-                    //     }
+                              }
+                          )
+                        }
+                        else
+                        {
+                          toastr.warning("", "No se detectaron cambios.")
+                        }
 
-                    //   }
+                      }
                       alert('terminar')
                      }
 
@@ -1213,7 +1212,7 @@
         }    
       
 
-      $(idForm + ' #html-buttons').append(' ' + html_buttons + ' ') // <hr>
+      $(idForm + ' #html-buttons').append(' <hr>' + html_buttons + '') // <hr>
   
       //#endregion
 
@@ -1332,7 +1331,7 @@
             $(idForm + ' #html-table').hide()
             
             $(idForm + ' #btn_reset').prop("disabled", false); 
-            //$(idForm + ' #btn_reset').click(); 
+            $(idForm + ' #btn_reset').click(); 
 
             if(type == 'one')
               {

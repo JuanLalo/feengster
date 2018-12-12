@@ -103,7 +103,7 @@ static function getData($bd, $data)
                 $query = "SELECT * FROM {$bd}.tables" ;
            break;
            case 'all_users_apps_all': 
-                $query = "SELECT * FROM {$bd}.users" ;
+                $query = "SELECT * from {$bd}.all_user_all_apps_all_company" ;
            break;
            
 
