@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Query\Router_Q;
 use App\Query\User_Q;
-use App\Query\Q_Api;
+use App\Query\smartApi;
 // para recibir los parametros como el extrat_request
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,15 +21,15 @@ class RouterController extends Controller
     //     {
           
             $data = $request->all();
-            $isKey = Q_Api::isKey($data['key']);
+            $isKey = smartApi::isKey($data['key']);
                 
              if($isKey == 'true')
              {
-                 $bd = Q_Api::selectBD($data['key']);
+                 $bd = smartApi::selectBD($data['key']);
                  $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
-                       $res = Router_Q::selectMenu($bd, Q_Api::appId($data['key']));
+                       $res = Router_Q::selectMenu($bd, smartApi::appId($data['key']));
                        if (empty($res))
                        {
                             $response = ["status" => "empty", "message" => "No se econtraró menú asignado", "data"=> $res];
@@ -75,11 +75,11 @@ class RouterController extends Controller
         if (!empty($request->all()))
         {
             $data = $request->all();
-            $isKey = Q_Api::isKey($data['key']);
+            $isKey = smartApi::isKey($data['key']);
                 
              if($isKey == 'true')
              {
-                 $bd = Q_Api::selectBD($data['key']);
+                 $bd = smartApi::selectBD($data['key']);
                  $isToken = User_Q::isToken($bd, $data['token']);
                     if($isToken == 'true')
                     {
@@ -123,7 +123,7 @@ class RouterController extends Controller
                 
         } catch (\Exception $e) {
             Log::error($e);
-            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e];
+            $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "deta" => $e->getMessage()];
             $code = 400;
         }
 

@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Query\User_Q;
-use App\Query\Q_Api;
+use App\Query\smartApi;
 // para recibir los parametros como el extrat_request
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,9 +19,9 @@ class UserController extends Controller
             if (!empty($request->all()))
             {
                 $data = $request->all();
-                Q_Api::isKey($data['key']);
+                smartApi::isKey($data['key']);
                 $user = [$data['username'], $data['email'], Hash::make($data['password']), $data['platform'],  $data['type'], '1'];
-                $bd = Q_Api::selectBD($data['key']);
+                $bd = smartApi::selectBD($data['key']);
                 User_Q::create($bd, $user);
                 $response = ["status" => "success", "message" => "Usuario creado con éxito",
                  "deta" => User_Q::selectByApiEmail($bd, $data['email'])];
@@ -52,9 +52,9 @@ class UserController extends Controller
             if (!empty($request->all()))
             {
                 $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
+                $isKey = smartApi::isKey($data['key']);
                 if($isKey == 'true'){
-                    $bd = Q_Api::selectBD($data['key']);
+                    $bd = smartApi::selectBD($data['key']);
                     $res = User_Q::login($bd, $data['user'], $data['type']);
                 if (empty($res)){
                     $response = ["status" => "empty", "message" => "Nombre de usuario no encontrado", "data"=> []];
@@ -168,9 +168,9 @@ class UserController extends Controller
             if (!empty($request->all()))
             {
                 $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
+                $isKey = smartApi::isKey($data['key']);
                 if($isKey == 'true'){
-                $res = User_Q::getUsersbyType(Q_Api::selectBD($data['key']), $data['usertype']);
+                $res = User_Q::getUsersbyType(smartApi::selectBD($data['key']), $data['usertype']);
                 if (empty($res)){
                     $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
                     $code = 403;
@@ -218,10 +218,10 @@ class UserController extends Controller
          if (!empty($request->all()))
              {
                 $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
+                $isKey = smartApi::isKey($data['key']);
                 if($isKey == 'true')
                 {
-                $bd = Q_Api::selectBD($data['key']);    
+                $bd = smartApi::selectBD($data['key']);    
                 $isToken = User_Q::isToken($bd, $data['token']);
                 if($isToken == 'true')
                 {
@@ -298,10 +298,10 @@ class UserController extends Controller
                 {
 
                 $data = $request->all();
-                $isKey = Q_Api::isKey($data['key']);
+                $isKey = smartApi::isKey($data['key']);
 
                 if($isKey == 'true'){
-                    $bd = Q_Api::selectBD($data['key']);
+                    $bd = smartApi::selectBD($data['key']);
                      $isToken = User_Q::isToken($bd, $data['token']);
 
                     if($isToken == 'true')

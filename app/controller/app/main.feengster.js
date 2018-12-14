@@ -561,6 +561,15 @@
           _forms[size].info = {}  
           _forms[size].info.name = form.info.name
           _forms[size].info.view = form.info.view
+          _forms[size].info.parameters = []
+
+          if(undefined != form.info.parameters)
+          {
+            _forms[size].info.parameters = form.info.parameters
+          }else{
+            console.log(signature + 'No se especificaron parametros para la vista [' +  form.info.view + ']')
+          } 
+          
           if(undefined != form.info.table_code)
           {
             _forms[size].info.table_code = form.info.table_code
@@ -1496,7 +1505,7 @@
             data: {
                  token: _session.token,
                  key: _app.inf.key,
-                data: { query: _forms[id].info.view }
+                data: { query: _forms[id].info.view, parameters: _forms[id].info.parameters }
             }
         },
 

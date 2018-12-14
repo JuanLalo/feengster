@@ -79,9 +79,8 @@ $app->singleton(
 |
 */
 
-$app->register(App\Query\Q_Api::class);
+$app->register(App\Query\smartApi::class);
 $app->register(App\Query\Router_Q::class);
-$app->register(App\Query\Ticket_Q::class);
 $app->register(App\Query\User_Q::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);

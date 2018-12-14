@@ -5,6 +5,18 @@ use Illuminate\Support\Facades\DB;
 
 class user_Q {
 
+static function getData($query, $arr)
+{
+        switch($query)
+        {
+           case 'all_users_apps_all':
+                $query = "CALL get_users_app_company_rol(?, ?, ?, ?, ?)";
+                return DB::select($query, $arr);
+                
+           break;
+        }
+}        
+
 static function userId($token)
  {
     $query = "SELECT id_user 'id' FROM logins l WHERE l.token = ?  and l.status = ? limit 1";
@@ -13,14 +25,6 @@ static function userId($token)
     return $res[0]->id;
  }
 
-static function create($bd, $data){
-        $query= "INSERT INTO  users (
-	`username`, `email`, `password`, `platform`, `type_default`, `status`) 
-        VALUES
-        (?, ?, ?, ?, ?, ?)";
-
-        return DB::insert($query, $data);
-}
 
 static function isToken($bd, $token)
         {
@@ -62,17 +66,6 @@ static function selectUserInformation($bd, $id)
 }
 
 
-
-static function selectByApiEmail($bd, $email)
-        {
-                $query = "SELECT * from users WHERE
-                        email = ? ";
-                $res = DB::select($query, [$email]);
-                $res[0]->password = "oculto";
-                $res[0]->oldpassword = "oculto";
-                return $res;
-        }
-
 static function login($bd, $data, $type)
         {
      
@@ -95,11 +88,5 @@ static function getUsersbyType($bd, $data)
         return DB::select($query, [$data]);
 }
 
-
-static function getTeams($bd)
-        {
-        $query = "SELECT t.id, t.name, t.des from ".$bd.".cat_team t";
-        return DB::select($query);
-}
 
 }
