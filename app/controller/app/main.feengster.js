@@ -649,8 +649,8 @@
      {
 
       let idForm = ' #' + _forms[id].info.name
-
-      forms.html(id, 'one')
+      _forms[id].type = 'one'
+      forms.html(id)
           
       //#region  Guargar / Actualizar
       
@@ -845,7 +845,7 @@
       //#endregion validator
        
       
-      forms.eventsButtons(id, 'one')
+      forms.eventsButtons(id)
           
       console.log('Individual $fg :: ' +  _forms[id].info.name + ' ' + ' Creado correctamente.')
       return id
@@ -865,8 +865,9 @@
         let id = this.add(data)
         if(Number.isInteger(id))
         {
-          forms.html(id, 'multiple')
-          forms.eventsButtons(id, 'multiple')
+          _forms[id].type = 'multiple'
+          forms.html(id)
+          forms.eventsButtons(id)
 
           let idForm = ' #' + _forms[id].info.name
 
@@ -1081,7 +1082,6 @@
                         }
 
                       }
-                      alert('terminar')
                      }
 
                 } catch (error) {
@@ -1108,7 +1108,7 @@
 
     },
 
-    html: function(id, type){
+    html: function(id){
       
       let idForm = ' #' + _forms[id].info.name
 
@@ -1164,7 +1164,7 @@
        if(_forms[id].rules.new)
        { 
      
-         if(type == 'one')
+         if(_forms[id].type == 'one')
          {
           html_buttons +=
             `
@@ -1240,7 +1240,7 @@
 
     },
 
-    eventsButtons: function(id, type){
+    eventsButtons: function(id){
 
       let idForm = ' #' + _forms[id].info.name
 
@@ -1342,7 +1342,7 @@
             $(idForm + ' #btn_reset').prop("disabled", false); 
             $(idForm + ' #btn_reset').click(); 
 
-            if(type == 'one')
+            if(_forms[id].type == 'one')
               {
                 $(idForm + ' #btn_reset').show()
                 $(idForm + ' #bnt_save').show()
@@ -1536,7 +1536,11 @@
             try {
 
             var data = table.row( $(this).parents('tr') ).data()
-            _forms[id].formData = data
+            
+           _forms[id].formData = data
+           
+
+
             console.log(_forms[id].formData)
             _forms[id].index = table.row( $(this).parents('tr') ).index()
             _forms[id].action = 'change'
@@ -1610,6 +1614,8 @@
                 }
 
             }
+
+
 
             if(_forms[id].events.onEdit != undefined)
             {

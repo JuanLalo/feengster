@@ -10,7 +10,19 @@ static function getData($query, $arr)
         switch($query)
         {
            case 'all_users_apps_all':
-                $query = "CALL get_users_app_company_rol(?, ?, ?, ?, ?)";
+                $query =
+                        ' SELECT 
+                                u.id , u.username , u.name, u.surnames, u.phone,
+                                u.email , u.img , u.password, u.oldpassword,
+                                u.birthdate , u.platform, u.updated_at, u.created_at ,
+                                u.status, a.app_id, cu.id_cat_user, c.id_company 
+                          FROM users u
+                                JOIN user_app a ON u.id = a.user_id  AND a.main = 1
+                                JOIN user_cat_user cu ON u.id = cu.user_id AND cu.main = 1
+                                JOIN user_companies c ON u.id = c.user_id
+                         where u.status <> "ELIMINADO"
+                               order by u.created_at';
+
                 return DB::select($query, $arr);
                 
            break;

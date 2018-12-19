@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 $router->post('/get/smart/request', ['uses' => 'Controller@smartGetData']); 
 $router->post('/new/smart/request', ['uses' => 'Controller@createRow']);
 $router->post('newMultiple/smart/request', ['uses' => 'Controller@createMultipleRow']);
-$router->post('/update/smart/request', ['uses' => 'Controllerroller@updateRow']);
+$router->post('/update/smart/request', ['uses' => 'Controller@updateRow']);
 $router->post('/delete/smart/request', ['uses' => 'Controller@deleteRow']);
 #endregion
 
@@ -39,7 +39,7 @@ $router->get('/router/get/data', ['uses' => 'Controller@getData']);
 #endregion
 
 #region LAB 
-    // rutes here
+    // rutes here ...
 #endregion
 
 #region Beauty
