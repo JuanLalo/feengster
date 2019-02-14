@@ -23,17 +23,16 @@
     Se establecen datos de la app en la que se trabajará y configuración de pag. de inicio.
 */
 $f.app.initialize({
-        id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
-        name: 'Lab',
+        id: 'jk2379hipub2398h39243bwer823b23ry50weurhjcd8fb3823',
+        name: 'Dental',
         logo: 'LOGO-LAB-LIGHT.PNG',
-        key: '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg'
-
+        key: '$$$free$$u7bhjdsjdhb$$BROTHER$$7123babsDENTAL$8798hasdjk'
     }, {
         id: 0,
         name: 'INICIO',
         title: '',
-        desc: 'Herramienta para diseñadores y programadores de Feengster.',
-        url:  'lab/inicio.html',
+        desc: '',
+        url:  'dental/inicio.html',
         icon: 'insert_emoticon',
         m_name: 'Inicio',
         m_id: 0

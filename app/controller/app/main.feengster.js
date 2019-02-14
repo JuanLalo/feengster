@@ -2001,9 +2001,17 @@
 
           // hacer un getData para verificar si este usuario tiene un key para esta app
           //en este punto el usuario ya se ha logeado.
+         
           if(appData.key == undefined)
           {
-            _app.inf.key = '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg'
+
+            //_app.inf.key = '$$$L123000A8745Basdasd$fdlfhkñsdjfgjbfsdkljfgdjkfhgsdhfgjkhg'
+            _app.inf.key = ''
+        
+          }
+          else
+          {
+            _app.inf.key = appData.key
         
           }
           console.log(_app)
