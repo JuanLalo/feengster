@@ -31,7 +31,8 @@ $(document).ready(function(){
         {
             id: 'kjbsd7yuhn234ou8uuyt2jkhuhsjiujnhw78j2389h324kuh89prfweu8765',
             name: 'Panel',
-            logo: 'LOGO-LAB-LIGHT.PNG'
+            logo: 'LOGO-LAB-LIGHT.PNG',
+            key: 'POOLMUUJ78DFSJKrwer48ybteertetrw892348UKUJBewweSD5845kijnt'
         },
         {
             id:       0,

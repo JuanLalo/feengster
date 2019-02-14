@@ -257,7 +257,7 @@
                   <button  type="button" class="btn btn-previous btn-labeled  m-b-5 submit "><span class="btn-label"><i class="glyphicon glyphicon-arrow-left"></i></span>
                     Anterior
                   </button>
-                  <button  type="submit" class="btn btn-labeled btn-info m-b-5 submit btn-submit"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+                  <button  type="submit" class="btn btn-labeled btn-info m-b-5 submit btn-submit " id="bnt_save_multiple"><span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
                     Guardar
                 </button>
               </div>
@@ -453,7 +453,10 @@
         onEdit: undefined,
         beforeSave:  undefined,
         afterSave: undefined,
-        beforeChange:  undefined,
+        beforeChange:  function(){
+               alert('before change')
+               return true;
+               },
         afterChange: undefined,
         onDelete: undefined,
         beforeDelete: undefined,

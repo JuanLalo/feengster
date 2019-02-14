@@ -23,6 +23,8 @@ $f.app.initialize(
         id: 'DPLo7oU7sdFsqXcbvdfgd87sdF7fSDF87FSD7fsd7sdfSD7fSEeUIOPA78A8',
         name: 'web',
         logo: 'LOGO-LAB-LIGHT.PNG',
+        key: 'POOLMUUJ78DFSJKrwer48ybteertetrw892348UKUJBewweSD5845kijnt',
+
         static: {
             files_path: 'app/',
             core_path: 'api/public/',

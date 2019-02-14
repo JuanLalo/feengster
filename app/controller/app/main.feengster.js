@@ -934,8 +934,6 @@
                     
                   }
 
-                
-               
 
                  for(let index in formData)
                   {
@@ -950,14 +948,18 @@
                         detail.data[formHTML[index][f].name] =  formHTML[index][f].value
                        }
 
-                  formData[index] = detail
+                
+                   if (_forms[id].action == 'change')
+                    {
+                      detail.id = 11
+                    }
+
+                      formData[index] = detail
 
                     }
 
-                   
                   delete formData['fg-table_length']
-
-                      
+                   
 
                      if(_forms[id].action == 'new')
                      {
@@ -996,8 +998,9 @@
                       }
                       
 
-                    }
-                    else if(_forms[id].action == 'change')
+                    
+                     }
+                     else if(_forms[id].action == 'change')
                     {
                       let change = true
                       
@@ -1245,9 +1248,6 @@
       let idForm = ' #' + _forms[id].info.name
 
       // --- Form Animation
-
-   
-    
       
   function bar_progress(progress_line_object, direction) 
     {
@@ -1268,17 +1268,12 @@
     }
 
 
-
-    
   $(  idForm + ' fieldset:first').fadeIn('slow');
   let progress_line = $( idForm + ' .btn-next').parents(idForm).find('.f1-progress-line')
   let number_of_steps = progress_line.data('number-of-steps')
   
   $(idForm + ' .f1-step').css('width', (100 / number_of_steps) + '%')
   
-
-
- 
 
   // next step
   $(idForm + ' .btn-next').on('click', function () {
@@ -1546,6 +1541,12 @@
             _forms[id].action = 'change'
            
             toastr.info("", "Listo para editar...")
+
+                if(_forms[id].type == 'multiple')
+            {
+              $(idForm + ' #bnt_save_multiple').hide()
+            }
+              
              
             $(idForm + ' #btn_reset').hide()
             $(idForm + ' #bnt_save').hide()
