@@ -1534,7 +1534,11 @@
             
            _forms[id].formData = data
            
-
+             // #TODO
+             // hacer un WS por medio de data.id para obtener los detalles para
+             // la edición de los datos. La Query deve venir especificada en el config
+             // del form para que sea dinamico. Aplicará para los formularios individuales y multiples
+             //  
 
             console.log(_forms[id].formData)
             _forms[id].index = table.row( $(this).parents('tr') ).index()
