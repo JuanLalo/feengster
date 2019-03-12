@@ -1534,11 +1534,22 @@
             
            _forms[id].formData = data
            
-             // #TODO
-             // hacer un WS por medio de data.id para obtener los detalles para
-             // la edición de los datos. La Query deve venir especificada en el config
-             // del form para que sea dinamico. Aplicará para los formularios individuales y multiples
-             //  
+             forms.loading('Cargando...', '')
+
+             api.getSmartData(
+                    {
+
+                    },
+                    function()
+                    {
+
+
+                    },
+                    function()
+                    {
+
+                    }
+             )
 
             console.log(_forms[id].formData)
             _forms[id].index = table.row( $(this).parents('tr') ).index()
@@ -1734,6 +1745,17 @@
 
       let table = $(idTable).DataTable();
       table.ajax.reload();
+     },
+
+     loading: function( title, msg)
+     {
+      swal({
+        title: title,
+        text: msg,
+        imageUrl: '../assets/dist/js/loader.gif'
+        })      
+        $('.confirm').hide()
+
      },
 
      loading: function( title, msg)

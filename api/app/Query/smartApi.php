@@ -114,6 +114,11 @@ static function getData($bd, $data)
         break;          
   #endregion 
  
+   #region Lab
+   
+   #endregion 
+
+
      }
 
      return DB::select($query, $arr);
