@@ -1,5 +1,3 @@
 /**
  * Controlador JS
- * 
- * test
  */
