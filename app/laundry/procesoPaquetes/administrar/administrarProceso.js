@@ -1,3 +1,0 @@
-/**
- * Controlador JS
- */
