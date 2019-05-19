@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\app",
+    "\\app\\controller",
+    "\\app\\controller\\app"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\app\\controller\\app\\main.feengster.js",
   "PreviewInSolutionExplorer": false
 }

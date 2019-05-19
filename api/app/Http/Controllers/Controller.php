@@ -78,8 +78,8 @@ class Controller extends BaseController
     public function createMultipleRow(Request $request)
     {
      
-    //   try
-    //       {
+      try
+          {
           
             if (!empty($request->all()))
             {
@@ -171,26 +171,24 @@ class Controller extends BaseController
             }
   
             
-    // } catch (\Exception $e) {
-    //     Log::error($e);
+    } catch (\Exception $e) {
+        Log::error($e);
         
-    //     if(substr($e->getMessage(), 9, 5) == '23000')
-    //        {
-    //          $msg = "Violación de restricción de integridad"; 
-    //        }
-    //     else
-    //        {
-    //         $msg = $e->getMessage();
-    //        } 
+        if(substr($e->getMessage(), 9, 5) == '23000')
+           {
+             $msg = "Violación de restricción de integridad"; 
+           }
+        else
+           {
+            $msg = $e->getMessage();
+           } 
 
-    //     $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e];
-    //     $code = 400;
-    // }
+        $response = ["status" => "sintaxerror", "message" => $msg, "data" => $e];
+        $code = 400;
+    }
         return response()->json($response, $code);
     }
        
-
-    
     public function updateRow(Request $request)
     {
      
@@ -254,6 +252,73 @@ class Controller extends BaseController
 
     }
 
+    public function updateMultipleRow(Request $request)
+    {
+     
+      try
+          {
+          
+            if (!empty($request->all()))
+            {
+                $data = $request->all();
+                $isKey =smartApi::isKey($data['key']);
+                if($isKey == 'true')
+                {
+                    $bd = smartApi::selectBD($data['key']);
+                    $isToken = User_Q::isToken($bd, $data['token']);
+                    if($isToken == 'true')
+                    {
+
+                      foreach ($data['data'] as $i => $value) {
+                         $table =  smartApi::getTable($value['table_code']);   
+                         $res = smartApi::smartUpdate($bd, $table, $value['id'] , $value['data']); 
+                         if($res > 0)
+                        {
+                          $code = 201;
+                          $response = ["status" => "success", "message" => "Se han actualizado con éxito" , "data" => $res];
+
+                        }
+                        else
+                        {
+                          $code = 204;
+                          $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "data" => $res];
+                        }
+                    }
+
+                    }else
+                    {
+                        $code = 403;
+                        Log::alert($isToken);
+                        $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
+                    }     
+                   
+                }
+                else
+                 {
+                 $code = 401; // ok pero acceseo denagado
+                Log::alert($isKey);
+                $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
+            
+                }
+            }
+            else
+            {
+                $code = 403; // ok pero acceseo denagado
+                Log::alert("acceso denagado request no es un json");
+                $response = ["status" => "unauthorized", "message" => "Acceso denegado, formato requerido <json>", "data" => []];
+            }
+  
+            
+    } catch (\Exception $e) {
+        Log::error($e);
+        $response = ["status" => "sintaxerror", "message" => "Error de sintaxis en el servidor", "data" => $e];
+        $code = 400;
+    }
+        return response()->json($response, $code);
+
+    }
+
+
 
     public function deleteRow(Request $request)
     {
@@ -290,7 +355,7 @@ class Controller extends BaseController
                       }
                     }else
                     {
-                        $code = 403;
+                        $code = 401;
                         Log::alert($isToken);
                         $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                     }     
@@ -298,7 +363,7 @@ class Controller extends BaseController
                 }
                 else
                  {
-                 $code = 401; // ok pero acceseo denagado
+                 $code = 403; // ok pero acceseo denagado
                 Log::alert($isKey);
                 $response = ["status" => "unauthorized", "message" => $isKey, "data" => []];
             
@@ -347,7 +412,14 @@ class Controller extends BaseController
                     $isToken = User_Q::isToken(null, $data['token']);
                     if($isToken == 'true')
                     {
+                      if(isset($data['data']['section']) && isset($data['data']['Usp']))
+                      {
+                        $res = smartApi::getDataByUsp(smartApi::selectBD($data['key']), $data['data']);
+                      }
+                      else
+                      {
                         $res = smartApi::getData(smartApi::selectBD($data['key']), $data['data']);
+                      }
                           if (empty($res)){
                            $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
                            $code = 403;

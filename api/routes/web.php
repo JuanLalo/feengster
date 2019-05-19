@@ -19,6 +19,7 @@ $router->get('/', function () use ($router) {
 $router->post('/get/smart/request', ['uses' => 'Controller@smartGetData']); 
 $router->post('/new/smart/request', ['uses' => 'Controller@createRow']);
 $router->post('newMultiple/smart/request', ['uses' => 'Controller@createMultipleRow']);
+$router->post('updateMultiple/smart/request', ['uses' => 'Controller@updateMultipleRow']);
 $router->post('/update/smart/request', ['uses' => 'Controller@updateRow']);
 $router->post('/delete/smart/request', ['uses' => 'Controller@deleteRow']);
 #endregion
