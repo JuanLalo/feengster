@@ -24,9 +24,14 @@ class user_Q {
                 {
                         
                     case 'lab_user_adminUsers_SP':
-                        $query = 'CALL usp_lab_users_get(?)';
-                        return DB::select($query, $parameters);
+                        $query = 'CALL usp_lab_users_get()';
+                        return DB::select($query);
                    break;
+                   
+                   case 'lab_user_adminUser_SP':
+                         $query = 'CALL usp_lab_user_get(?)';
+                        return DB::select($query, [$parameters['master_id']]);
+                 break;
                    
                 }
 

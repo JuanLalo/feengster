@@ -421,8 +421,8 @@ class Controller extends BaseController
                         $res = smartApi::getData(smartApi::selectBD($data['key']), $data['data']);
                       }
                           if (empty($res)){
-                           $response = ["status" => "empty", "message" => "No se encontraron resultados", "data"=> $res];
-                           $code = 403;
+                           $response = ["status" => "empty", "message" => "Hemos buscado correctamente, sin embargo no encontramos resultados. (Si cree que se trata de un error vaya a la sección de soporte)", "data"=> $res];
+                           $code = 200;
                           }
                           else
                           {
@@ -433,7 +433,7 @@ class Controller extends BaseController
                      }
                       else
                      {
-                        $code = 401;
+                        $code = 403;
                         Log::alert($isToken);
                         $response = ["status" => "unauthorized", "message" => $isToken, "data" => []];  
                      }     

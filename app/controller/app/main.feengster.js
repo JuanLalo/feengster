@@ -370,7 +370,7 @@
       },
 
       ajaxStatusCode: function (data) {
-        
+        // muetsra un toastr superior
         if (data.responseJSON) {
           
           if (data.status == 401) {
@@ -400,6 +400,10 @@
       },
 
       messageByHttpCode: function (data) {
+
+        /**
+         *  - Muestra un modal con mensaje persanolisado acorde al código HTTP
+         */
         
         if (data.responseJSON) {
 
@@ -415,10 +419,14 @@
               swal("Error" , "Licencia no activa" , "error")
               session.logout()
             }
+            else if(data.status == 204)
+            {
+              swal("Sin resultados" , data.responseJSON.message , "error")
+            }
             else
-          {
-            swal("Error" , data.responseJSON.message , "error")
-          }
+            {
+              swal("Error" , 'Error desconocido, intentelo más tarde, si el error persiste vaya a la sección de soporte' , "error")
+            }
 
         } else {
           
@@ -441,8 +449,34 @@
   
           }
         }
-      }
 
+        return false
+      },
+
+      messageSuccess: function (data, showMessage) {
+
+        /**
+         *  - Muestra un modal con mensaje persanolisado acorde al código HTTP 200 y 2001
+         */
+        if(data.status == 'empty')
+        {
+          swal(  '¡SIN RESULTADOS!', data.message , 'error')
+          return false
+        }
+        else if (data.status == 'success')
+        {
+          if(showMessage){
+          swal(  '' , data.message , 'success')
+          }
+          return true  
+        }
+        else if(data.data != undefined || data.data != null)
+        {
+          return true 
+        }
+       
+        return false
+      }
     }
     //#endregion
 
@@ -1023,7 +1057,7 @@
                       }
                       if(save){
 
-                        forms.loading('Guardando', 'aqui se manda el multiple')
+                        forms.loading('Guardando', 'Espera por favor...')
                         
 
                         api.setMultipleData(
@@ -1568,15 +1602,31 @@
         reports.push({extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'})
       }
 
+      let query =  {}
 
-      let table = $(idTable).DataTable({
+      if(_forms[id].type == 'multiple')
+      {
+        _forms[id].db.uspForShow.parameters.p_company_id =  '3'
+        _forms[id].db.uspForShow.parameters.p_app_id=  11
+
+        query =  { section: _forms[id].db.uspForShow.section,
+                   Usp: _forms[id].db.uspForShow.name,
+                   parameters:  _forms[id].db.uspForShow.parameters
+                 }
+      }
+      else
+      {
+        query =  { query: _forms[id].info.view, parameters: _forms[id].info.parameters }
+      }
+
+      let table = $(idTable).DataTable({  
         ajax: {
             url: _app.static.core_path + 'get/smart/request',
             type: 'POST',
             data: {
                  token: _session.token,
                  key: _app.inf.key,
-                data: { query: _forms[id].info.view, parameters: _forms[id].info.parameters }
+                data: query
             }
         },
 
@@ -1613,24 +1663,31 @@
              
              if(_forms[id].type == 'multiple')
              {
+
+              _forms[id].db.uspForChange.parameters.master_id = data.id
+              _forms[id].db.uspForChange.parameters.p_company_id= 3
+              _forms[id].db.uspForChange.parameters.p_app_id= 11
+
               forms.loading('Cargando...')
               api.getSmartData(
                 {
                   section: _forms[id].db.uspForChange.section,
                   Usp: _forms[id].db.uspForChange.name,
-                  parameters: [data.id]
+                  parameters:  _forms[id].db.uspForChange.parameters
                 },
                 function(data)
                 {
-                  _forms[id].formData = data.data[0]
-                  forms.printValuesIntoFormOnEdit(data.data[0], id)
-                  forms.closeLoading()
+                  if(api.messageSuccess(data, false)){
+                    _forms[id].formData = data.data[0]
+                    forms.printValuesIntoFormOnEdit(data.data[0], id)
+                    forms.closeLoading()   
+                  }
 
                 },
                 function(data)
                 {
                   console.log(data)
-                  forms.ajaxStatusCode(code)
+                  api.messageByHttpCode(data)
                 }
                 )
              }

@@ -106,8 +106,8 @@
         },
       
       db : {
-          uspForShow: {section: 'USERS', name: 'all_users_apps_all', parameters: {}},
-          uspForChange: { section: 'USERS', name: 'lab_user_adminUsers_SP', parameters: {}}
+          uspForShow: {section: 'CLIENT', name: 'laundry_client_adminClients_SP', parameters: {}},
+          uspForChange: { section: 'CLIENT', name: 'laundry_client_adminClient_SP', parameters: {}}
           },
 
     

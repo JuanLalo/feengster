@@ -25,8 +25,12 @@ class client_Q {
                  #region  APP:::LAUNDRY   
                     case 'laundry_client_adminClients_SP':
                         $query = 'CALL usp_laundry_clients_get(?)';
-                        return DB::select($query, $parameters);
+                        return DB::select($query, [$parameters['p_company_id']]);
                    break;
+                   case 'laundry_client_adminClient_SP':
+                   $query = 'CALL usp_laundry_client_get(?, ?)';
+                   return DB::select($query, [$parameters['master_id'], $parameters['p_company_id']]);
+              break;
                   #endregion
                 }
 
