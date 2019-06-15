@@ -4,6 +4,7 @@
 
 namespace App\Query;
 use App\Query\User_Q;
+use App\Query\Client_Q;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 class smartApi {
@@ -15,12 +16,16 @@ static function getData($bd, $data)
      $arr = [];
 
    switch($data['query'])
-     {  
+   {  
 
    #region User
 
         case 'all_users_apps_all': 
-             return user_Q::getData('all_users_apps_all', $data['parameters'] );
+             return user_Q::getData('all_users_apps_all', []);
+        break;
+
+        case 'all_clients_one_app': 
+             return user_Q::getData('all_clients_one_app', []);
         break;
 
    #endregion   
@@ -117,6 +122,39 @@ static function getData($bd, $data)
    #region Lab
    
    #endregion 
+
+
+     }
+
+     return DB::select($query, $arr);
+   
+}
+
+
+static function getDataByUsp($bd, $data)
+ {
+     $Usp = "";
+     $arr = [];
+
+   switch($data['section'])
+   {  
+
+   #region USERS
+
+        case 'USERS': 
+             return user_Q::getDataByUsp($data['Usp'], $data['parameters']);
+        break;
+
+   #endregion   
+
+   #region CLIENT
+
+     case 'CLIENT': 
+          return client_Q::getDataByUsp($data['Usp'], $data['parameters']);
+     break;
+
+   #endregion   
+  
 
 
      }

@@ -9,7 +9,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:82/feengster/app/lab/categorias/categorias.html",
+            "url": "http://localhost:82/feengster/app/main/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

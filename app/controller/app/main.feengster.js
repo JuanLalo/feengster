@@ -1,14 +1,12 @@
 /**
  @author Feengster
    Main Feengster Lib
-
                          Copyright (c) 2018 Feengster
       Code written and tested by Feengster, its distribution or modification is prohibited.
       Each and every one of the functions are the property of this software. 
       It will be subject to legal proceedings for non-compliance.
       If you want to know more about legal protection or make contact visit the following link.
                        www.feengster.com/?legal
-
  **/
 
 //#region 
@@ -295,6 +293,30 @@
         })
       },
 
+      changeMultipleData: function (data, success, error) {
+        $.ajax({
+          url: _app.static.core_path + 'updateMultiple/smart/request',
+          data: {
+            token: _session.token,
+            key: _app.inf.key,
+            data: data
+          },
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            success(data)
+          },
+          error: function (data) {
+            if(error == undefined){
+                api.ajaxStatusCode(data)
+            }else{
+               error(data)
+            }
+
+          }
+        })
+      },
+
       changeData: function (table, id, data, success, error) {
         $.ajax({
           url: _app.static.core_path + 'update/smart/request',
@@ -348,7 +370,7 @@
       },
 
       ajaxStatusCode: function (data) {
-        
+        // muetsra un toastr superior
         if (data.responseJSON) {
           
           if (data.status == 401) {
@@ -378,6 +400,10 @@
       },
 
       messageByHttpCode: function (data) {
+
+        /**
+         *  - Muestra un modal con mensaje persanolisado acorde al código HTTP
+         */
         
         if (data.responseJSON) {
 
@@ -393,10 +419,14 @@
               swal("Error" , "Licencia no activa" , "error")
               session.logout()
             }
+            else if(data.status == 204)
+            {
+              swal("Sin resultados" , data.responseJSON.message , "error")
+            }
             else
-          {
-            swal("Error" , data.responseJSON.message , "error")
-          }
+            {
+              swal("Error" , 'Error desconocido, intentelo más tarde, si el error persiste vaya a la sección de soporte' , "error")
+            }
 
         } else {
           
@@ -419,8 +449,34 @@
   
           }
         }
-      }
 
+        return false
+      },
+
+      messageSuccess: function (data, showMessage) {
+
+        /**
+         *  - Muestra un modal con mensaje persanolisado acorde al código HTTP 200 y 2001
+         */
+        if(data.status == 'empty')
+        {
+          swal(  '¡SIN RESULTADOS!', data.message , 'error')
+          return false
+        }
+        else if (data.status == 'success')
+        {
+          if(showMessage){
+          swal(  '' , data.message , 'success')
+          }
+          return true  
+        }
+        else if(data.data != undefined || data.data != null)
+        {
+          return true 
+        }
+       
+        return false
+      }
     }
     //#endregion
 
@@ -558,15 +614,17 @@
 
         if(undefined != form.info)
          {
-          _forms[size].info = {}  
-          _forms[size].info.name = form.info.name
-          _forms[size].info.view = form.info.view
-          _forms[size].info.parameters = []
+          _forms[size].info = form.info  
+          // _forms[size].info.name = form.info.name
+          // _forms[size].info.view = form.info.view
+          // _forms[size].info.parameters = []
 
           if(undefined != form.info.parameters)
           {
             _forms[size].info.parameters = form.info.parameters
-          }else{
+          }
+          else
+          {
             console.log(signature + 'No se especificaron parametros para la vista [' +  form.info.view + ']')
           } 
           
@@ -586,9 +644,36 @@
           _forms[size].steps = form.steps
          }
 
-        _forms[size].rules = form.rules
-        _forms[size].columns = form.columns
-        _forms[size].tableData = form.tableData
+         if(undefined != form.db)
+         {
+          _forms[size].db = form.db
+         }
+
+         if(undefined != form.rules)
+         {
+          _forms[size].rules = form.rules
+
+          if(form.rules.show)
+          {
+            if(undefined != form.columns)
+            {
+            _forms[size].columns = form.columns
+            }
+            else
+            {
+              console.error(signature,'\ Se ha establecido el uso de datatable y no se espeficifica el nombre de las columnas [rules] ') 
+              return false 
+            }
+            _forms[size].tableData = form.tableData
+          }
+
+         }
+         else
+         {
+          console.error(signature,'\ Se requiere el objeto [rules] ') 
+          return false 
+         }
+        
         _forms[size].formData = {}
 
         if(undefined != form.optionalData)
@@ -665,7 +750,7 @@
                     else
                   {
 
-                    try {
+                     try {
                       
                       // Se toaman los datos del formulario
                       var $this = $(idForm)
@@ -826,6 +911,7 @@
                         }
                         else
                         {
+                          notify.sound('warning')
                           toastr.warning("", "No se detectaron cambios.")
                         }
 
@@ -948,11 +1034,11 @@
                         detail.data[formHTML[index][f].name] =  formHTML[index][f].value
                        }
 
-                
-                   if (_forms[id].action == 'change')
-                    {
-                      detail.id = 11
-                    }
+                //No se requiere el id del step porque se usará solo si se modifica, se pasa lógica a la parte de abajo donde se evalúa si hay cambio
+                  //  if (_forms[id].action == 'change')
+                  //   {
+                  //     detail.id = 11
+                  //   }
 
                       formData[index] = detail
 
@@ -971,7 +1057,7 @@
                       }
                       if(save){
 
-                        forms.loading('Guardando', 'aqui se manda el multiple')
+                        forms.loading('Guardando', 'Espera por favor...')
                         
 
                         api.setMultipleData(
@@ -1015,34 +1101,67 @@
                         console.log(_forms[id].formData)
                         
 
-                        let dataToUpdate = {}
+                        let dataToUpdate = []
                         let wasChange = false
-                        let change = false
+                        change = false
                         let isOptional = false
+                        let x = 0
+                        
+
+                        /**A diferencia de la actualización de formularios individuales a continuació se lee 
+                           un objeto que contiene los datos de 2 o más formularios. Y se valua cada uno para
+                           ver si uno de sus datos ha sido modificado. 
+                        */
+
                         for(let i in formData)
                         {
-                            if(formData[i] != _forms[id].formData[i]) 
-                                {
-                                  for(let y in _forms[id].optionalData)
-                                  {
-                                    if( i  == _forms[id].optionalData[y].name ){
-                                        isOptional = true
-                                    }
-                                  }
+                          let data = {}
 
-                                  if(!isOptional)
-                                    {
-                                      wasChange = true
-                                    }
-                                  
+                          for(let name in formData[i].data)
+                          {
+                          if((formData[i].data[name] != _forms[id].formData[name]) &&  _forms[id].formData[name] != undefined) 
+                            {
+
+                             /**   Verificar aquí si se requiere la integraión de datos opcionales OptionalData   
+                             */  
+                               for(let y in _forms[id].steps[i].optionalData)
+                              {
+                                if( name  == _forms[id].steps[i].optionalData[y].name ){
+                                    isOptional = true
+                                }
+                              }
+
+                              if(!isOptional)
+                                {
+                                  wasChange = true
                                 }
 
-                           if(wasChange)
-                           {
-                             dataToUpdate[i] = formData[i]
-                             wasChange = false
-                             change= true
-                           }
+                            data[name] = formData[i].data[name] 
+                            }
+
+                            if(wasChange)
+                            {
+                              dataToUpdate[x] = {
+                                table_code : _forms[id].steps[i].table_code,
+                                data : data
+                              }
+                              if(i == 0)
+                              {
+                                dataToUpdate[x].id =  _forms[id].formData.id
+                              }
+                              else
+                              {
+                                let numberStep = Number(i) + Number(1)
+                                dataToUpdate[x].id =  _forms[id].formData['pk_id_step_' + numberStep.toString()]
+                              }
+                             change = true
+                           
+                            }
+                           wasChange = false
+                           isOptional = false
+                          }
+                          x++   
+
                         }
                         
                         console.log('Datos modificados ' )
@@ -1054,24 +1173,15 @@
                           forms.loading('Actualizando', 'Espera un momento por favor.')
                           $(idForm +  ' #html-buttons').hide()
 
-                           api.changeData(
-                            _forms[id].info.table_code,
-                            _forms[id].formData.id, 
+                          api.changeMultipleData(
                             dataToUpdate,
                             function(data){
-                              
-                              notify.sound('success')
                                swal("¡Listo!", "", "success")
-                               // #TODO aptimizar. (Actualizar solo el row amodificado). El código de abajo lo hacer, pero surgen errores al encontrarse campos como fecha de modificación 
-                               //let table = $(idForm + ' #fg-table').DataTable()
-                               //formData['id'] = _forms[id].formData.id
-                               //table.row( _forms[id].index ).data( formData).draw()
-                               forms.reloadTable(id)
+                               notify.sound('success')
                                $(idForm + ' #btn-form-back').click()
-                               
-                              },
-
-                              function(data)
+                               forms.reloadTable(id)
+                            },
+                            function(data)
                               {
                                 api.messageByHttpCode(data)     
                                 $(idForm +  ' #html-buttons').show()
@@ -1081,10 +1191,12 @@
                         }
                         else
                         {
+                          notify.sound('warning')
                           toastr.warning("", "No se detectaron cambios.")
                         }
 
                       }
+
                      }
 
                 } catch (error) {
@@ -1124,7 +1236,6 @@
               <br>
               <div id="html-form" style="display: none">
               ${$(idForm).html()}
-
               <br>
               <div id="html-buttons" class="col-lg-12  text-center" >
               </div>
@@ -1137,7 +1248,6 @@
               </table>
               
               </div>
-
               `
 
               $(idForm).html(html_containers)
@@ -1492,15 +1602,31 @@
         reports.push({extend: 'csv',  title: 'ExampleFile', className: 'btn-sm'})
       }
 
+      let query =  {}
 
-      let table = $(idTable).DataTable({
+      if(_forms[id].type == 'multiple')
+      {
+        _forms[id].db.uspForShow.parameters.p_company_id =  '3'
+        _forms[id].db.uspForShow.parameters.p_app_id=  11
+
+        query =  { section: _forms[id].db.uspForShow.section,
+                   Usp: _forms[id].db.uspForShow.name,
+                   parameters:  _forms[id].db.uspForShow.parameters
+                 }
+      }
+      else
+      {
+        query =  { query: _forms[id].info.view, parameters: _forms[id].info.parameters }
+      }
+
+      let table = $(idTable).DataTable({  
         ajax: {
             url: _app.static.core_path + 'get/smart/request',
             type: 'POST',
             data: {
                  token: _session.token,
                  key: _app.inf.key,
-                data: { query: _forms[id].info.view, parameters: _forms[id].info.parameters }
+                data: query
             }
         },
 
@@ -1531,113 +1657,48 @@
             try {
 
             var data = table.row( $(this).parents('tr') ).data()
+          
+           _forms[id].index = table.row( $(this).parents('tr') ).index()
             
-           _forms[id].formData = data
-           
-             forms.loading('Cargando...', '')
-
-             api.getSmartData(
-                    {
-
-                    },
-                    function()
-                    {
-
-
-                    },
-                    function()
-                    {
-
-                    }
-             )
-
-            console.log(_forms[id].formData)
-            _forms[id].index = table.row( $(this).parents('tr') ).index()
-            _forms[id].action = 'change'
-           
-            toastr.info("", "Listo para editar...")
-
-                if(_forms[id].type == 'multiple')
-            {
-              $(idForm + ' #bnt_save_multiple').hide()
-            }
-              
              
-            $(idForm + ' #btn_reset').hide()
-            $(idForm + ' #bnt_save').hide()
-            $(idForm + ' #html-table').hide()
-            $(idForm + ' #btn_form_new').hide()
-              
-            $(idForm +  ' #html-buttons').show()
-            $(idForm + ' #html-form').show()
-            $(idForm + ' #btn-form-back').show()
-            $(idForm + ' #html_btn_new_back').show()
-      
-      
-            $(idForm + ' #btn_update').show()
-            $(idForm + ' #btn_delete').show()
-      
-            $(idForm + ' #btn_nothing').prop("disabled", false); 
-            $(idForm + ' #btn_delete').prop("disabled", false); 
-            $(idForm + ' #btn_reset').click() 
+             if(_forms[id].type == 'multiple')
+             {
 
-            
-            let $this = $(idForm)
-            let formHTML = $this.serializeArray()
-                             
-             for (let i in formHTML) {
+              _forms[id].db.uspForChange.parameters.master_id = data.id
+              _forms[id].db.uspForChange.parameters.p_company_id= 3
+              _forms[id].db.uspForChange.parameters.p_app_id= 11
 
-                let type =  $(idForm + ' #' + formHTML[i].name).prop("tagName")
-              //  console.log(formHTML[i].name + ' - ' + type + ' :' + data[formHTML[i].name]) 
+              forms.loading('Cargando...')
+              api.getSmartData(
+                {
+                  section: _forms[id].db.uspForChange.section,
+                  Usp: _forms[id].db.uspForChange.name,
+                  parameters:  _forms[id].db.uspForChange.parameters
+                },
+                function(data)
+                {
+                  if(api.messageSuccess(data, false)){
+                    _forms[id].formData = data.data[0]
+                    forms.printValuesIntoFormOnEdit(data.data[0], id)
+                    forms.closeLoading()   
+                  }
 
-                switch (type) {
-
-                  case 'INPUT':
-                  $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
-
-                  break;
-
-                  case 'SELECT':
-                  
-                        $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
-                         
-                        // Se llenan los dropdown de todo el formulario y se seleciona uno por default
-                         
-                        for(let y in _forms[id].dropdown)
-                            {
-                               let current = _forms[id].dropdown[y]
-
-                               if(formHTML[i].name == current.id)
-                                {
-
-                                  if(_forms[id].dropdown[y].printed == undefined)
-                                    {
-                                      forms.fillDropdown(current, y,  id, data[formHTML[i].name])
-                                    }
-                                    else if(_forms[id].dropdown[y].printed)
-                                    {
-                                      forms.selectOption(idForm + ' #' + current.id , data[formHTML[i].name])
-                                    }
-                              }
-                            }
-
-                   
-                  break;
-
-                  case 'TEXTAREA':
-                    $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
-                  break;
+                },
+                function(data)
+                {
+                  console.log(data)
+                  api.messageByHttpCode(data)
                 }
+                )
+             }
+             else
+             {
+              _forms[id].formData = data
+              forms.printValuesIntoFormOnEdit(data, id)
+             }
+           
 
-            }
-
-
-
-            if(_forms[id].events.onEdit != undefined)
-            {
-              _forms[id].events.onEdit()
-            }
-
+           
           } catch (error) {
            console.error(signature + error)     
           }
@@ -1661,6 +1722,92 @@
         return table
         
       },
+
+      printValuesIntoFormOnEdit: function(data, id){
+        console.log(data)
+        let idForm = ' #' + _forms[id].info.name
+        let $this = $(idForm)
+        let formHTML = $this.serializeArray()
+
+        $(idForm + ' #btn_reset').hide()
+        $(idForm + ' #bnt_save').hide()
+        $(idForm + ' #html-table').hide()
+        $(idForm + ' #btn_form_new').hide()
+          
+        $(idForm +  ' #html-buttons').show()
+        $(idForm + ' #html-form').show()
+        $(idForm + ' #btn-form-back').show()
+        $(idForm + ' #html_btn_new_back').show()
+  
+  
+        $(idForm + ' #btn_update').show()
+        $(idForm + ' #btn_delete').show()
+  
+        $(idForm + ' #btn_nothing').prop("disabled", false); 
+        $(idForm + ' #btn_delete').prop("disabled", false); 
+        $(idForm + ' #btn_reset').click() 
+
+         for (let i in formHTML) {
+
+            let type =  $(idForm + ' #' + formHTML[i].name).prop("tagName")
+          //  console.log(formHTML[i].name + ' - ' + type + ' :' + data[formHTML[i].name]) 
+
+            switch (type) {
+
+              case 'INPUT':
+              $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
+
+              break;
+
+              case 'SELECT':
+                $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])       
+                // Se llenan los dropdown de todo el formulario y se seleciona uno por default
+                for(let y in _forms[id].dropdown)
+                  {
+                    let current = _forms[id].dropdown[y]
+                       if(formHTML[i].name == current.id)
+                         {
+                           if(_forms[id].dropdown[y].printed == undefined)
+                             {
+                               forms.fillDropdown(current, y,  id, data[formHTML[i].name])
+                             }
+                             else if(_forms[id].dropdown[y].printed)
+                             {
+                               forms.selectOption(idForm + ' #' + current.id , data[formHTML[i].name])
+                             }
+                          }
+                   }
+               
+              break;
+
+              case 'TEXTAREA':
+                $( idForm + ' #' + formHTML[i].name).val(data[formHTML[i].name])
+
+              break;
+            }
+
+        }
+
+       
+        _forms[id].action = 'change'
+       
+        toastr.info("", "Listo para editar...")
+
+      if(_forms[id].type == 'multiple')
+        {
+          $(idForm + ' #bnt_save_multiple').hide()
+        }
+          
+         
+      
+
+        if(_forms[id].events.onEdit != undefined)
+        {
+          _forms[id].events.onEdit()
+        }
+
+
+        }, 
      onDelete: function(id)
      {
 
@@ -1768,7 +1915,10 @@
         $('.confirm').hide()
 
      },
-
+     closeLoading: function()
+     {
+      $.event.trigger({ type: 'keydown', which: 27 });
+     },
      stopLoader: function(id)
      {
 
@@ -2098,7 +2248,3 @@
 })(window)
 
 //#endregion
-
-
-
-

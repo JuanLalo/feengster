@@ -306,8 +306,9 @@
       info:  
                 {
                   name: 'fg_ml_users_all',
+                  table_code: 'NN1X86VL02X984LDTPRFKBLSUNDMQHXYN7RX29VAIFC5GK85R2Q9SY26E9RT',
                   view: 'all_users_apps_all',
-                  parameters: [null, null, null, null, null],
+                  parameters: [],
                 },
 
       rules: {
@@ -363,9 +364,13 @@
                               }},
           referenced: false,
           },
-      
+          
         },
       
+      db : {
+          uspForShow: {section: 'USERS', name: 'lab_user_adminUsers_SP', parameters: {}},
+          uspForChange: { section: 'USERS', name: 'lab_user_adminUser_SP', parameters: {}}
+          },
 
     
       columns: [{
@@ -454,7 +459,7 @@
         beforeSave:  undefined,
         afterSave: undefined,
         beforeChange:  function(){
-               alert('before change')
+               
                return true;
                },
         afterChange: undefined,
