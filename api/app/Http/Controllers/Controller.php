@@ -269,7 +269,10 @@ class Controller extends BaseController
                     if($isToken == 'true')
                     {
 
-                      foreach ($data['data'] as $i => $value) {
+                      foreach ($data['data'] as $i => $value) 
+                       {
+                        if(!empty($value))
+                        {
                          $table =  smartApi::getTable($value['table_code']);   
                          $res = smartApi::smartUpdate($bd, $table, $value['id'] , $value['data']); 
                          if($res > 0)
@@ -283,6 +286,7 @@ class Controller extends BaseController
                           $code = 204;
                           $response = ["status" => "error", "message" => "ocurrio un error al modificar estos datos" , "data" => $res];
                         }
+                      }
                     }
 
                     }else

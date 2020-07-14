@@ -16,7 +16,7 @@
 */
 
 
-(function () {
+(function  () {
     "use strict"
     const signature = '\n Copyright (c) 2018 Feengster Framework. Todos los derechos reservados.\n'
 
@@ -67,7 +67,7 @@
 
             login: function () {
                 $.ajax({
-                url: 'http://localhost:82/feengster/api/public/login',
+                url: '../api/public/login',
                 data: {
                      key: _app.key,
                      user: _user.user,

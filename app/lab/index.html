@@ -81,7 +81,7 @@
     body, html {
     height: 100%;
     margin: 0;
-    overflow: auto; 
+    overflow-y: auto; 
 }
 
 .bg {
@@ -121,7 +121,7 @@
 
         <div id="wrapper" class="wrapper ">
             <!-- Navigation -->
-            <nav class="navbar navbar-fixed-top" role="navigation" style=" height: 55px;">
+            <nav class="navbar navbar-fixed-top" role="navigation" style=" height: 55px; opacity: .8;">
                 <div class="navbar-header ">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="sr-only">Toggle navigation</span>
@@ -141,13 +141,6 @@
                         <li><a><span id="nombre_modulo"></span></a></li>
                         <li><a><span></span></a></li>
                         <li><a><span></span></a></li>
-                        <li style="display: none" class="log_out">
-                            <a onclick="nuevoTicket()">
-                                <i class="material-icons">note_add</i>
-                                <span></span>
-
-                            </a>
-                        </li>
                         <li><a><span></span></a></li>
                         <li class="hidden-xs hidden-sm">
                             <a id="fullscreen" href="#"><i class="material-icons">fullscreen</i></a></li>
@@ -241,43 +234,47 @@
             <!-- /.Navigation -->
             <!-- <div class="sidebar" role="" > -->
             <div class="sidebar" id="sidebar-menu" role="navigation" style="opacity: .9;">
-                <div class="sidebar-nav navbar-collapse">
+                <div class="sidebar-nav navbar-collapse" >
                  
-                    <div class="header_menu" style="padding-top: 20px;"></div>
+                    <div class="header_menu" ></div>
                  
                     <div class="text-center header_menu" style="display: block">
                         <div  class="review-block-img">
-                            <img onclick='openAcount()' class="acount img-circle user_img" alt="img_profile">
+                            <img onclick='openAcount()' width="50px" height="50px" class="acount img-circle user_img" alt="img_profile">
                         </div>
                         <div>
-                            <a onclick='openAcount()' class=""> <span class=" userfullname nav-heading"></span></a>
+                            <a onclick='openAcount()' class=""> <span style="font-size: x-small" class=" userfullname nav-heading"></span></a>
                         </div>
                         <div class="review-block-date ">
-                            <span class="bg-red badge avatar-text">Desarrollador</span>
+                            <span class="bg-red badge avatar-text" style="font-size: x-small;">Desarrollador</span>
                         </div>
-                        <br>
-                        <div class="col-xs-12">
+                     <br>
+                          <!--  <div class="col-xs-12">
                             <div class="input-group">
-                                <input autofocus id="fg_menu_search" name="text" placeholder="Buscar un menú..." type="text"
+                                <input  autofocus id="fg_menu_search" name="text" placeholder="Buscar un menú..." type="text"
                                     class="form-control">
                                 <div class="input-group-addon">
                                     <i class="fa fa-search"></i>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="nav-heading"><br></div>
-                    <ul class="nav" id="side-menu">
-                        <li class="nav-heading loadMenu">
+                    <!-- <div class="nav-heading"><br></div> -->
+                  
+                    <ul class="nav" id="side-menu" >
+                        <li class="nav-heading loadMenu" >
                             <br><br>
                             <div class="text-center">
                                 <img width="40" src="../assets/dist/js/loader.gif" alt="Cargando...">
                             </div>
                         </li>
                     </ul>
+                    
 
-                    <div class="text-center">
-                        <ul class="nav nav-tabs menu_footer hidden-xs">
+                  
+                </div>
+                <div class="col-xs-12" >
+                        <ul class="nav nav-tabs menu_footer hidden-xs" >
                             <li><a><i class="fa fa-power-off"></a></i>
                             </li>
                             <li><a><i class="fa  fa-question-circle"></a></i>
@@ -286,7 +283,6 @@
                         </ul>
 
                     </div>
-                </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.Left Sidebar-->
@@ -390,19 +386,12 @@
 
 
         <!-- Copyright -->
-        <div class=" footer hidden-xs hidden-sm">
-            <img class="main-logo" width="140vh" src="../assets/dist/img/logos/logo-dark-PNG.png">
+        <div class="footer hidden-xs hidden-sm" >
+            <img class="main-logo" width="80vh" src="../assets/dist/img/logos/logo-dark-PNG.png">
         </div>
         <!-- Copyright -->
 
     </div>
-
-
-
-
-
-
-
 
 
 

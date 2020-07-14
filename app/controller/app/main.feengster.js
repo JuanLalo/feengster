@@ -31,10 +31,10 @@
       static: {
         files_path: '../',
         core_path: '../../api/public/',
-        main_url: 'localhost:82/feengster/app/main/',
+        main_url: '../main/',
         login_url: '../',
         url_lock: '',
-        device: 'pc',  // mobile | pc
+        device: 'pc'  // mobile | pc
       }
     }
 

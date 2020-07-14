@@ -121,7 +121,13 @@ static function getData($bd, $data)
  
    #region Lab
    
-   #endregion 
+   #endregion
+   
+   #region  Laundry
+     case 'categories_services': 
+         $query = "SELECT * FROM {$bd}.categories c where c.id_app = 15 and  c.id_company = 49  and c.type = 'SERVICIOS' " ;
+     break; 
+   #endregion
 
 
      }

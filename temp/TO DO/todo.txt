@@ -1,4 +1,4 @@
-
+﻿
 
 
 
@@ -8,5 +8,18 @@ TODO LIST:
 1.- Colocar una imagen o algo, cuando se abra un menú y no tnega permisos para verlo o 
     simplemente no tenga ese id del menú asignado.
 
-2.-
-    
+2.- Modificar el menú desplegable en modo smartphone. Que se use un menú nuevo. Enfocado a moviles. Y que se limite
+    para que se vea la diferencia con la versión web.
+
+3.- Buscar una forma en la cual sean visibles todos los menús en el menú lateral. Ya que cuando son demaciados no se 
+    pueden ver los ultimos.
+
+4.- Reacomodar los botones en la parte inferios izquierda.
+
+5.- Colocar el copyright con el logo de feengster en la parte inferior central. Colocado hasta el fondo.
+
+6.- Colocar un indicador de estatus de conexión al servidor o un estado del usuario logeado (ACTIVO, INACTIVO, DESCONECTADO). Y enviar un mensaje cuando se pierda la conexión.
+
+7.- Colocar un scroll al main-conteiner cuando se haga grande.
+
+5F99EB93FA

@@ -56,7 +56,8 @@ function printContent(data) {
       $('#tittle_desc').html(data.menu.desc);
       $('#ico_content').html(data.menu.ico);
       $('.content-header').show()
-    }else
+    }
+    else
     {
         $('.content-header').hide()
     }

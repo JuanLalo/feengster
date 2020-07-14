@@ -211,6 +211,8 @@ function formReady(id){
     user.img = '' 
     $(user.idForm + ' .phone_us').mask('000-000-00-00')
     $(user.idForm + ' #username').mask('@SSSSSSSSSSSSSSSSSSSSS')
+    $(user.idForm + ' #interior_numbe').mask('@SSSSSSSSSSSSSSSSSSSSS')
+    
 
     
 

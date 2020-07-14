@@ -115,19 +115,18 @@ and open the template in the editor.
 
 
 .footer {
-   position: fixed;
+   position: sticky ;
    left: 0;
    bottom: 7px;
    width: 100%;
    text-align: center;
+   display: none;
 }
 
 .menu_footer{
    position: fixed;
-   left: 0;
-   bottom: 7px;
-   width: 100%;
-   text-align: left;
+   bottom: 0px;
+  
 }
 
 
