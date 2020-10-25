@@ -1,8 +1,6 @@
 $(document).ready(function () {
 
-
 })
-
 
 function smartRequestNew(request, callBack) {
   $.ajax({
@@ -113,6 +111,4 @@ function smartRequestGet(request, callBack) {
     complate: function (data) {
     }
   })
-
-  
 }
