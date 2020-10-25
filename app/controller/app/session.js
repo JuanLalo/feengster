@@ -8,10 +8,6 @@ Controlador principal de la sesión del usuario actual.
 }())
 
 
-
-
-
-
 function goToApp(app_id)
  {
     user = getStorage('userdata', true)
@@ -34,11 +30,6 @@ function goToApp(app_id)
         toastr.warning('No tiene permisos para ingresar a ' + config.app.name)
     }
 }
-
-
-
-
-
 
 
 function isDemo()
